@@ -1,0 +1,342 @@
+\documentclass[a4paper,11pt]{report}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+%\usepackage{lmodern}
+
+\title{Rabbit Show Manager}
+\author{Paul Massey}
+
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\begin{abstract}
+This project has been a personal itch to scratch for a number of years, I used to keep and show rabbits as a hobby, and when the local club nearly closed down because of a difference of opinion between committee and members at the AGM, I volunteered to be secretary of the club to keep it going, this was seconded and approved by the committee, they suggested that I was to be show secretary only, because of my tender age of 18. This was in 1978 and computers were big scary things in banks, and other big businesses.\newline 
+The manual system which as far as I am aware is still in use today. There are competing software products on the market for shows that are in the USA, all except one are commercial software. I have found no software that is for the UK, and the only one Open Source Software solution I have found is also for the USA. Which is surprising to say the least, and something I wish to redress. I have thought about it many times, however never had the real expertise to do this until now, I am sure I do have the skills necessary to successfully implement a good robust system that could possibly be adopted by the BRC.\newline
+The main part is a desktop application available forBaofeng UV-5R the most common platforms Microsoft's Windows, Apple's Mac OSX, and Linux\newline
+\end{abstract}
+\section The Software Development Process\newline
+I considered the main forms of software development\newline
+Waterfall - it has never been a favourite software development process of  mine, even when it was the only real way to develop software. The Documentation is too rigid, and there are always changes that cause a big jump back to the design process, causing lots of work in rewriting the design documents, drawings. So that method was out.\newline \newline
+Feature Driven Development - This sort of a half-way between Waterfall and more agile processes. With major parts have some documentation of the process designed up front. Which management can see almost at a glance how the development is going and what is behind schedule. \newline \newline
+The processes involved in the paper based process is documented in the Appendix The Paper based process, and some of the paper based forms are replicated in the Appendix Some Paper Based Forms\newline.
+\appendix{\underline{Original System Customer Stories}}\newline\newline
+A Rabbit society requires a software application to help with the running of rabbit show from start to finish.\newline\newline
+The current system\newline\newline
+After the committee meeting to determine the show classes and other details.\newline
+Obtain BRC certification and star rating for the show from the classes agreed upon on at the committee meeting\newline
+Requires a list of all breed classes.\newline
+Breed challenge classes in the show.\newline
+The proposed the judges.\newline
+The entry fees and prize money structures.\newline
+Once confirmation from the BRC is received.\newline
+The advert for the Fur \& Feather is produced and sent.\newline
+Taking entries - From the adverts appearance in the F\&F there will be.\newline
+Entries arrive by telephone and posted to the show secretary, all stored in paper in a box file.\newline
+The close of entries is the Wednesday 21:30 giving two days for the major part of the paperwork to be done.\newline \newline
+After the close of entries before the show day.\newline
+No further entries are permitted\newline
+From the entries in the box files create the master document named the secretary’s book according to BRC rules, some breeds must have top tier pens. \newline 
+The entry fees are calculated, if the show doesn't have a fixed entry fee.\newline 
+Create the Judging sheets.\newline
+Create booking in/out sheet\newline
+Booking in/out sheet lists each exhibit it's breed class and assigned pen number with the exhibitor's name. This is often done when the exhibitor has more than possible exhibit and has not decided as to which one of them to take. Using this option the exhibit can be entered in fewer classes, unless exhibits are of same gender, age group breeder status.\newline   
+Booking in/out sheet lists each exhibit it's breed class and assigned pen number and if known at entry time the ring number, age and gender, of the exhibit with the exhibitor's name.\newline
+Prepare as far as possible the prize cards.\newline 
+Prepare as far as possible the Challenge Certificates.\newline\newline 
+Show day\newline
+Book in own exhibits.\newline
+Book in other exhibitors live stock until another committee member arrives then delegate the booking in to the committee member.\newline
+Take entry fees during the day making a note that they have been paid.\newline
+Take results  enter the these in to the secretary's master book.\newline
+Log the prize money against the exhibitors entry in the secretary's book as appropriate.\newline
+Finish the appropriate prize cards and challenge certificates.\newline 
+Sales and exchanges of exhibits is permitted, the change of ownership has to be registered and the club is permitted to charge a percentage of the price, because the booking in and out sheet needs to be changed to reflect this. The ownership change is not reflected in the status of the show, the entry fees come from and prize money goes to the original exhibitor.\newline 
+As the show finishes the final results are entered in to the secretary's book, and cards completed and distributed to the pens.\newline
+The booking out commences.\newline
+The exhibitors collect their prize money.\newline 
+Judges are paid their requested expenses.\newline\newline
+After the show\newline
+Prepare BRC report of results.\newline
+Prepare F\&F report of results.\newline
+Prepare Club reports of results.\newline \newline
+\underline{Customer wish list for improvements of the paper based system}\newline
+1) Improved performance the ability to take entries later, and still slacken the workload for the show secretary.\newline
+2) The BRC still runs almost exclusively on paper documents, therefore a printed request for show status is required assistance with the preparation this document.\newline
+3) There is a BRC rule that sick animals are not permitted in to the show hall. This means that an exhibitor may not be able to bring the exhibit entered originally. In the paper based system it is always difficult if not impossible to change the classes that an exhibit is entered in. However a computer system might be able to make the change easier, if not a trivial matter.\newline
+4) The after show reports take a day of two to sort, and as it is manual process mistakes can occur, and cause all sorts of problems at the BRC especially their records have to be accurate the computer should be able to produce the result reports quickly and as accurately as the results were originally entered.\newline
+5) The prize money is added to the exhibitor's record as the results come in and when the exhibitor comes to collect the additions need to done on the spot and quickly. May be a computer will be able to help here.\newline
+6) Booking out is a slow and crowded process and unofficially it is not always done, the rabbit fancy is past-time of Ladies and Gentlemen of good character but the rules are there to prevent miss guided trust.
+\newpage
+\appendix{The Process}\newline
+\newline
+Before the show\newline
+\newline
+The process of running a show was of course paper based and a lot of work. The whole process took anything up to 3 months, although a lot of that was purely waiting for the various external organisations to acknowledge and perform their appropriate tasks. The full process is described in an appendix of the final report. Once the advert is published in the periodical the entries start coming in to the secretary, by post and telephone these are stored in a paper file, until the time and date for close of entries has past. The Wednesday before the show at 21:30 was the normal time. The Thursday and Friday is where the most of the work done to collate the books and sheets for the show from the BRC rules, the published class list, and the entries received.\newline\newline
+At the show\newline
+The secretary's job is to be at the secretary's desk for most of the rest of the show. Deal with any issues that arise.\newline
+The secretary has the authority of the club committee, however other members of the committee may be consulted should there be a dispute.\newline 
+Booking in all exhibitors and exhibits usually done by another committee member. However because illness or even death of an exhibit, there may be a change of exhibit details that may need a change of classes. These changes are usually at the discretion of the secretary and may be another committee member, as that may mean a fair amount of work, if there are only a few class changes they may be authorised however it is not normally done.\newline
+Taking the entry fees, and the logging the results of class judging as they come in, writing prize cards and the other certificates and awards. Some exhibitors that have haven't had the best results might want to leave early and strictly speaking the exhibits should be booked out. This is not always done simply because every member of the committee that is at the show is usually busy. As the show draws to an end, exhibitors come for their prize money (if any) which meant adding up the amounts on the back of the prize cards. This should also be in the secretary's book, and added as the judging results, come in, but that is not always, done, Two or more star shows have fixed prize so this is easier.The announcements are made, and prizes given including best in show, the raffle prizes drawn. Booking out. The packing away and cleaning up is done.\newline \newline
+After the show\newline \newline
+Keys to the hall taken back to the person or organisation that hired the hall to the club. BRC and F\&F reports are completed over the next couple of days, and posted.\newline
+The committee meeting to sort the classes for the next show is no more that a few weeks away. Which starts the process once again.\newpage 
+\appendix
+\begin{tabular}{|l|l| p{7cm}| } \hline
+\label{table of Abbreviations used}
+Abbreviation  & Expansion & Notes \\     \hline
+AA& Any Age & An exhibit of any age is allowed to enter this class  \\ \hline
+AC  & Any Colour & An exhibit of Any defined colour for that breed is allowed to enter this class \\ \hline
+AOC  & Any Other Colour & This the catch the other colours that do not have their own specific breed class \\ \hline
+AOV  & Any Other Variety & Catch the rest of a specific classification of exhibit Fancy, Lop, Fur, or Rex \\ \hline
+ASS & Adult Stock Show & Where the named breed classes are for Adult exhibits only. There may be a AV Fancy/Lop/Fur/Rex/Duplicate classes for young stock exhibits\\ \hline
+AV  & Any Variety & Catch all of a specific classification of exhibit Fancy, Lop, Fur, or Rex\\ \hline
+BIS  & Best In Show&The Exhibit considered to be the best in the show \\ \hline
+BRC & British Rabbit Council & The fountain of all knowledge and rules of the rabbit fancy in Britain  \\ \hline
+C  & Commended& 7th place in a class \\ \hline
+CC  & Challenge Certificate & A certificate issued by the BRC for the winner for each breed class in a show. These are what make champion exhibits, having to win a some at each of the different star rated shows.\\ \hline
+F\&F & Fur \& Feather & The monthly magazine of the small animal fancy, it lists forthcoming shows and recent show results \\ \hline 
+HC & Highly Commended& 6th place in a class \\ \hline
+Res & Reserve & 4th place in a class \\ \hline
+VHC & Very Highly Commended& 5th place in a class \\ \hline
+YSS  & Young Stock Show & All classes are for the young stock. There may be a AV Fancy/Lop/Fur/Rex/Duplicate classes for Adult exhibits \\ \hline 
+\end{tabular}
+\newpage
+Database design \newline \newline
+\begin{tabular}{|p{15cm}|} \hline 
+TABLE colours \\ \hline 
+id INTEGER (PK)\\ 
+colour VARCHAR(35)UNIQUE \\ \hline
+\end{tabular}\newline
+\newline 
+\begin{tabular}{| p{15cm} |} \hline
+TABLE breeds \\ \hline
+id INTEGER (PK) \\ 
+adult\_age INTEGER \\
+top\_pen\_req BOOL \\ 
+section INTEGER \\
+breed VARCHAR(30) UNIQUE \\
+\hline
+\end{tabular}
+\newline
+\begin{tabular}{|p{15cm}|}  \hline
+TABLE breedcolours \\ \hline 
+breed\_id INTEGER \\
+colour\_id INTEGER \\
+PRIMARY KEY (breed\_id, colour\_id) \\
+FOREIGN KEY (breed\_id) REFERENCES breeds(id) \\
+FOREIGN KEY (colour\_id) REFERENCES colours(id) \\ \hline
+\end{tabular}
+\newline
+\begin{tabular}{|p{15cm}|}  \hline
+TABLE breedcolours \\ \hline
+breed\_id INTEGER \\
+colour\_id INTEGER \\
+PRIMARY KEY (breed\_id, colour\_id)\\
+FOREIGN KEY (breed\_id) REFERENCES breeds(id) \\
+FOREIGN KEY (colour\_id) REFERENCES colours(id) \\ \hline
+\end{tabular}
+
+-- exhibit genders table 
+-- this could be coded in the application but for simplicity included in the database
+-- as some classes need this information and to make changes to a exhibit animal easier
+-- it is currently for rabbits, change to cavy aka Guinea pig \newline
+\begin{tabular}{|p{15cm}|}  \hline
+TABLE exhibit\_genders\\ \hline
+id INTEGER\\
+gender INTEGER\\
+gender\_class VARCHAR(10)\\
+gender\_text VARCHAR(14)\\
+PRIMARY KEY (id)\\ \hline
+\end{tabular}
+
+-- human genders table
+-- this could be coded in the application but for simplicity included in the database
+-- as some classes need this information \newline
+\begin{tabular}{|p{15cm}|}  \hline
+TABLE human\_genders\\ \hline
+id INTEGER\\
+exhibitor INTEGER\\
+gender INTEGER\\
+gender\_class VARCHAR(10)\\
+gender\_text VARCHAR(14)\\
+PRIMARY KEY (id)\\ \hline
+\end{tabular}
+-- exhibit ages table 
+-- this could be coded in the application but for simplicity included in the database
+-- as some classes need this information and to make changes to exhibit animal easier
+-- it is currently for rabbits, change to cavy aka Guinea pig \newline
+\begin{tabular}{|p{15cm}|}  \hline
+TABLE exhibit\_ages \\ \hline
+id INTEGER\\
+age INTEGER\\
+age\_text VARCHAR(15)\\
+PRIMARY KEY (id)\\ \hline
+\end{tabular}
+
+-- human ages table
+-- this could be coded in the application but for simplicity included in the database
+-- as some classes need this information
+\newline 
+\begin{tabular}{|p{15cm}|}  \hline
+TABLE human\_ages \\ \hline
+id INTEGER\\
+age INTEGER\\
+age\_text VARCHAR(15)\\
+PRIMARY KEY (id)\\ \hline
+\end{tabular}
+-- Show Sections table 
+-- this could be coded in the application but for simplicity included in the database
+-- as some classes need this information
+\newline 
+\begin{tabular}{|p{15cm}|}  \hline
+TABLE showsections \\ \ hline
+id INTEGER UNIQUE\\
+section INTEGER\\
+section\_text VARCHAR(5)\\
+PRIMARY KEY (id) \\ \hline
+\end{tabular}
+\newline
+\begin{tabular}{|p{15cm}|}  \hline
+TABLE judges\\ \hline
+id INTEGER\\
+name VARCHAR(40)\\
+sections INTEGER\\
+PRIMARY KEY (id)\\
+FOREIGN KEY(sections) REFERENCES showsections(id)\\ \hline
+\end{tabular}
+\newline \newline
+\begin{tabular}{|p{15cm}|}  \hline
+TABLE exhibitors \\ \hline
+id SERIAL\\
+name VARCHAR(20)\\   
+address VARCHAR(200)\\
+phone VARCHAR(16)\\
+email VARCHAR(100)\\
+booked\_in BOOL\\
+booked\_out BOOL\\
+paid\_fees BOOL\\
+paid\_prizes BOOL\\ 
+entry\_fees REAL\\
+prize\_money REAL\\
+club\_member INTEGER\\
+age\_group INTEGER\\
+gender INTEGER\\
+PRIMARY KEY (id)\\ \hline
+\end{tabular}
+\newline \newline
+\begin{tabular}{|p{15cm}|}  \hline
+TABLE exhibits\\ \hline
+pen\_no INTEGER\\
+ring\_number VARCHAR(15) UNIQUE\\  
+breed\_class INTEGER\\
+gender INTEGER\\
+age\_group INTEGER\\
+breed\_by\_exhibitor BOOL\\
+exhibitor\_id INTEGER\\
+PRIMARY KEY (pen\_no)\\
+FOREIGN KEY (exhibitor\_id) REFERENCES Exhibitors(id)\\ \hline
+\end{tabular}
+\newpage
+\begin{tabular}{|p{15cm}|}  \hline
+TABLE showclasses \\ \hline
+class\_no INTEGER\\ 
+name VARCHAR(40)\\
+breed INTEGER\\
+breed\_class BOOL\\ 
+section INTEGER\\
+members\_only BOOL\\ 
+breeders\_only BOOL\\ 
+upsidedown BOOL\\
+exhibit\_age INTEGER\\
+exhibit\_gender INTEGER\\ 
+exhibitor\_age INTEGER\\
+exhibitor\_gender INTEGER\\ 
+results INTEGER ARRAY[7]\\
+PRIMARY KEY (class\_no)\\
+FOREIGN KEY (breed) REFERENCES breeds(id)\\
+--FOREIGN KEY (colour) REFERENCES classcolours(id)\\
+FOREIGN KEY (section) REFERENCES ShowSections(id)\\
+FOREIGN KEY (exhibit\_age) REFERENCES exhibit\_ages(id)\\
+FOREIGN KEY (exhibit\_gender) REFERENCES exhibit\_genders(id)\\
+FOREIGN KEY (exhibitor\_age) REFERENCES human\_ages(id)\\
+FOREIGN KEY (exhibitor\_gender) REFERENCES human\_genders(id)\\
+\hline
+suggestions \\
+breed\_class \& members = 3 suggestions \\ 
+-- breed\_class 1 \\
+-- members     2\\
+-- breeders    4\\
+-- upsidedown  8 \\
+-- section\\
+Pets = 0 Fancy=1 Lop=2 Fur=4 Rex=8 all=15 but pet section challenges \\ \hline
+\end{tabular}
+
+\begin{tabular}{|p{15cm}|}  \hline
+TABLE classcolours \\ \hline
+class\_no INTEGER\\
+colour\_id INTEGER\\
+PRIMARY KEY (class\_no, colour\_id)\\
+FOREIGN KEY (class\_no) REFERENCES showclasses (class\_no)\\
+FOREIGN KEY (colour\_id) REFERENCES colours(id) \\
+\hline
+\end{tabular} \newline\newline
+\begin{tabular}{|p{15cm}|}  \hline
+TABLE entries \\ \hline
+class\_no INTEGER \\
+pen\_no INTEGER \\
+UNIQUE (class\_no, pen\_no) \\
+PRIMARY KEY (class\_no, pen\_no) \\ 
+FOREIGN KEY (class\_no)\\ 
+	REFERENCES showclasses (class\_no) \\
+FOREIGN KEY (pen\_no) \\
+	REFERENCES exhibits(pen\_no) \\ \hline
+\end{tabular}
+\newpage
+\appendix \textbf{\underline{Paper Forms}}\newline\newline
+\textbf{An example of one of the Judges' Sheets}\newline\newline 
+\begin{tabular}{|l | l | l | l || l | l|}
+\hline
+\multicolumn{4}{| p{10cm} ||} {Class 100 Dutch Black and Blue} & \multicolumn{2}{l |}{Class 100}\\
+\hline
+Pen & Place & \multicolumn{2}{ l ||}{ Comments} & Pen & Place \\
+\hline
+1 & & \multicolumn{2}{ l ||}{ } & 1 & \\ \hline
+2 & & \multicolumn{2}{ l ||}{ } & 2 & \\ \hline
+5 & & \multicolumn{2}{ l ||}{ } & 5 & \\ \hline
+7 & & \multicolumn{2}{ l ||}{ } & 7 & \\ \hline
+9 & & \multicolumn{2}{ l ||}{ } & 9 & \\ \hline
+12 & & \multicolumn{2}{ l ||}{ } & 12 & \\ \hline
+15 & & \multicolumn{2}{ l ||}{ } & 15 & \\ \hline
+16 & & \multicolumn{2}{ l ||}{ } & 16 & \\ \hline
+\multicolumn{3}{| l |}{Exhibits in class}&8 & NIC & 8\\
+\multicolumn{3}{| l |}{Results Required}&8& Rlts & 4\\
+\hline
+\end{tabular}
+\newline
+\newline
+\textbf{Classes Section of Secretary's Book}\newline 
+\begin{tabular}{|l| p{10cm} |} \hline
+Class 100 & Netherland Dwarf Red Eyed White  \\ \hline
+Pen&Owner \\ \hline
+1& Doug Hardwicke  \\ \hline
+2& Doug Hardwicke \\ \hline
+4& Robin Day  \\ \hline
+7& Sonya Smith \\ \hline
+11& Sandra Massey \\ \hline
+14& David Massey \\ \hline
+15& Fintone Stud \\ \hline
+16& Yessam Stud \\ \hline
+19& Gordon Massey \\ \hline
+ & \\ \hline
+1st & \\ \hline
+2nd & \\ \hline
+3rd & \\ \hline 
+RES & \\ \hline
+\end{tabular}
+\newline \newline 
+
+
+\end{document}
