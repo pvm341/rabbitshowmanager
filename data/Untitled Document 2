@@ -1,0 +1,26 @@
+Table definitions
+
+All exhibits have only one exhibitor, 1 to 1
+All exhibitors have at least one exhibit. 1 to many
+
+All exhibits have one and only one breed. 1 to 1
+
+Some breeds have no colour defined.
+Some breeds have many colours defined. Need a many to many table well in SQL that requires Junction table that consists on the primary keys of both breeds and colours as the only fields in the 
+table breedcolours but not every breed has an entry in breedcolours because there is only one colour for that breed and needs no mention.
+
+All exhibits have an age group  (u/14w, u/4|5m, adult)
+All exhibits have a gender (Buck or Doe)
+
+All exhibitors have an age group (Juvenile or Adult)
+All exhibitors have a gender (Lady, Gentleman, is_a_group)
+
+All classes have an exhibit age group (u/14, u/4|5m, any youngster, adult, open)
+All classes have an exhibit gender (Bucks, Does, open)
+All classes have an exhibitor age group (Juvenile or Adult)
+All classes have an exhibitor gender (Ladies, Gentlemen, or open)
+some classes are up-side-down classes (prize money given to 7th (C), 6th (HC), and 5th (VHC)) used to spread the prize money about.
+some classes are restricted to members of the club only (no prize money is given just club points)
+some classes are restricted to breeders of the exhibit (owned the exhibit's mother, when the exhibit was born) or wears a ring issued to the exhibitor from the BRC and put on an exhibit at the age of about 6 weeks whether or not the exhibitor owned the mother of the current exhibit.
+
+

@@ -1,0 +1,10 @@
+cb.getSelectionModel().selectIndexProperty().addListener(new 
+	ChangeListener<Number>() {
+        	public void changed(ObserableValue ov,
+                	Number value, Number new_value) {
+                          String sql = String.format(	"SELECT colours.colour "+
+                                              		"FROM breeds, colours, breedcolours "+
+					      		"WHERE breeds.id=breedcolours.breed_id "+
+							"AND colours.id=breedcolours.colour_id "+
+                                                	"AND breeds.id=%d",new_value);
+                           ResultSet resultSet = DBAccess.selectSQL(sql);
