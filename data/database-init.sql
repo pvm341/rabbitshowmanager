@@ -29,6 +29,7 @@ CREATE TABLE exhibit_ages(
 id INTEGER,
 age INTEGER,
 age_text VARCHAR(15),
+abbrev VARCHAR(6),
 PRIMARY KEY (id)
 );
 
@@ -39,6 +40,7 @@ CREATE TABLE human_ages(
 id INTEGER,
 age INTEGER,
 age_text VARCHAR(15),
+abbrev VARCHAR(6),
 PRIMARY KEY (id)
 );
 
@@ -46,6 +48,7 @@ PRIMARY KEY (id)
 CREATE TABLE colours (
 id INTEGER,
 colour VARCHAR(35)UNIQUE,
+abbrev VARCHAR(4) UNIQUE,
 PRIMARY KEY (id)
 );
 
@@ -80,7 +83,6 @@ gender_class VARCHAR(10),
 gender_text VARCHAR(14),
 PRIMARY KEY (id)
 );
-
 
 -- Show Sections table 
 -- this could be coded in the application but for simplicity included in the database
@@ -160,6 +162,7 @@ FOREIGN KEY (exhibit_gender) REFERENCES exhibit_genders(id),
 FOREIGN KEY (exhibitor_age) REFERENCES human_ages(id),
 FOREIGN KEY (exhibitor_gender) REFERENCES human_genders(id)
 );
+
 CREATE TABLE classcolours (
 class_no int,
 colour_id int,
@@ -168,7 +171,7 @@ FOREIGN KEY (class_no) REFERENCES showclasses (class_no),
 FOREIGN KEY (colour_id) REFERENCES colours(id)
 );
 
-CREATE TABLE entries(
+CREATE TABLE entries(colour)
 class_no INTEGER,
 pen_no INTEGER,
 UNIQUE (class_no, pen_no),
@@ -187,18 +190,18 @@ INSERT INTO human_genders (id,gender,gender_class,gender_text) VALUES (2,1,'Gent
 INSERT INTO human_genders (id,gender,gender_class,gender_text) VALUES (3,2,'Ladies','Lady');
 INSERT INTO human_genders (id,gender,gender_class,gender_text) VALUES (4,3,'Open','Group/Stud');
 
-INSERT INTO human_ages (id,age,age_text) VALUES (1,0,'unknown');
-INSERT INTO human_ages (id,age,age_text) VALUES (2,1,'Juvenile');
-INSERT INTO human_ages (id,age,age_text) VALUES (3,2,'Adult');
-INSERT INTO human_ages (id,age,age_text) VALUES (4,3,'Open');
+INSERT INTO human_ages (id,age,age_text,abbrev) VALUES (1,0,'unknown','n/a');
+INSERT INTO human_ages (id,age,age_text,abbrev) VALUES (2,1,'Juvenile','Juv');
+INSERT INTO human_ages (id,age,age_text,abbrev) VALUES (3,2,'Adult','ADT');
+INSERT INTO human_ages (id,age,age_text,abbrev) VALUES (4,3,'Open','DUP');
 
-INSERT INTO exhibit_ages (id,age,age_text) VALUES (1,0,'unknown');
-INSERT INTO exhibit_ages (id,age,age_text) VALUES (2,1,'under 14 weeks');
-INSERT INTO exhibit_ages (id,age,age_text) VALUES (3,2,'under 4 months');
-INSERT INTO exhibit_ages (id,age,age_text) VALUES (4,2,'under 5 months');
-INSERT INTO exhibit_ages (id,age,age_text) VALUES (5,3,'Any youngster');
-INSERT INTO exhibit_ages (id,age,age_text) VALUES (6,4,'Adult');
-INSERT INTO exhibit_ages (id,age,age_text) VALUES (7,7,'Any Age');
+INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (1,0,'unknown','n/a');
+INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (2,1,'under 14 weeks','u/14w');
+INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (3,2,'under 4 months','u/4m');
+INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (4,2,'under 5 months','u/5m');
+INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (5,3,'Any youngster','AY');
+INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (6,4,'Adult','Adt');
+INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (7,7,'Any Age','AA');
 
 INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (1,4,false,1,'Any Variety');
 INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (2,4,false,1,'Any Other Variety');
@@ -276,143 +279,143 @@ INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (73,4,false,2
 INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (74,4,false,2,'Miniature Lop');
 INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (75,4,false,2,'Miniature Lion Lop');
 
-INSERT INTO colours (id,colour) VALUES (1,'Any Colour');
-INSERT INTO colours (id,colour) VALUES (2,'Any Other Colour');
-INSERT INTO colours (id,colour) VALUES (3,'Black');
-INSERT INTO colours (id,colour) VALUES (4,'Blue');
-INSERT INTO colours (id,colour) VALUES (5,'Blue Eyed White');
-INSERT INTO colours (id,colour) VALUES (6,'Chocolate Brown');
-INSERT INTO colours (id,colour) VALUES (7,'Havana');
-INSERT INTO colours (id,colour) VALUES (8,'Ermine');
-INSERT INTO colours (id,colour) VALUES (9,'Ivory');
-INSERT INTO colours (id,colour) VALUES (10,'Lilac');
-INSERT INTO colours (id,colour) VALUES (11,'Red Eyed White');
-INSERT INTO colours (id,colour) VALUES (12,'Smoke');
-INSERT INTO colours (id,colour) VALUES (13,'Beige-Isabella');
-INSERT INTO colours (id,colour) VALUES (14,'Blue Cream');
-INSERT INTO colours (id,colour) VALUES (15,'Bluepoint');
-INSERT INTO colours (id,colour) VALUES (16,'Bronze');
-INSERT INTO colours (id,colour) VALUES (17,'Chocolate Tortoiseshell');
-INSERT INTO colours (id,colour) VALUES (18,'Cream');
-INSERT INTO colours (id,colour) VALUES (19,'Gold');
-INSERT INTO colours (id,colour) VALUES (20,'Iron Grey');
-INSERT INTO colours (id,colour) VALUES (21,'Sealpoint');
-INSERT INTO colours (id,colour) VALUES (22,'Siamese Sable Dark');
-INSERT INTO colours (id,colour) VALUES (23,'Siamese Sable Medium');
-INSERT INTO colours (id,colour) VALUES (24,'Siamese Smoke Dark');
-INSERT INTO colours (id,colour) VALUES (25,'Siamese Smoke Medium');
-INSERT INTO colours (id,colour) VALUES (26,'Sooty-Fawn');
-INSERT INTO colours (id,colour) VALUES (27,'Tortoiseshell');
-INSERT INTO colours (id,colour) VALUES (28,'Agouti');
-INSERT INTO colours (id,colour) VALUES (29,'Belgium Hare');
-INSERT INTO colours (id,colour) VALUES (30,'Blue Grey');
-INSERT INTO colours (id,colour) VALUES (31,'Brown Grey');
-INSERT INTO colours (id,colour) VALUES (32,'Castor');
-INSERT INTO colours (id,colour) VALUES (33,'Chinchilla');
-INSERT INTO colours (id,colour) VALUES (34,'Cinnamon');
-INSERT INTO colours (id,colour) VALUES (35,'Flemish');
-INSERT INTO colours (id,colour) VALUES (36,'Grey');
-INSERT INTO colours (id,colour) VALUES (37,'Lynx-Wheaten Lynx');
-INSERT INTO colours (id,colour) VALUES (38,'Opal');
-INSERT INTO colours (id,colour) VALUES (39,'Perlfee');
-INSERT INTO colours (id,colour) VALUES (40,'Red Agouti');
-INSERT INTO colours (id,colour) VALUES (41,'Sandy');
-INSERT INTO colours (id,colour) VALUES (42,'Squirrel');
-INSERT INTO colours (id,colour) VALUES (43,'Broken');
-INSERT INTO colours (id,colour) VALUES (44,'Butterfly');
-INSERT INTO colours (id,colour) VALUES (45,'Dalmation');
-INSERT INTO colours (id,colour) VALUES (46,'Dutch');
-INSERT INTO colours (id,colour) VALUES (47,'English');
-INSERT INTO colours (id,colour) VALUES (48,'Hotot');
-INSERT INTO colours (id,colour) VALUES (49,'Papillon');
-INSERT INTO colours (id,colour) VALUES (50,'Rhinelander');
-INSERT INTO colours (id,colour) VALUES (51,'Fawn');
-INSERT INTO colours (id,colour) VALUES (52,'Golden Glavcot');
-INSERT INTO colours (id,colour) VALUES (54,'Brown');
-INSERT INTO colours (id,colour) VALUES (57,'Himalayan Black');
-INSERT INTO colours (id,colour) VALUES (58,'Himalayan Blue');
-INSERT INTO colours (id,colour) VALUES (59,'Himalayan Chocolate');
-INSERT INTO colours (id,colour) VALUES (60,'Himalayan Lilac');
-INSERT INTO colours (id,colour) VALUES (61,'Light Steel');
-INSERT INTO colours (id,colour) VALUES (62,'Magpie Black');
-INSERT INTO colours (id,colour) VALUES (63,'Magpie Brown');
-INSERT INTO colours (id,colour) VALUES (64,'Magpie Blue');
-INSERT INTO colours (id,colour) VALUES (65,'Magpie Lilac');
-INSERT INTO colours (id,colour) VALUES (66,'Orange');
-INSERT INTO colours (id,colour) VALUES (67,'Red');
-INSERT INTO colours (id,colour) VALUES (68,'Steel');
-INSERT INTO colours (id,colour) VALUES (69,'Thrianta');
-INSERT INTO colours (id,colour) VALUES (70,'Wheaten');
-INSERT INTO colours (id,colour) VALUES (71,'Black Fox');
-INSERT INTO colours (id,colour) VALUES (72,'Black Otter');
-INSERT INTO colours (id,colour) VALUES (73,'Black Tan');
-INSERT INTO colours (id,colour) VALUES (74,'Blue Fox');
-INSERT INTO colours (id,colour) VALUES (75,'Blue Otter');
-INSERT INTO colours (id,colour) VALUES (76,'Blue Tan');
-INSERT INTO colours (id,colour) VALUES (77,'Chocolate Fox');
-INSERT INTO colours (id,colour) VALUES (78,'Chocolate Otter');
-INSERT INTO colours (id,colour) VALUES (79,'Chocolate Tan');
-INSERT INTO colours (id,colour) VALUES (80,'Lilac Fox');
-INSERT INTO colours (id,colour) VALUES (81,'Lilac Otter');
-INSERT INTO colours (id,colour) VALUES (82,'Lilac Tan');
-INSERT INTO colours (id,colour) VALUES (83,'Argente Bleu');
-INSERT INTO colours (id,colour) VALUES (84,'Argente Brun');
-INSERT INTO colours (id,colour) VALUES (85,'Argente Crème');
-INSERT INTO colours (id,colour) VALUES (86,'Argente de Champagne');
-INSERT INTO colours (id,colour) VALUES (87,'Argente Noir');
-INSERT INTO colours (id,colour) VALUES (88,'Meissener');
-INSERT INTO colours (id,colour) VALUES (89,'Silver Blue');
-INSERT INTO colours (id,colour) VALUES (90,'Silver Brown');
-INSERT INTO colours (id,colour) VALUES (91,'Silver Fawn');
-INSERT INTO colours (id,colour) VALUES (92,'Silver Grey');
-INSERT INTO colours (id,colour) VALUES (93,'Sable dark');
-INSERT INTO colours (id,colour) VALUES (94,'Sable light');
-INSERT INTO colours (id,colour) VALUES (95,'Marten light');
-INSERT INTO colours (id,colour) VALUES (96,'Marten medium');
-INSERT INTO colours (id,colour) VALUES (97,'Marten dark');
-INSERT INTO colours (id,colour) VALUES (98,'Chocolate');
-INSERT INTO colours (id,colour) VALUES (99,'Yellow');
-INSERT INTO colours (id,colour) VALUES (100,'Pale Grey');
-INSERT INTO colours (id,colour) VALUES (101,'Steel Grey');
-INSERT INTO colours (id,colour) VALUES (102,'Tri-colour');
-INSERT INTO colours (id,colour) VALUES (103,'Smoke Pearl');
-INSERT INTO colours (id,colour) VALUES (104,'Lynx');
-INSERT INTO colours (id,colour) VALUES (105,'Tan');
-INSERT INTO colours (id,colour) VALUES (106,'Otter Black');
-INSERT INTO colours (id,colour) VALUES (107,'Otter Blue');
-INSERT INTO colours (id,colour) VALUES (108,'Otter Chocolate');
-INSERT INTO colours (id,colour) VALUES (109,'Otter Lilac');
-INSERT INTO colours (id,colour) VALUES (110,'Fox Black');
-INSERT INTO colours (id,colour) VALUES (111,'Fox Blue');
-INSERT INTO colours (id,colour) VALUES (112,'Fox Chocolate');
-INSERT INTO colours (id,colour) VALUES (113,'Fox Lilac');
-INSERT INTO colours (id,colour) VALUES (116,'Siamese Sable Light');
-INSERT INTO colours (id,colour) VALUES (117,'Siamese Smoke Pearl');
-INSERT INTO colours (id,colour) VALUES (118,'Marten Sable Light');
-INSERT INTO colours (id,colour) VALUES (119,'Marten Sable Medium');
-INSERT INTO colours (id,colour) VALUES (120,'Marten Sable Dark');
-INSERT INTO colours (id,colour) VALUES (121,'Marten Smoke Pearl');
-INSERT INTO colours (id,colour) VALUES (122,'Sable Siamese');
-INSERT INTO colours (id,colour) VALUES (123,'Marten Sable');
-INSERT INTO colours (id,colour) VALUES (124,'Blue and Tan');
-INSERT INTO colours (id,colour) VALUES (125,'Black and Tan');
-INSERT INTO colours (id,colour) VALUES (126,'Chocolate and Tan');
-INSERT INTO colours (id,colour) VALUES (127,'Lilac and Tan');
-INSERT INTO colours (id,colour) VALUES (128,'White');
-INSERT INTO colours (id,colour) VALUES (129,'Dark Steel Grey');
-INSERT INTO colours (id,colour) VALUES (130,'Normal');
-INSERT INTO colours (id,colour) VALUES (131,'Dark Steel');
-INSERT INTO colours (id,colour) VALUES (134,'Nutria');
-INSERT INTO colours (id,colour) VALUES (135,'Seal Siamese');
-INSERT INTO colours (id,colour) VALUES (136,'Fox');
-INSERT INTO colours (id,colour) VALUES (137,'Sable Marten');
-INSERT INTO colours (id,colour) VALUES (138,'Otter');
-INSERT INTO colours (id,colour) VALUES (139,'Harlequin');
-INSERT INTO colours (id,colour) VALUES (140,'Himalayan');
-INSERT INTO colours (id,colour) VALUES (141,'Silver Seal');
-INSERT INTO colours (id,colour) VALUES (142,'Satin Rex');
-INSERT INTO colours (id,colour) VALUES (143,'Astrex');
-INSERT INTO colours (id,colour) VALUES (144,'Opossum');
+INSERT INTO colours (id,colour,abbrev) VALUES (1,'Any Colour','AC');
+INSERT INTO colours (id,colour,abbrev) VALUES (2,'Any Other Colour','AOC');
+INSERT INTO colours (id,colour,abbrev) VALUES (3,'Black','Blk');
+INSERT INTO colours (id,colour,abbrev) VALUES (4,'Blue','Blu');
+INSERT INTO colours (id,colour,abbrev) VALUES (5,'Blue Eyed White','BEW');
+INSERT INTO colours (id,colour,abbrev) VALUES (6,'Chocolate Brown','ChB');
+INSERT INTO colours (id,colour,abbrev) VALUES (7,'Havana','Hav');
+INSERT INTO colours (id,colour,abbrev) VALUES (8,'Ermine','Erm');
+INSERT INTO colours (id,colour,abbrev) VALUES (9,'Ivory','Ivy');
+INSERT INTO colours (id,colour,abbrev) VALUES (10,'Lilac','Llc');
+INSERT INTO colours (id,colour,abbrev) VALUES (11,'Red Eyed White','REW');
+INSERT INTO colours (id,colour,abbrev) VALUES (12,'Smoke','Smk');
+INSERT INTO colours (id,colour,abbrev) VALUES (13,'Beige-Isabella','BIs');
+INSERT INTO colours (id,colour,abbrev) VALUES (14,'Blue Cream','BlC');
+INSERT INTO colours (id,colour,abbrev) VALUES (15,'Bluepoint','BlP');
+INSERT INTO colours (id,colour,abbrev) VALUES (16,'Bronze','Brz');
+INSERT INTO colours (id,colour,abbrev) VALUES (17,'Chocolate Tortoiseshell','ChT');
+INSERT INTO colours (id,colour,abbrev) VALUES (18,'Cream','Crm');
+INSERT INTO colours (id,colour,abbrev) VALUES (19,'Gold','Gld');
+INSERT INTO colours (id,colour,abbrev) VALUES (20,'Iron Grey','IGr');
+INSERT INTO colours (id,colour,abbrev) VALUES (21,'Sealpoint','Spt');
+INSERT INTO colours (id,colour,abbrev) VALUES (22,'Siamese Sable Dark','SSsD');
+INSERT INTO colours (id,colour,abbrev) VALUES (23,'Siamese Sable Medium','SSsM');
+INSERT INTO colours (id,colour,abbrev) VALUES (24,'Siamese Smoke Dark','SSmD');
+INSERT INTO colours (id,colour,abbrev) VALUES (25,'Siamese Smoke Medium','SSmM');
+INSERT INTO colours (id,colour,abbrev) VALUES (26,'Sooty-Fawn','SFwn');
+INSERT INTO colours (id,colour,abbrev) VALUES (27,'Tortoiseshell','Tort');
+INSERT INTO colours (id,colour,abbrev) VALUES (28,'Agouti','Agti');
+INSERT INTO colours (id,colour,abbrev) VALUES (29,'Belgium Hare','BelH');
+INSERT INTO colours (id,colour,abbrev) VALUES (30,'Blue Grey','BuGr');
+INSERT INTO colours (id,colour,abbrev) VALUES (31,'Brown Grey','BrGr');
+INSERT INTO colours (id,colour,abbrev) VALUES (32,'Castor','Cast');
+INSERT INTO colours (id,colour,abbrev) VALUES (33,'Chinchilla','Chin');
+INSERT INTO colours (id,colour,abbrev) VALUES (34,'Cinnamon','Cinn');
+INSERT INTO colours (id,colour,abbrev) VALUES (35,'Flemish','Flem');
+INSERT INTO colours (id,colour,abbrev) VALUES (36,'Grey','Grey');
+INSERT INTO colours (id,colour,abbrev) VALUES (37,'Lynx-Wheaten Lynx','LyWL');
+INSERT INTO colours (id,colour,abbrev) VALUES (38,'Opal','Opal');
+INSERT INTO colours (id,colour,abbrev) VALUES (39,'Perlfee','PerF');
+INSERT INTO colours (id,colour,abbrev) VALUES (40,'Red Agouti','RedA');
+INSERT INTO colours (id,colour,abbrev) VALUES (41,'Sandy','Sand');
+INSERT INTO colours (id,colour,abbrev) VALUES (42,'Squirrel','Squl');
+INSERT INTO colours (id,colour,abbrev) VALUES (43,'Broken','Brkn');
+INSERT INTO colours (id,colour,abbrev) VALUES (44,'Butterfly','ButF');
+INSERT INTO colours (id,colour,abbrev) VALUES (45,'Dalmation','Dalm');
+INSERT INTO colours (id,colour,abbrev) VALUES (46,'Dutch','Dtch');
+INSERT INTO colours (id,colour,abbrev) VALUES (47,'English','Engl');
+INSERT INTO colours (id,colour,abbrev) VALUES (48,'Hotot','Hott');
+INSERT INTO colours (id,colour,abbrev) VALUES (49,'Papillon','Papl');
+INSERT INTO colours (id,colour,abbrev) VALUES (50,'Rhinelander','Rhin');
+INSERT INTO colours (id,colour,abbrev) VALUES (51,'Fawn','Fawn');
+INSERT INTO colours (id,colour,abbrev) VALUES (52,'Golden Glavcot','GdGt');
+INSERT INTO colours (id,colour,abbrev) VALUES (54,'Brown','Brwn');
+INSERT INTO colours (id,colour,abbrev) VALUES (57,'Himalayan Black','HBlk');
+INSERT INTO colours (id,colour,abbrev) VALUES (58,'Himalayan Blue','HBlu');
+INSERT INTO colours (id,colour,abbrev) VALUES (59,'Himalayan Chocolate','HCho');
+INSERT INTO colours (id,colour,abbrev) VALUES (60,'Himalayan Lilac','HLil');
+INSERT INTO colours (id,colour,abbrev) VALUES (61,'Light Steel','LStl');
+INSERT INTO colours (id,colour,abbrev) VALUES (62,'Magpie Black','MBlk');
+INSERT INTO colours (id,colour,abbrev) VALUES (63,'Magpie Brown','MBrn');
+INSERT INTO colours (id,colour,abbrev) VALUES (64,'Magpie Blue','MBlu');
+INSERT INTO colours (id,colour,abbrev) VALUES (65,'Magpie Lilac','MLil');
+INSERT INTO colours (id,colour,abbrev) VALUES (66,'Orange','Oran');
+INSERT INTO colours (id,colour,abbrev) VALUES (67,'Red','Red');
+INSERT INTO colours (id,colour,abbrev) VALUES (68,'Steel','Stel');
+INSERT INTO colours (id,colour,abbrev) VALUES (69,'Thrianta','Thri');
+INSERT INTO colours (id,colour,abbrev) VALUES (70,'Wheaten','Whet');
+INSERT INTO colours (id,colour,abbrev) VALUES (71,'Black Fox','BlFx');
+INSERT INTO colours (id,colour,abbrev) VALUES (72,'Black Otter','BlOt');
+INSERT INTO colours (id,colour,abbrev) VALUES (73,'Black Tan','BlTn');
+INSERT INTO colours (id,colour,abbrev) VALUES (74,'Blue Fox','BuTn');
+INSERT INTO colours (id,colour,abbrev) VALUES (75,'Blue Otter','BuOt');
+INSERT INTO colours (id,colour,abbrev) VALUES (76,'Blue Tan','BuTn');
+INSERT INTO colours (id,colour,abbrev) VALUES (77,'Chocolate Fox','ChoF');
+INSERT INTO colours (id,colour,abbrev) VALUES (78,'Chocolate Otter','ChOt');
+INSERT INTO colours (id,colour,abbrev) VALUES (79,'Chocolate Tan','ChTn');
+INSERT INTO colours (id,colour,abbrev) VALUES (80,'Lilac Fox','LFox');
+INSERT INTO colours (id,colour,abbrev) VALUES (81,'Lilac Otter','LiOt');
+INSERT INTO colours (id,colour,abbrev) VALUES (82,'Lilac Tan','LiTn');
+INSERT INTO colours (id,colour,abbrev) VALUES (83,'Argente Bleu','ArBu');
+INSERT INTO colours (id,colour,abbrev) VALUES (84,'Argente Brun','ArBr');
+INSERT INTO colours (id,colour,abbrev) VALUES (85,'Argente Crème');
+INSERT INTO colours (id,colour,abbrev) VALUES (86,'Argente de Champagne','ArCh');
+INSERT INTO colours (id,colour,abbrev) VALUES (87,'Argente Noir','ArNr');
+INSERT INTO colours (id,colour,abbrev) VALUES (88,'Meissener','Meis');
+INSERT INTO colours (id,colour,abbrev) VALUES (89,'Silver Blue','SiBu');
+INSERT INTO colours (id,colour,abbrev) VALUES (90,'Silver Brown','SiBr');
+INSERT INTO colours (id,colour,abbrev) VALUES (91,'Silver Fawn','SiFn');
+INSERT INTO colours (id,colour,abbrev) VALUES (92,'Silver Grey','SiGy');
+INSERT INTO colours (id,colour,abbrev) VALUES (93,'Sable Dark','SabD');
+INSERT INTO colours (id,colour,abbrev) VALUES (94,'Sable Light','Sabl');
+INSERT INTO colours (id,colour,abbrev) VALUES (95,'Marten Light','MarL');
+INSERT INTO colours (id,colour,abbrev) VALUES (96,'Marten Medium','MarM');
+INSERT INTO colours (id,colour,abbrev) VALUES (97,'Marten Dark','MarD');
+INSERT INTO colours (id,colour,abbrev) VALUES (98,'Chocolate','Choc');
+INSERT INTO colours (id,colour,abbrev) VALUES (99,'Yellow','Yell');
+INSERT INTO colours (id,colour,abbrev) VALUES (100,'Pale Grey','PaGy');
+INSERT INTO colours (id,colour,abbrev) VALUES (101,'Steel Grey','StGy');
+INSERT INTO colours (id,colour,abbrev) VALUES (102,'Tri-colour','TriC');
+INSERT INTO colours (id,colour,abbrev) VALUES (103,'Smoke Pearl','SmkP');
+INSERT INTO colours (id,colour,abbrev) VALUES (104,'Lynx','Lynx');
+INSERT INTO colours (id,colour,abbrev) VALUES (105,'Tan','Tan');
+INSERT INTO colours (id,colour,abbrev) VALUES (106,'Otter Black','OBlk');
+INSERT INTO colours (id,colour,abbrev) VALUES (107,'Otter Blue','OBlu');
+INSERT INTO colours (id,colour,abbrev) VALUES (108,'Otter Chocolate','OChc');
+INSERT INTO colours (id,colour,abbrev) VALUES (109,'Otter Lilac','OLil');
+INSERT INTO colours (id,colour,abbrev) VALUES (110,'Fox Black','FBlk');
+INSERT INTO colours (id,colour,abbrev) VALUES (111,'Fox Blue','FBlu');
+INSERT INTO colours (id,colour,abbrev) VALUES (112,'Fox Chocolate','FCho');
+INSERT INTO colours (id,colour,abbrev) VALUES (113,'Fox Lilac','FLil');
+INSERT INTO colours (id,colour,abbrev) VALUES (116,'Siamese Sable Light','SSaL');
+INSERT INTO colours (id,colour,abbrev) VALUES (117,'Siamese Smoke Pearl','SSPe');
+INSERT INTO colours (id,colour,abbrev) VALUES (118,'Marten Sable Light','MSaL');
+INSERT INTO colours (id,colour,abbrev) VALUES (119,'Marten Sable Medium','MSaM');
+INSERT INTO colours (id,colour,abbrev) VALUES (120,'Marten Sable Dark','MSaD');
+INSERT INTO colours (id,colour,abbrev) VALUES (121,'Marten Smoke Pearl','MSmP');
+INSERT INTO colours (id,colour,abbrev) VALUES (122,'Sable Siamese','SSia');
+INSERT INTO colours (id,colour,abbrev) VALUES (123,'Marten Sable','MSab');
+INSERT INTO colours (id,colour,abbrev) VALUES (124,'Blue and Tan','BluT');
+INSERT INTO colours (id,colour,abbrev) VALUES (125,'Black and Tan','BlkT');
+INSERT INTO colours (id,colour,abbrev) VALUES (126,'Chocolate and Tan','ChoT');
+INSERT INTO colours (id,colour,abbrev) VALUES (127,'Lilac and Tan','LiTn');
+INSERT INTO colours (id,colour,abbrev) VALUES (128,'White','Wht');
+INSERT INTO colours (id,colour,abbrev) VALUES (129,'Dark Steel Grey','DSGy');
+INSERT INTO colours (id,colour,abbrev) VALUES (130,'Normal','Norm');
+INSERT INTO colours (id,colour,abbrev) VALUES (131,'Dark Steel','DStl');
+INSERT INTO colours (id,colour,abbrev) VALUES (134,'Nutria','Nutr');
+INSERT INTO colours (id,colour,abbrev) VALUES (135,'Seal Siamese','SeaS');
+INSERT INTO colours (id,colour,abbrev) VALUES (136,'Fox','Fox');
+INSERT INTO colours (id,colour,abbrev) VALUES (137,'Sable Marten','SMar');
+INSERT INTO colours (id,colour,abbrev) VALUES (138,'Otter','Ottr');
+INSERT INTO colours (id,colour,abbrev) VALUES (139,'Harlequin','Harl');
+INSERT INTO colours (id,colour,abbrev) VALUES (140,'Himalayan','Himl');
+INSERT INTO colours (id,colour,abbrev) VALUES (141,'Silver Seal','SiSe');
+INSERT INTO colours (id,colour,abbrev) VALUES (142,'Satin Rex','SaRe');
+INSERT INTO colours (id,colour,abbrev) VALUES (143,'Astrex','Astx');
+INSERT INTO colours (id,colour,abbrev) VALUES (144,'Opossum','Opos');
 
 -- These two breeds were removed as they are superflous as there is already a Dutch, and English Breed
 --INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (6,2,0,1,'Dutch Tri-coloured');
