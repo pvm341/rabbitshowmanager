@@ -171,7 +171,7 @@ FOREIGN KEY (class_no) REFERENCES showclasses (class_no),
 FOREIGN KEY (colour_id) REFERENCES colours(id)
 );
 
-CREATE TABLE entries(colour)
+CREATE TABLE entries(
 class_no INTEGER,
 pen_no INTEGER,
 UNIQUE (class_no, pen_no),
@@ -349,7 +349,7 @@ INSERT INTO colours (id,colour,abbrev) VALUES (70,'Wheaten','Whet');
 INSERT INTO colours (id,colour,abbrev) VALUES (71,'Black Fox','BlFx');
 INSERT INTO colours (id,colour,abbrev) VALUES (72,'Black Otter','BlOt');
 INSERT INTO colours (id,colour,abbrev) VALUES (73,'Black Tan','BlTn');
-INSERT INTO colours (id,colour,abbrev) VALUES (74,'Blue Fox','BuTn');
+INSERT INTO colours (id,colour,abbrev) VALUES (74,'Blue Fox','BuFx');
 INSERT INTO colours (id,colour,abbrev) VALUES (75,'Blue Otter','BuOt');
 INSERT INTO colours (id,colour,abbrev) VALUES (76,'Blue Tan','BuTn');
 INSERT INTO colours (id,colour,abbrev) VALUES (77,'Chocolate Fox','ChoF');
@@ -360,7 +360,7 @@ INSERT INTO colours (id,colour,abbrev) VALUES (81,'Lilac Otter','LiOt');
 INSERT INTO colours (id,colour,abbrev) VALUES (82,'Lilac Tan','LiTn');
 INSERT INTO colours (id,colour,abbrev) VALUES (83,'Argente Bleu','ArBu');
 INSERT INTO colours (id,colour,abbrev) VALUES (84,'Argente Brun','ArBr');
-INSERT INTO colours (id,colour,abbrev) VALUES (85,'Argente Crème');
+INSERT INTO colours (id,colour,abbrev) VALUES (85,'Argente Crème','ArCr');
 INSERT INTO colours (id,colour,abbrev) VALUES (86,'Argente de Champagne','ArCh');
 INSERT INTO colours (id,colour,abbrev) VALUES (87,'Argente Noir','ArNr');
 INSERT INTO colours (id,colour,abbrev) VALUES (88,'Meissener','Meis');
@@ -400,7 +400,7 @@ INSERT INTO colours (id,colour,abbrev) VALUES (123,'Marten Sable','MSab');
 INSERT INTO colours (id,colour,abbrev) VALUES (124,'Blue and Tan','BluT');
 INSERT INTO colours (id,colour,abbrev) VALUES (125,'Black and Tan','BlkT');
 INSERT INTO colours (id,colour,abbrev) VALUES (126,'Chocolate and Tan','ChoT');
-INSERT INTO colours (id,colour,abbrev) VALUES (127,'Lilac and Tan','LiTn');
+INSERT INTO colours (id,colour,abbrev) VALUES (127,'Lilac and Tan','LilT');
 INSERT INTO colours (id,colour,abbrev) VALUES (128,'White','Wht');
 INSERT INTO colours (id,colour,abbrev) VALUES (129,'Dark Steel Grey','DSGy');
 INSERT INTO colours (id,colour,abbrev) VALUES (130,'Normal','Norm');
