@@ -180,6 +180,13 @@ FOREIGN KEY (class_no) REFERENCES showclasses (class_no),
 FOREIGN KEY (pen_no) REFERENCES exhibits(pen_no)
 );
 
+CREATE TABLE selectedcolours(
+id INTEGER,
+selcolour integer,
+PRIMARY KEY (id, selcolour),
+FOREIGN KEY (selcolour) references colours(id)
+);
+
 INSERT INTO exhibit_genders (id,gender,gender_class,gender_text) VALUES (1,0,'unknown','undisclosed');
 INSERT INTO exhibit_genders (id,gender,gender_class,gender_text) VALUES (2,1,'Bucks','Buck');
 INSERT INTO exhibit_genders (id,gender,gender_class,gender_text) VALUES (3,2,'Does','Doe');
@@ -207,7 +214,7 @@ INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (1,4,false,1,
 INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (2,4,false,1,'Any Other Variety');
 INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (3,4,true,1,'Angora');
 INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (4,4,false,1,'Black Hare');
-INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (5,4,false,1,'Dutch');
+INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (5,3,false,1,'Dutch');
 INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (6,4,false,1,'English');
 INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (7,4,false,1,'Flemish Giant');
 INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (8,4,false,1,'Giant Papillon');
