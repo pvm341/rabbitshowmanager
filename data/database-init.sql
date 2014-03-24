@@ -180,35 +180,35 @@ FOREIGN KEY (class_no) REFERENCES showclasses (class_no),
 FOREIGN KEY (pen_no) REFERENCES exhibits(pen_no)
 );
 
-CREATE TABLE selectedcolours(
+CREATE TABLE availablecolours(
 id INTEGER,
 selcolour integer,
 PRIMARY KEY (id, selcolour),
 FOREIGN KEY (selcolour) references colours(id)
 );
 
-INSERT INTO exhibit_genders (id,gender,gender_class,gender_text) VALUES (1,0,'unknown','undisclosed');
+--INSERT INTO exhibit_genders (id,gender,gender_class,gender_text) VALUES (1,0,'unknown','undisclosed');
+INSERT INTO exhibit_genders (id,gender,gender_class,gender_text) VALUES (1,3,'Open','n/a');
 INSERT INTO exhibit_genders (id,gender,gender_class,gender_text) VALUES (2,1,'Bucks','Buck');
 INSERT INTO exhibit_genders (id,gender,gender_class,gender_text) VALUES (3,2,'Does','Doe');
-INSERT INTO exhibit_genders (id,gender,gender_class,gender_text) VALUES (4,3,'Open','n/a');
 
-INSERT INTO human_genders (id,gender,gender_class,gender_text) VALUES (1,0,'unknown','undisclosed');
+--INSERT INTO human_genders (id,gender,gender_class,gender_text) VALUES (1,0,'unknown','undisclosed');
+INSERT INTO human_genders (id,gender,gender_class,gender_text) VALUES (1,3,'Open','Group/Stud');
 INSERT INTO human_genders (id,gender,gender_class,gender_text) VALUES (2,1,'Gents','Gentleman');
 INSERT INTO human_genders (id,gender,gender_class,gender_text) VALUES (3,2,'Ladies','Lady');
-INSERT INTO human_genders (id,gender,gender_class,gender_text) VALUES (4,3,'Open','Group/Stud');
 
-INSERT INTO human_ages (id,age,age_text,abbrev) VALUES (1,0,'unknown','n/a');
+INSERT INTO human_ages (id,age,age_text,abbrev) VALUES (1,3,'Open','DUP');
+--INSERT INTO human_ages (id,age,age_text,abbrev) VALUES (1,0,'unknown','n/a');
 INSERT INTO human_ages (id,age,age_text,abbrev) VALUES (2,1,'Juvenile','Juv');
 INSERT INTO human_ages (id,age,age_text,abbrev) VALUES (3,2,'Adult','ADT');
-INSERT INTO human_ages (id,age,age_text,abbrev) VALUES (4,3,'Open','DUP');
 
-INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (1,0,'unknown','n/a');
+--INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (1,0,'unknown','n/a');
+INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (1,7,'Any Age','AA');
 INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (2,1,'under 14 weeks','u/14w');
-INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (3,2,'under 4 months','u/4m');
-INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (4,2,'under 5 months','u/5m');
-INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (5,3,'Any youngster','AY');
-INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (6,4,'Adult','Adt');
-INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (7,7,'Any Age','AA');
+INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (3,3,'under 4 months','u/4m');
+INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (4,3,'under 5 months','u/5m');
+--INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (5,3,'Any youngster','AY');
+INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (5,4,'Adult','Adt');
 
 INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (1,4,false,1,'Any Variety');
 INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (2,4,false,1,'Any Other Variety');
