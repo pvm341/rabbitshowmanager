@@ -1,3 +1,19 @@
+--
+-- Copyright (C) 2014 paul
+--
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU General Public License as published by
+-- the Free Software Foundation, either version 3 of the License, or
+-- (at your option) any later version.
+--
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU General Public License for more details.
+--
+-- You should have received a copy of the GNU General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+--
 DROP DATABASE rsm;
 
 CREATE DATABASE rsm 
@@ -10,8 +26,8 @@ CREATE DATABASE rsm
 
 \c rsm
 -- human genders table
--- this could be coded in the application but for simplicity included in the database
--- as some classes need this information
+-- this could be coded in the application but for simplicity included in 
+-- the database as some classes need this information
 CREATE TABLE human_genders(
 id INTEGER,
 exhibitor INTEGER,
@@ -22,9 +38,9 @@ PRIMARY KEY (id)
 );
 
 -- exhibit ages table 
--- this could be coded in the application but for simplicity included in the database
--- as some classes need this information and to make changes to exhibit animal easier
--- it is currently for rabbits, change to cavy aka Guinea pig CREATE TABLE exhibit_ages(
+-- this could be coded in the application but for simplicity included in the
+-- database as some classes need this information and to make changes to exhibit
+-- animal easier it is currently for rabbits, change to cavy aka Guinea pig 
 CREATE TABLE exhibit_ages(
 id INTEGER,
 age INTEGER,
@@ -34,8 +50,8 @@ PRIMARY KEY (id)
 );
 
 -- human ages table
--- this could be coded in the application but for simplicity included in the database
--- as some classes need this information
+-- this could be coded in the application but for simplicity included in the
+-- database as some classes need this information
 CREATE TABLE human_ages(
 id INTEGER,
 age INTEGER,
@@ -73,9 +89,10 @@ FOREIGN KEY (colour_id) REFERENCES colours(id)
 );
 
 -- exhibit genders table 
--- this could be coded in the application but for simplicity included in the database
--- as some classes need this information and to make changes to a exhibit animal easier
--- it is currently for rabbits, change to cavy aka Guinea pig 
+-- this could be coded in the application but for simplicity included in the
+-- database as some classes need this information and to make changes to a
+-- exhibit animal easier it is currently for rabbits,
+-- change to cavy aka Guinea pig 
 CREATE TABLE exhibit_genders(
 id INTEGER,
 gender INTEGER,
@@ -85,8 +102,8 @@ PRIMARY KEY (id)
 );
 
 -- Show Sections table 
--- this could be coded in the application but for simplicity included in the database
--- as some classes need this information
+-- this could be coded in the application but for simplicity included in the
+-- database as some classes need this information
 CREATE TABLE showsections(
 id INTEGER UNIQUE,
 section INTEGER,
@@ -182,32 +199,27 @@ FOREIGN KEY (pen_no) REFERENCES exhibits(pen_no)
 
 CREATE TABLE availablecolours(
 id INTEGER,
-selcolour integer,
-PRIMARY KEY (id, selcolour),
-FOREIGN KEY (selcolour) references colours(id)
+colour INTEGER,
+PRIMARY KEY (id, colour),
+FOREIGN KEY (colour) REFERENCES colours(id)
 );
 
---INSERT INTO exhibit_genders (id,gender,gender_class,gender_text) VALUES (1,0,'unknown','undisclosed');
 INSERT INTO exhibit_genders (id,gender,gender_class,gender_text) VALUES (1,3,'Open','n/a');
 INSERT INTO exhibit_genders (id,gender,gender_class,gender_text) VALUES (2,1,'Bucks','Buck');
 INSERT INTO exhibit_genders (id,gender,gender_class,gender_text) VALUES (3,2,'Does','Doe');
 
---INSERT INTO human_genders (id,gender,gender_class,gender_text) VALUES (1,0,'unknown','undisclosed');
 INSERT INTO human_genders (id,gender,gender_class,gender_text) VALUES (1,3,'Open','Group/Stud');
 INSERT INTO human_genders (id,gender,gender_class,gender_text) VALUES (2,1,'Gents','Gentleman');
 INSERT INTO human_genders (id,gender,gender_class,gender_text) VALUES (3,2,'Ladies','Lady');
 
 INSERT INTO human_ages (id,age,age_text,abbrev) VALUES (1,3,'Open','DUP');
---INSERT INTO human_ages (id,age,age_text,abbrev) VALUES (1,0,'unknown','n/a');
 INSERT INTO human_ages (id,age,age_text,abbrev) VALUES (2,1,'Juvenile','Juv');
 INSERT INTO human_ages (id,age,age_text,abbrev) VALUES (3,2,'Adult','ADT');
 
---INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (1,0,'unknown','n/a');
 INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (1,7,'Any Age','AA');
 INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (2,1,'under 14 weeks','u/14w');
 INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (3,3,'under 4 months','u/4m');
 INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (4,3,'under 5 months','u/5m');
---INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (5,3,'Any youngster','AY');
 INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES (5,4,'Adult','Adt');
 
 INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (1,4,false,1,'Any Variety');
@@ -424,10 +436,7 @@ INSERT INTO colours (id,colour,abbrev) VALUES (142,'Satin Rex','SaRe');
 INSERT INTO colours (id,colour,abbrev) VALUES (143,'Astrex','Astx');
 INSERT INTO colours (id,colour,abbrev) VALUES (144,'Opossum','Opos');
 
--- These two breeds were removed as they are superflous as there is already a Dutch, and English Breed
---INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (6,2,0,1,'Dutch Tri-coloured');
---INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (21,3,0,1,'Tri-coloured English');
-
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (1,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (3,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (3,2);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (3,4);
@@ -445,6 +454,7 @@ INSERT INTO breedcolours (breed_id,colour_id) VALUES (3,95);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (3,96);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (3,97);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (3,98);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (4,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (5,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (5,2);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (5,3);
@@ -464,6 +474,10 @@ INSERT INTO breedcolours (breed_id,colour_id) VALUES (6,27);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (6,36);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (6,98);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (6,102);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (7,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (8,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (9,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (10,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (11,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (11,2);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (11,3);
@@ -479,6 +493,7 @@ INSERT INTO breedcolours (breed_id,colour_id) VALUES (12,2);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (12,4);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (12,10);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (12,98);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (13,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (14,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (14,2);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (14,3);
@@ -562,6 +577,7 @@ INSERT INTO breedcolours (breed_id,colour_id) VALUES (15,124);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (15,125);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (15,126);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (15,127);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (16,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (17,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (17,2);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (17,4);
@@ -574,6 +590,7 @@ INSERT INTO breedcolours (breed_id,colour_id) VALUES (18,124);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (18,125);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (18,126);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (18,127);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (19,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (20,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (20,2);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (20,3);
@@ -606,6 +623,13 @@ INSERT INTO breedcolours (breed_id,colour_id) VALUES (20,140);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (20,141);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (20,142);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (20,143);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (21,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (22,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (23,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (24,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (25,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (26,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (27,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (28,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (28,2);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (28,3);
@@ -613,6 +637,9 @@ INSERT INTO breedcolours (breed_id,colour_id) VALUES (28,4);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (28,10);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (28,54);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (28,128);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (29,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (30,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (31,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (32,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (32,2);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (32,3);
@@ -627,6 +654,7 @@ INSERT INTO breedcolours (breed_id,colour_id) VALUES (33,4);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (33,10);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (33,98);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (33,130);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (34,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (35,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (35,2);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (35,3);
@@ -636,6 +664,22 @@ INSERT INTO breedcolours (breed_id,colour_id) VALUES (35,40);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (35,61);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (35,99);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (35,131);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (36,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (37,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (38,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (39,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (40,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (41,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (42,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (43,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (44,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (45,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (46,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (47,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (48,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (49,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (50,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (51,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (52,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (52,2);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (52,4);
@@ -651,15 +695,25 @@ INSERT INTO breedcolours (breed_id,colour_id) VALUES (53,3);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (53,4);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (53,10);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (53,54);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (54,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (55,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (56,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (56,2);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (56,18);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (56,19);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (57,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (58,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (59,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (59,2);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (59,3);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (59,4);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (59,28);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (60,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (61,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (62,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (63,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (64,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (65,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (66,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (66,2);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (66,3);
@@ -692,6 +746,8 @@ INSERT INTO breedcolours (breed_id,colour_id) VALUES (66,140);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (66,141);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (66,142);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (66,143);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (67,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (68,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (69,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (69,2);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (69,3);
@@ -714,6 +770,7 @@ INSERT INTO breedcolours (breed_id,colour_id) VALUES (69,77);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (69,116);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (69,128);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (69,137);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (70,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (71,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (71,2);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (71,3);
@@ -729,7 +786,9 @@ INSERT INTO breedcolours (breed_id,colour_id) VALUES (71,54);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (71,68);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (71,116);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (71,128);
---INSERT INTO breedcolours (breed_id,colour_id) VALUES (74,17);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (72,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (73,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (74,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (75,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (75,2);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (75,3);
