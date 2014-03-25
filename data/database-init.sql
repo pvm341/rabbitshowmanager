@@ -198,9 +198,8 @@ FOREIGN KEY (pen_no) REFERENCES exhibits(pen_no)
 );
 
 CREATE TABLE availablecolours(
-id INTEGER,
 colour INTEGER,
-PRIMARY KEY (id, colour),
+PRIMARY KEY (colour),
 FOREIGN KEY (colour) REFERENCES colours(id)
 );
 
@@ -820,4 +819,3 @@ INSERT INTO ShowSections (id, section, section_text) VALUES (3,4,'Fur');
 INSERT INTO ShowSections (id, section, section_text) VALUES (4,8,'Rex');
 INSERT INTO ShowSections (id, section, section_text) VALUES (5,15,'Open');
 INSERT INTO ShowSections (id, section, section_text) VALUES (6,0,'Pet');
-
