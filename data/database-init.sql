@@ -436,6 +436,7 @@ INSERT INTO colours (id,colour,abbrev) VALUES (143,'Astrex','Astx');
 INSERT INTO colours (id,colour,abbrev) VALUES (144,'Opossum','Opos');
 
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (1,1);
+INSERT INTO breedcolours (breed_id,colour_id) VALUES (2,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (3,1);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (3,2);
 INSERT INTO breedcolours (breed_id,colour_id) VALUES (3,4);
