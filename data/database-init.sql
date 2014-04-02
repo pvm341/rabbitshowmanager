@@ -199,7 +199,8 @@ FOREIGN KEY (pen_no) REFERENCES exhibits(pen_no)
 
 CREATE TABLE availablecolours(
 colour INTEGER,
-PRIMARY KEY (colour),
+PRIMARY KEY (colour),        setColoursEnabled();
+
 FOREIGN KEY (colour) REFERENCES colours(id)
 );
 
@@ -386,7 +387,8 @@ INSERT INTO colours (id,colour,abbrev) VALUES (89,'Silver Blue','SiBu');
 INSERT INTO colours (id,colour,abbrev) VALUES (90,'Silver Brown','SiBr');
 INSERT INTO colours (id,colour,abbrev) VALUES (91,'Silver Fawn','SiFn');
 INSERT INTO colours (id,colour,abbrev) VALUES (92,'Silver Grey','SiGy');
-INSERT INTO colours (id,colour,abbrev) VALUES (93,'Sable Dark','SabD');
+INSERT INTO colours (id,colour,abb        setColoursEnabled();
+rev) VALUES (93,'Sable Dark','SabD');
 INSERT INTO colours (id,colour,abbrev) VALUES (94,'Sable Light','Sabl');
 INSERT INTO colours (id,colour,abbrev) VALUES (95,'Marten Light','MarL');
 INSERT INTO colours (id,colour,abbrev) VALUES (96,'Marten Medium','MarM');
