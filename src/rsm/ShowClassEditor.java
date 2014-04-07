@@ -303,9 +303,6 @@ public class ShowClassEditor extends javax.swing.JFrame {
         //tblShowClasses.addColumn(null);
     }
     
-    private String getSelectedColours() {
-        return "To be completed";
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -360,14 +357,6 @@ public class ShowClassEditor extends javax.swing.JFrame {
             }
         });
 
-        tblShowClasses.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
         tblShowClasses.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(tblShowClasses);
         tblShowClasses.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -671,8 +660,7 @@ public class ShowClassEditor extends javax.swing.JFrame {
         if (initDone){
             Breed breed = new Breed();
             breed.readRecord(breedIdKeyList.get(cmxBreed.getSelectedIndex()));
-            
-            
+                      
             switch (breed.getSection()){
                 case 0: cmxSection.setSelectedIndex(5);
                         break;
@@ -790,7 +778,7 @@ public class ShowClassEditor extends javax.swing.JFrame {
             }
         }
         lstColoursForClassData.remove(lstColoursForClass.getSelectedIndex());
-        if (lstColoursForClassData.size()==0){
+        if (lstColoursForClassData.isEmpty()){
             AvailableColour ac;
             ac = availableColourList.getTheColourFromIdx(0);
             ac.setAvailable(true);
@@ -807,8 +795,7 @@ public class ShowClassEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDelColourActionPerformed
 
     private void btnAddThisClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddThisClassActionPerformed
-      //  sc.insertRecord();
-      //  sc.updateRecord();
+        sc.writeRecord();
     }//GEN-LAST:event_btnAddThisClassActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
