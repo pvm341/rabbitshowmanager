@@ -52,6 +52,13 @@ public class AvailableColour {
         }
     }
 
+    AvailableColour(Colour colour) {
+        this.id = colour.getId();
+        this.colour = colour.getColour();
+        this.abbrev = colour.getAbbrev();
+        this.available = true;
+    }
+    
     public int getId() {
         return id;
     }

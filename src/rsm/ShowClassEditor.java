@@ -32,14 +32,13 @@ import javax.swing.*;
  */
 public class ShowClassEditor extends javax.swing.JFrame {
     private ShowClass sc;
-    private Vector<Integer> breedIdKeyList = null, coloursIdKeyList = null;
+    private Vector<Integer> breedIdKeyList = null; //, coloursIdKeyList = null;
     //private Vector<String> sltColoursForClass = new Vector<String>();
     //private Vector<Integer> iltColoursForClass = new Vector<Integer>();
     private boolean initDone, useAbbrevs;
     @SuppressWarnings("FieldMayBeFinal")
-    //private ListModel<String> lstColoursForClassModel;
     private DefaultListModel<String> lstColoursForClassData;// = (DefaultListModel<String>)(.getModel());
-    private Vector<Colour> availableColourList;
+    private AvailableColourList availableColourList;
     
     
     /**
@@ -51,7 +50,7 @@ public class ShowClassEditor extends javax.swing.JFrame {
         initDone = false;
         DBAccess.getInstance();
         breedIdKeyList = new Vector<Integer>();
-        availableColourList = new Vector<Colour>();
+        availableColourList = new AvailableColourList();
         initComponents();
         lstColoursForClass.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         lstColoursForClass.setVisible(true);
@@ -260,25 +259,9 @@ public class ShowClassEditor extends javax.swing.JFrame {
             lblColours.setEnabled(true);
             cmxColours.setEnabled(true);
             cmxColours.removeAllItems();
-            availableColourList.clear();
-            if (coloursIdKeyList != null && !coloursIdKeyList.isEmpty()){
-                coloursIdKeyList.clear();
-            }
-            coloursIdKeyList = populate(cmxColours,
-                    "SELECT colours.colour, colours.id "
-                    + "FROM breedcolours, breeds, colours "
-                    + "WHERE breedcolours.breed_id = breeds.id "
-                    + "AND breedcolours.colour_id = colours.id "
-                    + "AND breeds.id = ?",
-                    "colour",
-                    cmxBreed, 
-                    breedIdKeyList,coloursIdKeyList);
-            availableColourList.clear();
-            for (int idx = 0; idx < coloursIdKeyList.size(); idx++){
-                colour = new Colour();
-                colour.readRecord(coloursIdKeyList.get(idx));
-                availableColourList.add(colour);
-            }
+            availableColourList.getColoursForBreed(breedIdKeyList.get(cmxBreed.getSelectedIndex()));
+
+            cmxColours = updateColours(cmxColours,availableColourList);
             cmxExhibitAge.removeAllItems();
             populate(cmxExhibitAge,
                     "SELECT DISTINCT exhibit_ages.age_text, exhibit_ages.age "
@@ -296,22 +279,11 @@ public class ShowClassEditor extends javax.swing.JFrame {
         }
     }
     
-    private void populateAvailableColoursTable(int breed){
-        
-        
-//     "colour", 
-//                             "colours.id ", 
-//                             "breedcolours, breeds, colours", 
-//                             "breedcolours.breed_id = breeds.id AND breedcolours.colour_id = colours.id AND breeds.id = ?", 
-//                             breedIdKeyList.get(cmxBreed.getSelectedIndex()));
-            
-        
-    }
-    private JComboBox updateColours(JComboBox comboBox, final Vector<Integer> coloursIdKeyList ){
+    private JComboBox updateColours(JComboBox comboBox,final AvailableColourList acl){
         comboBox.removeAllItems();
-        for (int idx = 0; idx<coloursIdKeyList.size(); idx++){
-            if (coloursIdKeyList.get(idx)>0){
-                comboBox.addItem(availableColourList.get(idx).getColour());
+        for (AvailableColour ac : acl.getAll()){
+            if (ac.isAvailable()){
+                comboBox.addItem(ac.getColour());
             }
         }
         return comboBox;
@@ -690,10 +662,11 @@ public class ShowClassEditor extends javax.swing.JFrame {
         sc = makeClassName(sc);
     }//GEN-LAST:event_cbxBreedClassActionPerformed
     private void setColoursEnabled(){
-        lstColoursForClass.setEnabled(coloursIdKeyList.size()>1);
-        btnAddColour.setEnabled(coloursIdKeyList.size()>1);
-        btnDelColour.setEnabled(coloursIdKeyList.size()>1 && lstColoursForClass.getComponentCount()>0);
+        lstColoursForClass.setEnabled(availableColourList.getSize()>1);
+        btnAddColour.setEnabled(availableColourList.getSize()>1);
+        btnDelColour.setEnabled(availableColourList.getSize()>1 && lstColoursForClass.getComponentCount()>0);
     }
+    
     private void cmxBreedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmxBreedActionPerformed
         if (initDone){
             Breed breed = new Breed();
@@ -745,36 +718,40 @@ public class ShowClassEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_cmxExhibitGenderActionPerformed
 
     private void btnAddColourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddColourActionPerformed
-        // there is no point of addiong a colour if there is only one colour for 
+        // there is no point of addiongexhibitAge a colour if there is only one colour for 
         // that breed
-        String theColourText;
-        int theColourInt,theColourIdx;
-        int start = 0;
-        int finish = coloursIdKeyList.size(); 
+        AvailableColour ac;
+        int theColourInt,theColourIdx; 
         // * first get the selected colour
+        // from the colour combobox
         theColourIdx = cmxColours.getSelectedIndex();
-        // * adjust if for missing items 
-        for (int idx=start;idx<finish;idx++){
-            if (coloursIdKeyList.get(idx)<0){
+//        availableColourList.adjustComboBox(cmxColours);
+        theColourInt = theColourIdx;
+        for (int idx=0; idx<availableColourList.getSize() && idx <= theColourInt; idx++){
+            ac = availableColourList.getTheColourFromIdx(idx);
+            if (!ac.isAvailable()){
                theColourIdx++; 
             }
         }
-        theColourInt =coloursIdKeyList.get(theColourIdx);
-        if (theColourInt>0) {
+        ac = availableColourList.getTheColourFromIdx(theColourIdx);
+        if (ac.isAvailable()) {
             System.out.printf("Add Colour - %s\n",cmxColours.getSelectedItem());
-            coloursIdKeyList.set(theColourIdx, -theColourInt);
-            theColourText = availableColourList.get(theColourIdx).getColour();
-            lstColoursForClassData.addElement(theColourText);
-            cmxColours.removeItemAt(cmxColours.getSelectedIndex());
+            lstColoursForClassData.addElement(ac.getColour());
+            ac.setAvailable(false);
         }
-        if (lstColoursForClassData.getSize()>0 && coloursIdKeyList.get(0)>0){
-            coloursIdKeyList.set(0, -coloursIdKeyList.get(0));
-            cmxColours.removeItemAt(0);
+        // Deal with the Any colour of the class
+        // When there is only one colour for the breed 
+        // or there are more than one colour but none have been chosen
+        // then Any Colour is appropriate otherwise remove it from the list.
+        if (lstColoursForClassData.getSize()>0 && availableColourList.getSize()>0){
+            ac = availableColourList.getTheColourFromIdx(0);
+            ac.setAvailable(false);
         }
+        
         cmxColours.removeAll();
-        for (int idx=start;idx<finish;idx++){
-            if (coloursIdKeyList.get(idx)>0){
-               cmxColours.addItem(availableColourList.get(idx).getColour());
+        for (AvailableColour availableColour : availableColourList.getAll()){
+            if (availableColour.isAvailable()){
+               cmxColours.addItem(availableColour.getColour());
             }
         }
         if (lstColoursForClass.isEnabled()){
@@ -803,8 +780,8 @@ public class ShowClassEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDelColourActionPerformed
 
     private void btnAddThisClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddThisClassActionPerformed
-        sc.insertRecord();
-        sc.updateRecord();
+      //  sc.insertRecord();
+      //  sc.updateRecord();
     }//GEN-LAST:event_btnAddThisClassActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

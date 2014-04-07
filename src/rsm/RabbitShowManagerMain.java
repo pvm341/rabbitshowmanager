@@ -32,11 +32,11 @@ public class RabbitShowManagerMain extends javax.swing.JFrame {
         DBAccess.getInstance();
         initComponents();
          
-        //showClassEditor = new ShowClassEditor();
-        //showEntriesEditor = new ShowEntriesEditor();
-        //edtClassQty.setText(Integer.toString(DBAccess.getRecordCount("showclasses")));
-        //edtExhibitorQty.setText(Integer.toString(DBAccess.getRecordCount("exhibitors")));
-        //edtExhibitQty.setText(Integer.toString(DBAccess.getRecordCount("exhibitors")));
+        showClassEditor = new ShowClassEditor();
+        showEntriesEditor = new ShowEntriesEditor();
+        edtClassQty.setText(Integer.toString(DBAccess.getRecordCount("showclasses")));
+        edtExhibitorQty.setText(Integer.toString(DBAccess.getRecordCount("exhibitors")));
+        edtExhibitQty.setText(Integer.toString(DBAccess.getRecordCount("exhibitors")));
     }
     
     /**
