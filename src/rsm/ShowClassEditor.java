@@ -727,15 +727,19 @@ public class ShowClassEditor extends javax.swing.JFrame {
         theColourIdx = cmxColours.getSelectedIndex();
 //        availableColourList.adjustComboBox(cmxColours);
         theColourInt = theColourIdx;
-        for (int idx=0; idx<availableColourList.getSize() && idx <= theColourInt; idx++){
-            ac = availableColourList.getTheColourFromIdx(idx);
-            if (!ac.isAvailable()){
-               theColourIdx++; 
+        // first selection index to both the combobox and availableColourList 
+        // match
+        if (lstColoursForClass.isEnabled() &&  lstColoursForClassData.size()>0) {
+            for (int idx=0; idx<availableColourList.getSize() && idx <= theColourIdx; idx++){
+                ac = availableColourList.getTheColourFromIdx(idx);
+                if (!ac.isAvailable()){
+                   theColourIdx++; 
+                }
             }
         }
         ac = availableColourList.getTheColourFromIdx(theColourIdx);
         if (ac.isAvailable()) {
-            System.out.printf("Add Colour - %s\n",cmxColours.getSelectedItem());
+            System.out.printf("Add Colour -%s %s\n",ac.getColour(),cmxColours.getSelectedItem());
             lstColoursForClassData.addElement(ac.getColour());
             ac.setAvailable(false);
         }
@@ -747,12 +751,15 @@ public class ShowClassEditor extends javax.swing.JFrame {
             ac = availableColourList.getTheColourFromIdx(0);
             ac.setAvailable(false);
         }
-        
-        cmxColours.removeAll();
+        // remove all and add the the available colours
+        cmxColours.removeAllItems();
         for (AvailableColour availableColour : availableColourList.getAll()){
             if (availableColour.isAvailable()){
-               cmxColours.addItem(availableColour.getColour());
-            }
+                System.out.println("cmxColours - add "+availableColour.getColour());
+                cmxColours.addItem(availableColour.getColour());
+            } else {
+                System.out.println("Colour list "+availableColour.getColour());
+           }
         }
         if (lstColoursForClass.isEnabled()){
             lstColoursForClass.updateUI();
@@ -776,7 +783,27 @@ public class ShowClassEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_rbnBreedersActionPerformed
 
     private void btnDelColourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelColourActionPerformed
-        // TODO add your handling code here:
+        String currentItem = (String)lstColoursForClass.getSelectedValue();
+        for (AvailableColour ac : availableColourList.getAll()){
+            if (ac.getColour().equals(currentItem)){
+                ac.setAvailable(true);
+            }
+        }
+        lstColoursForClassData.remove(lstColoursForClass.getSelectedIndex());
+        if (lstColoursForClassData.size()==0){
+            AvailableColour ac;
+            ac = availableColourList.getTheColourFromIdx(0);
+            ac.setAvailable(true);
+        }
+        cmxColours.removeAllItems();
+        for (AvailableColour availableColour : availableColourList.getAll()){
+            if (availableColour.isAvailable()){
+                System.out.println("cmxColours - add "+availableColour.getColour());
+                cmxColours.addItem(availableColour.getColour());
+            } else {
+                System.out.println("Colour list "+availableColour.getColour());
+           }
+        }
     }//GEN-LAST:event_btnDelColourActionPerformed
 
     private void btnAddThisClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddThisClassActionPerformed
