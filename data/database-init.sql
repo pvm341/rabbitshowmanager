@@ -171,7 +171,13 @@ exhibit_age INTEGER,
 exhibit_gender INTEGER, 
 exhibitor_age INTEGER, 
 exhibitor_gender INTEGER, 
-results INTEGER ARRAY[7], 
+results1 INTEGER, 
+results2 INTEGER, 
+results3 INTEGER, 
+results4 INTEGER, 
+results5 INTEGER, 
+results6 INTEGER,
+results7 INTEGER,  
 PRIMARY KEY (class_no), 
 FOREIGN KEY (breed) REFERENCES breeds(id),
 FOREIGN KEY (section) REFERENCES ShowSections(id),
@@ -820,8 +826,6 @@ INSERT INTO breedcolours (breed_id,colour_id,available,selected,class_no) VALUES
 INSERT INTO breedcolours (breed_id,colour_id,available,selected,class_no) VALUES (75,94,true,false,0);
 INSERT INTO breedcolours (breed_id,colour_id,available,selected,class_no) VALUES (75,110,true,false,0);
 INSERT INTO breedcolours (breed_id,colour_id,available,selected,class_no) VALUES (75,122,true,false,0);
---INSERT INTO breedcolours (breed_id,colour_id,available,selected,class_no) VALUES (75,145);
 
-
--- ALTER TABLE breeds
--- ADD FOREIGN KEY (section) REFERENCES showsections (section);
+insert into showclasses (class_no,name,breed,breed_class,section,members_only,breeders_only,upsidedown,
+exhibit_age,exhibit_gender,exhibitor_age,exhibitor_gender,results1,results2,results3,results4,results5,results6,results7) VALUES (100,' ',14,true,1,false,false,false,1,3,3,3,0,0,0,0,0,0,0);
