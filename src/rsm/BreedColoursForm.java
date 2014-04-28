@@ -42,8 +42,8 @@ public class BreedColoursForm extends javax.swing.JFrame implements FormInterfac
      */
     public BreedColoursForm() {
         this.breedColourList = new BreedColourList();
-        this.arrayBreeds = DBAccess.getStringArrayFromSQL("breeds", "breed", null);
-        this.arrayColours = DBAccess.getStringArrayFromSQL("colours","colour", null);
+        this.arrayBreeds = DBA.getStringArrayFromSQL("breeds", "breed", null);
+        this.arrayColours = DBA.getStringArrayFromSQL("colours","colour", null);
         this.breedList = new BreedList();
         this.colourList = new ColourList();
         initComponents();

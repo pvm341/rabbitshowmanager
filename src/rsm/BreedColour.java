@@ -139,7 +139,7 @@ public class BreedColour extends BaseDataItem {
 
     @Override
     public void performUpdate() {
-        DBAccess.updateSQL(String.format(
+        DBA.updateSQL(String.format(
                 "UPDATE breedcolours SET breed_id = %d, colour_id = %d, available = %s, selected = %s, class_no = %d WHERE breed_id = %d AND colour_id = %d",
                         this.getBreedId(true),
                         this.getColourId(true),
@@ -153,7 +153,7 @@ public class BreedColour extends BaseDataItem {
 
     @Override
     public void performDelete() {
-        DBAccess.updateSQL(String.format(
+        DBA.updateSQL(String.format(
                 "DELETE FROM breedcolours WHERE"
                         + " breed_id = %d AND colour_id = %d",
                 this.getBreedId(true),
@@ -163,7 +163,7 @@ public class BreedColour extends BaseDataItem {
 
     @Override
     public void performInsert() {
-        DBAccess.updateSQL(String.format(
+        DBA.updateSQL(String.format(
                 "INSERT INTO breedcolours (breed_id,colour_id, available, selected, class_no) VALUES (%d,%d,%s,%s,%d)",
                 this.getBreedId(true),
                 this.getColourId(true),
@@ -175,7 +175,7 @@ public class BreedColour extends BaseDataItem {
 
     @Override
     public BaseDataItem performRead() {
-            ResultSet rs = DBAccess.executeSQL(String.format(
+            ResultSet rs = DBA.executeSQL(String.format(
                 "SELECT * FROM colours WHERE breed_id = %d AND colour_id = %d",
                     this.breedId,this.colourId));
         try {

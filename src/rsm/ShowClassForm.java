@@ -48,15 +48,15 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
     private final BreedColourList breedColourList;
     
     public ShowClassForm() {
-        DBAccess.getInstance();
+        DBA.getInstance();
         initComponents();
-        modelBreeds = new DefaultComboBoxModel(DBAccess.getStringArrayFromSQL("breeds", "breed", null));
-        modelColours = new DefaultComboBoxModel(DBAccess.getStringArrayFromSQL("colours", "colour", null));
-        modelExhibitAges = new DefaultComboBoxModel(DBAccess.getStringArrayFromSQL("exhibit_ages", "age_text", null));
-        modelExhibitorAges = new DefaultComboBoxModel(DBAccess.getStringArrayFromSQL("human_ages", "age_text", null));
-        modelExhibitGenders = new DefaultComboBoxModel(DBAccess.getStringArrayFromSQL("exhibit_genders", "gender_class", null));
-        modelExhibitorGenders = new DefaultComboBoxModel(DBAccess.getStringArrayFromSQL("human_genders", "gender_class", null));
-        modelSections = new DefaultComboBoxModel(DBAccess.getStringArrayFromSQL("showsections", "section_text", null));
+        modelBreeds = new DefaultComboBoxModel(DBA.getStringArrayFromSQL("breeds", "breed", null));
+        modelColours = new DefaultComboBoxModel(DBA.getStringArrayFromSQL("colours", "colour", null));
+        modelExhibitAges = new DefaultComboBoxModel(DBA.getStringArrayFromSQL("exhibit_ages", "age_text", null));
+        modelExhibitorAges = new DefaultComboBoxModel(DBA.getStringArrayFromSQL("human_ages", "age_text", null));
+        modelExhibitGenders = new DefaultComboBoxModel(DBA.getStringArrayFromSQL("exhibit_genders", "gender_class", null));
+        modelExhibitorGenders = new DefaultComboBoxModel(DBA.getStringArrayFromSQL("human_genders", "gender_class", null));
+        modelSections = new DefaultComboBoxModel(DBA.getStringArrayFromSQL("showsections", "section_text", null));
         breedList = new BreedList();
         breedList.readList(false);
         colourList = new ColourList();
@@ -781,7 +781,7 @@ content of this method is always
 //        ResultSet rs;
 //        keyList.clear();
 //        comboBox.removeAllItems();
-//        rs = DBAccess.executeSQL(sql);
+//        rs = DBA.executeSQL(sql);
 //        if (rs != null){
 //            try {
 //
@@ -802,7 +802,7 @@ content of this method is always
 //        ResultSet rs;
 //        
 //        comboBox.removeAllItems();
-//        rs = DBAccess.executeSQL(sql);
+//        rs = DBA.executeSQL(sql);
 //        if (rs != null){
 //            try {
 //                while (rs.next()){
@@ -825,7 +825,7 @@ content of this method is always
 //        ResultSet rs;
 //        
 //        comboBox.removeAllItems();
-//        rs = DBAccess.executeSQL(sql,keys.get(cmxKey.getSelectedIndex()));
+//        rs = DBA.executeSQL(sql,keys.get(cmxKey.getSelectedIndex()));
 //        if (rs != null){
 //            try {
 //                while (rs.next()){
@@ -852,7 +852,7 @@ content of this method is always
 //        }
 //        comboBox.removeAllItems();
 //        //keyList.clear();
-//        rs = DBAccess.executeSQL(sql,keys.get(cmxKey.getSelectedIndex()));
+//        rs = DBA.executeSQL(sql,keys.get(cmxKey.getSelectedIndex()));
 //        if (rs != null){
 //            try {
 //                while (rs.next()){

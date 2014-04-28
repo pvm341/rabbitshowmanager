@@ -22,13 +22,13 @@ package rsm;
  * @author paul
  */
 public class ShowEntriesForm extends javax.swing.JFrame{
-    private DBAccess dba;
+    private DBA dba;
     /**
      * Creates new form ShowClassEditor
      */
     public ShowEntriesForm() {
         //setTitle("Entries Editor");
-        dba = DBAccess.getInstance();
+        dba = DBA.getInstance();
         initComponents();
     }
 

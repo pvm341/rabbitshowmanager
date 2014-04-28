@@ -123,7 +123,7 @@ public class Exhibit extends BaseDataItem implements DBInterface{
 
     @Override
     public Exhibit performRead() {
-             ResultSet rs = DBAccess.executeSQL(String.format(
+             ResultSet rs = DBA.executeSQL(String.format(
                 "SELECT * FROM exhibits WHERE pen_no = %d",this.penNo));
         try {
             return this.getData(rs);

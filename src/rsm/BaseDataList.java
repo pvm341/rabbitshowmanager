@@ -73,14 +73,14 @@ public abstract class BaseDataList implements DBListInterface {
     
     public void readList(boolean headerRequired, Object dataItem, 
             String table, String with, String orderBy ){
-        ResultSet rs = DBAccess.executeSQL(String.format(
+        ResultSet rs = DBA.executeSQL(String.format(
             "SELECT * FROM %s %s %s",table,
                 with != null?String.format("WITH %s",with):" ",
                 orderBy != null?String.format("ORDER BY %s", orderBy):" "));   
         try {
             if (headerRequired){
-                header = DBAccess.getHeader(rs);
-                formatString = DBAccess.getFormatFromHeader(header);
+                header = DBA.getHeader(rs);
+                formatString = DBA.getFormatFromHeader(header);
                 header = header.replace(';', ' ');
             }
             while (rs.next()){

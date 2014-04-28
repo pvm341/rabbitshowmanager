@@ -92,7 +92,7 @@ public class ShowEntry extends BaseDataItem implements DBInterface {
 
     @Override
     public void performUpdate() {
-        DBAccess.updateSQL(String.format(
+        DBA.updateSQL(String.format(
                 "UPDATE entries SET pen_no = %d, class_no = %d "
                         + "WHERE pen_no = %d, class_no = %d", 
                 this.getPenNo(true),this.getClassNo(true),
@@ -102,7 +102,7 @@ public class ShowEntry extends BaseDataItem implements DBInterface {
 
     @Override
     public void performDelete() {
-       DBAccess.updateSQL(String.format(
+       DBA.updateSQL(String.format(
                "DELETE FROM entries WHERE pen_no = %d AND class_no %d",
                this.getPenNo(false),
                this.getClassNo(false)
@@ -112,7 +112,7 @@ public class ShowEntry extends BaseDataItem implements DBInterface {
 
     @Override
     public void performInsert() {
-        DBAccess.updateSQL(String.format(
+        DBA.updateSQL(String.format(
                "INSERT INTO entries (pen_no, class_no) VALUES (%d,%d)", 
                 this.getPenNo(true),
                 this.getClassNo(true)));
@@ -121,7 +121,7 @@ public class ShowEntry extends BaseDataItem implements DBInterface {
 
     @Override
     public ShowEntry performRead() {
-        ResultSet rs = DBAccess.executeSQL(String.format(
+        ResultSet rs = DBA.executeSQL(String.format(
                 "SELECT * FROM entries WHERE id = %d",this.penNo));
         try {
             return this.getData(rs);

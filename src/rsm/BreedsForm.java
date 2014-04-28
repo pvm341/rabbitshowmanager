@@ -36,9 +36,9 @@ public class BreedsForm extends javax.swing.JFrame implements FormInterface {
 
     public BreedsForm() {
         breedList = new BreedList();
-        String[] arrayAges = DBAccess.getStringArrayFromSQL("exhibit_ages", "age_text", "age = 3");
-        String[] arraySections = DBAccess.getStringArrayFromSQL("showsections", "section_text", null);
-        intSections = DBAccess.getIntArrayFromSQL("showsections", "section", null);
+        String[] arrayAges = DBA.getStringArrayFromSQL("exhibit_ages", "age_text", "age = 3");
+        String[] arraySections = DBA.getStringArrayFromSQL("showsections", "section_text", null);
+        intSections = DBA.getIntArrayFromSQL("showsections", "section", null);
         modelAges = new DefaultComboBoxModel(arrayAges);
         modelSections = new DefaultComboBoxModel(arraySections);
         initComponents();
@@ -300,7 +300,7 @@ public class BreedsForm extends javax.swing.JFrame implements FormInterface {
     public Breed getFormData(){
         Breed dataRecord = new Breed();
         if (edtBreedID.getText().isEmpty()){
-            dataRecord.setId(DBAccess.getNewKey("breeds", "id"));
+            dataRecord.setId(DBA.getNewKey("breeds", "id"));
             dataRecord.setNewItem(true);
         } else {
             dataRecord.setNewItem(false);
@@ -385,7 +385,7 @@ public class BreedsForm extends javax.swing.JFrame implements FormInterface {
             edtBreedName.setText("");
             cmxYoungster.setSelectedIndex(1);
             cmxSection.setSelectedIndex(4);   
-            edtBreedID.setText(Integer.toString(DBAccess.getNewKey("breeds", "id")));
+            edtBreedID.setText(Integer.toString(DBA.getNewKey("breeds", "id")));
             btnInsert.setText("Add");
         } else if (edtBreedName.getText().isEmpty()){
             newItem = true;

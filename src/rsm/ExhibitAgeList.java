@@ -23,7 +23,7 @@ import java.util.Vector;
  *
  * @author paul
  */
-public class ExhibitAgeList extends BaseDataList {
+public class ExhibitAgeList extends BaseDataList implements DBListInterface {
     private final String selectSQL    = "SELECT * FROM exhibit_ages ORDER BY id";
     
     public ExhibitAgeList(){

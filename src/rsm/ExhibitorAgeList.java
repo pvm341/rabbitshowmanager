@@ -23,12 +23,12 @@ import java.util.Vector;
  *
  * @author paul
  */
-public class JudgeList extends BaseDataList implements DBListInterface {
+public class ExhibitorAgeList extends BaseDataList implements DBListInterface {
     
-    public JudgeList (){
-        list = new Vector<Judge>();
+    public ExhibitorAgeList(){
+        list = new Vector<ExhibitorAge>();
     }
-
+    
     @Override
     public int findInListById(int reqId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -36,14 +36,14 @@ public class JudgeList extends BaseDataList implements DBListInterface {
 
     @Override
     public void readList(boolean headerRequired) {
-        Judge judge = new Judge();
-        super.readList(headerRequired, judge,"judges",null,null);
+        ExhibitorAge exhibitorAge = new ExhibitorAge();
+        super.readList(headerRequired,exhibitorAge,"human_genders",null,"id");
     }
 
     @Override
     public void writeList() {
-        Judge judge = new Judge();
-        super.writeList(this, judge);
+        ExhibitorAge exhibitorAge = new ExhibitorAge();
+        super.writeList(this, exhibitorAge);
     }
-
+    
 }

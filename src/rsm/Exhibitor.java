@@ -185,7 +185,7 @@ public class Exhibitor extends BaseDataItem implements DBInterface{
 
     @Override
     public void performUpdate() {
-        DBAccess.updateSQL(String.format(
+        DBA.updateSQL(String.format(
                 "UPDATE exhibitors SET "
                         + "name = \'%s\',"
                         + "address = \'%s\',"
@@ -220,10 +220,10 @@ public class Exhibitor extends BaseDataItem implements DBInterface{
     @Override
     public void performDelete() {
         // delete exhibits for this exhibitor first
-        DBAccess.updateSQL(String.format(
+        DBA.updateSQL(String.format(
                 "DELETE FROM exhibits WHERE exhibitor_id = %d",
                 this.id));
-        DBAccess.updateSQL(String.format(
+        DBA.updateSQL(String.format(
                 "DELETE FROM exhibitors WHERE id = %d",
                 this.id));
         this.setReadyToDelete(false);
@@ -231,7 +231,7 @@ public class Exhibitor extends BaseDataItem implements DBInterface{
 
     @Override
     public void performInsert() {
-        DBAccess.updateSQL(String.format(
+        DBA.updateSQL(String.format(
                 "INSERT INTO exhibitors (name,address,phone,email,booked_in,"
                         + "booked_out,paid_fees,paid_prizes,entry_fee,"
                         + "prize_money,club_member,age_group,gender) VALUES ("
@@ -255,7 +255,7 @@ public class Exhibitor extends BaseDataItem implements DBInterface{
 
     @Override
     public Exhibitor performRead() {
-        ResultSet rs = DBAccess.executeSQL(String.format(
+        ResultSet rs = DBA.executeSQL(String.format(
                 "SELECT * FROM exhibitors WHERE id = %d",this.id));
         try {
             return this.getData(rs);

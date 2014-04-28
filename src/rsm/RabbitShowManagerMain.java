@@ -22,17 +22,17 @@ package rsm;
  * @author paul
  */
 public class RabbitShowManagerMain extends javax.swing.JFrame {
-    //private DBAccess dbcon = null;
+    //private DBA dbcon = null;
     /**
      * Creates new form RabbitShowManagerMain
      */
     public RabbitShowManagerMain() {
-        DBAccess.getInstance();
+        DBA.getInstance();
         initComponents();
          
-        edtClassQty.setText(Integer.toString(DBAccess.getRecordCount("showclasses")));
-        edtExhibitorQty.setText(Integer.toString(DBAccess.getRecordCount("exhibitors")));
-        edtExhibitQty.setText(Integer.toString(DBAccess.getRecordCount("exhibitors")));
+        edtClassQty.setText(Integer.toString(DBA.getRecordCount("showclasses")));
+        edtExhibitorQty.setText(Integer.toString(DBA.getRecordCount("exhibitors")));
+        edtExhibitQty.setText(Integer.toString(DBA.getRecordCount("exhibitors")));
     }
     
     /**

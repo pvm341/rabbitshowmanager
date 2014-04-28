@@ -230,7 +230,7 @@ class ShowClass extends BaseDataItem implements DBInterface{
 
     @Override
     public void performUpdate() {
-        DBAccess.updateSQL(String.format(
+        DBA.updateSQL(String.format(
                 "UPDATE showclasses SET "
                     + "name = \'%s\',"
                     + "breed_class = %s,"
@@ -273,13 +273,13 @@ class ShowClass extends BaseDataItem implements DBInterface{
 
     @Override
     public void performDelete() {
-        DBAccess.updateSQL(String.format("DELETE FROM showclasses WHERE class_no = %d",this.classNo));
+        DBA.updateSQL(String.format("DELETE FROM showclasses WHERE class_no = %d",this.classNo));
         this.setReadyToDelete(false);
     }
 
     @Override
     public void performInsert() {
-        DBAccess.updateSQL(String.format(
+        DBA.updateSQL(String.format(
                 "INSERT INTO showclasses ("
                     + "class_no,"
                     + "breed"
@@ -338,7 +338,7 @@ class ShowClass extends BaseDataItem implements DBInterface{
 
     @Override
     public ShowClass performRead() {
-        ResultSet rs = DBAccess.executeSQL(String.format(
+        ResultSet rs = DBA.executeSQL(String.format(
                 "SELECT * FROM showclasses WHERE class_no = %d",this.classNo));
         try {
             return this.getData(rs);

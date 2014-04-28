@@ -75,7 +75,7 @@ public class ShowSection extends BaseDataItem implements DBInterface {
 
     @Override
     public void performUpdate() {
-        DBAccess.updateSQL(String.format(
+        DBA.updateSQL(String.format(
                 "UPDATE showsections SET section = %d, section_text = \'%s\' "
                         + "WHERE id = %d",
                 this.section,this.sectionText,this.id));
@@ -84,14 +84,14 @@ public class ShowSection extends BaseDataItem implements DBInterface {
 
     @Override
     public void performDelete() {
-        DBAccess.updateSQL(String.format(
+        DBA.updateSQL(String.format(
                 "DELETE FROM showsections WHERE id= %d", this.id));
         this.setReadyToDelete(false);
     }
 
     @Override
     public void performInsert() {
-        DBAccess.updateSQL(String.format(
+        DBA.updateSQL(String.format(
                 "INSERT INTO showsections (id,section, section_text) "
                         + "VALUES (%d,%d,\'%s\')", 
                  this.id,this.section,this.sectionText));
@@ -100,7 +100,7 @@ public class ShowSection extends BaseDataItem implements DBInterface {
 
     @Override
     public ShowSection performRead() {
-        ResultSet rs = DBAccess.executeSQL(String.format(
+        ResultSet rs = DBA.executeSQL(String.format(
             "SELECT * FROM showsection WHERE id = %d",this.id));
         try {
             return this.getData(rs);

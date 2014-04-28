@@ -93,7 +93,7 @@ public class Colour extends BaseDataItem implements DBInterface{
 
     @Override
     public void performUpdate() {
-        DBAccess.updateSQL(String.format(
+        DBA.updateSQL(String.format(
                 "UPDATE colours SET colour= \'%s\', abbrev=\'%s\' WHERE id = %d",
                 this.colour,this.abbrev,this.id));
         this.setDirty(false);
@@ -102,14 +102,14 @@ public class Colour extends BaseDataItem implements DBInterface{
     @Override
     public void performDelete() {
         // delete dependant records in breedcolours
-        DBAccess.updateSQL("DELETE FROM breedcolours WHERE colour_id = "+ Integer.toString(this.id));
-        DBAccess.updateSQL(String.format("DELETE FROM colours WHERE id = %d",this.id));
+        DBA.updateSQL("DELETE FROM breedcolours WHERE colour_id = "+ Integer.toString(this.id));
+        DBA.updateSQL(String.format("DELETE FROM colours WHERE id = %d",this.id));
         this.setReadyToDelete(false);
     }
 
     @Override
     public void performInsert() {
-        DBAccess.updateSQL(String.format(
+        DBA.updateSQL(String.format(
                 "INSERT INTO colours (id,abbrev,colour) VALUES (%d,\'%s\',\'%s\')", 
                 this.id, this.abbrev,this.colour));
         this.setNewItem(false);
@@ -117,7 +117,7 @@ public class Colour extends BaseDataItem implements DBInterface{
 
     @Override
     public Colour performRead() {
-        ResultSet rs = DBAccess.executeSQL(String.format(
+        ResultSet rs = DBA.executeSQL(String.format(
                 "SELECT * FROM colours WHERE id = %d",this.id));
         try {
             return this.getData(rs);
@@ -128,7 +128,7 @@ public class Colour extends BaseDataItem implements DBInterface{
     }
     
     public Colour performRead(int id) {
-        ResultSet rs = DBAccess.executeSQL(String.format(
+        ResultSet rs = DBA.executeSQL(String.format(
                 "SELECT * FROM colours WHERE id = %d",id));
         try {
             return this.getData(rs);

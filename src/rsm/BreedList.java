@@ -57,22 +57,22 @@ public class BreedList extends BaseDataList implements DBListInterface {
         for (Iterator it = list.iterator(); it.hasNext();) {
             Breed breed = (Breed) it.next();
             if (breed.isDirty()){
-                DBAccess.updateSQL(String.format(updateSQLFmt,breed.getId()));
+                DBA.updateSQL(String.format(updateSQLFmt,breed.getId()));
             } else if (breed.isReadyToDelete()) { 
                 // check for constraints and delete them
-                if (DBAccess.getRecordCount("breedcolours", "breed_id ="+Integer.toString(breed.getId()))>0){
-                    DBAccess.updateSQL("DELETE FROM breedcolours WHERE breed_id ="+Integer.toString(breed.getId()));
+                if (DBA.getRecordCount("breedcolours", "breed_id ="+Integer.toString(breed.getId()))>0){
+                    DBA.updateSQL("DELETE FROM breedcolours WHERE breed_id ="+Integer.toString(breed.getId()));
                 }
-                DBAccess.updateSQL(String.format(deleteSQLFmt,breed.getAdultAge(),breed.isTopPenReqStr(),breed.getSection(),breed.getBreed(),breed.getId()));
+                DBA.updateSQL(String.format(deleteSQLFmt,breed.getAdultAge(),breed.isTopPenReqStr(),breed.getSection(),breed.getBreed(),breed.getId()));
                 // update done set to clean in the list
                 breed.setDirty(false);
             } else if (breed.isNewItem()){ 
-                DBAccess.updateSQL(String.format(insertSQLFmt,breed.getId(),breed.getAdultAge(),breed.isTopPenReqStr(),breed.getSection(),breed.getBreed()));
+                DBA.updateSQL(String.format(insertSQLFmt,breed.getId(),breed.getAdultAge(),breed.isTopPenReqStr(),breed.getSection(),breed.getBreed()));
                 // insert complete now clear new item status
                 breed.setNewItem(false);
                 // New Breed therefore need to create breedcolour new breed anycolour record in breedcolours 
                 // others will have to be entered manually on another form
-                DBAccess.updateSQL("INSERT INTO breedcolours (breed_id,colour_id) VALUES ("+Integer.toString(breed.getId())+",1)");
+                DBA.updateSQL("INSERT INTO breedcolours (breed_id,colour_id) VALUES ("+Integer.toString(breed.getId())+",1)");
             }
         }
         

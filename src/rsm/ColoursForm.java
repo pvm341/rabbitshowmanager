@@ -38,8 +38,8 @@ public class ColoursForm extends javax.swing.JFrame implements FormInterface {
      */
     public ColoursForm() {
         colourList = new ColourList();
-        String[] arrayAges = DBAccess.getStringArrayFromSQL("exhibit_ages", "age_text", "age = 3");
-        String[] arraySections = DBAccess.getStringArrayFromSQL("showsections", "section_text", null);
+        String[] arrayAges = DBA.getStringArrayFromSQL("exhibit_ages", "age_text", "age = 3");
+        String[] arraySections = DBA.getStringArrayFromSQL("showsections", "section_text", null);
         modelAges = new DefaultComboBoxModel(arrayAges);
         modelSections = new DefaultComboBoxModel(arraySections);
         initComponents();
@@ -254,7 +254,7 @@ public class ColoursForm extends javax.swing.JFrame implements FormInterface {
         if (newItem){
             lblStatus.setText("New Record - Add or Cancel");
             edtColourName.setText("");
-            edtColourID.setText(Integer.toString(DBAccess.getNewKey("breeds", "id")));
+            edtColourID.setText(Integer.toString(DBA.getNewKey("breeds", "id")));
             btnInsert.setText("Add");
         } else if (edtColourName.getText().isEmpty()){
             newItem = true;
@@ -334,7 +334,7 @@ public class ColoursForm extends javax.swing.JFrame implements FormInterface {
     public Colour getFormData(){
         Colour dataRecord = new Colour();
         if (edtColourID.getText().isEmpty()){
-            dataRecord.setId(DBAccess.getNewKey("colours", "id"));
+            dataRecord.setId(DBA.getNewKey("colours", "id"));
             dataRecord.setNewItem(true);
         } else {
             dataRecord.setNewItem(false);
