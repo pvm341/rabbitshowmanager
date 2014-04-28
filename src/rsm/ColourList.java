@@ -19,9 +19,9 @@ public class ColourList extends BaseDataList implements DBListInterface {
         list = new Vector<Colour>();
     }
     
-    public void readList(boolean headersRequired) {
+    public void readList(HeaderRequired hr) {
       Colour colour = new Colour();
-      super.readList(headersRequired, colour,"colours",null,"id");
+      super.readList(hr, colour,"colours",null,"id");
     }
 
     @Override

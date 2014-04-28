@@ -35,14 +35,14 @@ public class ShowClasses extends BaseDataList implements DBListInterface {
     }
 
     @Override
-    public void readList(boolean headerRequired) {
+    public void readList(HeaderRequired hr) {
         ShowClass showClass = new ShowClass();
-        super.readList(headerRequired, showClass, "showclasses",null,null);
+        super.readList(hr, showClass, "showclasses",null,null);
     }
     
-    public void readList(boolean headerRequired,String orderBy){
+    public void readList(HeaderRequired hr,String orderBy){
         ShowClass showClass = new ShowClass();
-        super.readList(headerRequired, showClass, "showclasses",null,orderBy);    
+        super.readList(hr, showClass, "showclasses",null,orderBy);    
     }
 
     @Override

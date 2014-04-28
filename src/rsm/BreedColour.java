@@ -39,40 +39,40 @@ public class BreedColour extends BaseDataItem {
     }
 
     public BreedColour(int i, int i0) {
-       this.breedId[0] = i;
-       this.breedId[1] = this.breedId[0];
-       this.colourId[0] = i0;
-       this.colourId[1] = this.colourId[0];
+       this.breedId[VersionRequired.CURRENT.ordinal()] = i;
+       this.breedId[VersionRequired.PREVIOUS.ordinal()] = this.breedId[VersionRequired.CURRENT.ordinal()];
+       this.colourId[VersionRequired.CURRENT.ordinal()] = i0;
+       this.colourId[VersionRequired.PREVIOUS.ordinal()] = this.colourId[VersionRequired.CURRENT.ordinal()];
     }
 
     
     public void setBreedAndColourIds(int breedId, int colourId) {
         if (! this.dirtyBit) {
-            this.breedId[1] = this.breedId[0];
-            this.colourId[1] = this.colourId[0];
+            this.breedId[VersionRequired.PREVIOUS.ordinal()] = this.breedId[0];
+            this.colourId[VersionRequired.PREVIOUS.ordinal()] = this.colourId[0];
         }
         this.breedId[0] = breedId;
         this.colourId[0] = colourId;
-        if (this.breedId[1] == 0 && this.colourId[1] == 0){
-           this.breedId[1]  = this.breedId[0];
-           this.colourId[1] = this.colourId[0];
+        if (this.breedId[VersionRequired.PREVIOUS.ordinal()] == 0 && this.colourId[1] == 0){
+           this.breedId[VersionRequired.PREVIOUS.ordinal()]  = this.breedId[0];
+           this.colourId[VersionRequired.PREVIOUS.ordinal()] = this.colourId[0];
            this.dirtyBit = false;
         } else {
            this.dirtyBit = true; 
         }
     }
 
-    public int getBreedId(boolean current) {
-        return current ? this.breedId[0]:this.breedId[1];
+    public int getBreedId(VersionRequired vr) {
+        return this.breedId[vr.ordinal()];
     }
 
   
-    public int getColourId(boolean current) {
-        return current ? this.colourId[0]:this.colourId[1];
+    public int getColourId(VersionRequired vr) {
+        return this.colourId[vr.ordinal()];
     }
     
-    private String getColourIdStr(boolean current){
-        return String.valueOf(this.colourId[current?0:1]);
+    private String getColourIdStr(VersionRequired vr){
+        return String.valueOf(this.colourId[vr.ordinal()]);
     }
 
     public boolean isAvailable() {
@@ -103,24 +103,12 @@ public class BreedColour extends BaseDataItem {
     @Override
     public String toListString(String formatString) {
         String tableLine = String.format(formatString, this.getStatusChar(),
-                                                       this.getBreedId(true),
-                                                       Integer.toString(this.getColourId(true)),
+                                                       this.getBreedId(VersionRequired.CURRENT),
+                                                       Integer.toString(this.getColourId(VersionRequired.CURRENT)),
                                                        Boolean.toString(this.available),
                                                        Boolean.toString(this.selected),
                                                        Integer.toString(this.classNo));
         return tableLine; 
-    }
-
- 
-    public void deleteRecord() {
-
-    }
-
-    public void readRecord(int recNo) {
-    }
-
-     public void writeRecord() {
-
     }
 
     public int getId() {
@@ -141,13 +129,13 @@ public class BreedColour extends BaseDataItem {
     public void performUpdate() {
         DBA.updateSQL(String.format(
                 "UPDATE breedcolours SET breed_id = %d, colour_id = %d, available = %s, selected = %s, class_no = %d WHERE breed_id = %d AND colour_id = %d",
-                        this.getBreedId(true),
-                        this.getColourId(true),
+                        this.getBreedId(VersionRequired.CURRENT),
+                        this.getColourId(VersionRequired.CURRENT),
                         this.available,
                         this.selected,
                         this.classNo,
-                        this.getBreedId(false),
-                        this.getColourId(false)));
+                        this.getBreedId(VersionRequired.PREVIOUS),
+                        this.getColourId(VersionRequired.PREVIOUS)));
         this.setDirty(false);
     }
 
@@ -156,8 +144,8 @@ public class BreedColour extends BaseDataItem {
         DBA.updateSQL(String.format(
                 "DELETE FROM breedcolours WHERE"
                         + " breed_id = %d AND colour_id = %d",
-                this.getBreedId(true),
-                this.getColourId(true)));
+                this.getBreedId(VersionRequired.PREVIOUS),
+                this.getColourId(VersionRequired.PREVIOUS)));
         this.setReadyToDelete(false);
     }
 
@@ -165,8 +153,8 @@ public class BreedColour extends BaseDataItem {
     public void performInsert() {
         DBA.updateSQL(String.format(
                 "INSERT INTO breedcolours (breed_id,colour_id, available, selected, class_no) VALUES (%d,%d,%s,%s,%d)",
-                this.getBreedId(true),
-                this.getColourId(true),
+                this.getBreedId(VersionRequired.CURRENT),
+                this.getColourId(VersionRequired.CURRENT),
                 this.available,
                 this.selected,
                 this.classNo));
@@ -175,18 +163,17 @@ public class BreedColour extends BaseDataItem {
 
     @Override
     public BaseDataItem performRead() {
-            ResultSet rs = DBA.executeSQL(String.format(
-                "SELECT * FROM colours WHERE breed_id = %d AND colour_id = %d",
-                    this.breedId,this.colourId));
-        try {
+            ResultSet rs;
+        rs = DBA.executeSQL(String.format(
+                "SELECT * FROM breedcolours WHERE breed_id = %d AND colour_id = %d",
+                this.breedId[VersionRequired.CURRENT.ordinal()],
+                this.colourId[VersionRequired.CURRENT.ordinal()]));
+                           try {
             return this.getData(rs);
         } catch (SQLException ex) {
             Logger.getLogger(Colour.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     
-    }
-
-  
-    
+    }   
 }

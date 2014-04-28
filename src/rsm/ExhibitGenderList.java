@@ -36,9 +36,9 @@ public class ExhibitGenderList extends BaseDataList implements DBListInterface {
     }
 
     @Override
-    public void readList(boolean headerRequired) {
+    public void readList(HeaderRequired hr) {
         ExhibitGender exhibitGender = new ExhibitGender(); 
-        super.readList(headerRequired,exhibitGender, "exhibit_genders",null,null);
+        super.readList(hr,exhibitGender, "exhibit_genders",null,null);
     }
 
     @Override

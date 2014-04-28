@@ -48,8 +48,8 @@ public class AvailableColoursList {
         
         availableColours.clear();
         for (BreedColour breedColour : (Vector<BreedColour>) breedColourList.list){
-            if (breedColour.getBreedId(true) == breed){
-                Colour colour = colourList.get(breedColour.getColourId(true));
+            if (breedColour.getBreedId(VersionRequired.CURRENT) == breed){
+                Colour colour = colourList.get(breedColour.getColourId(VersionRequired.CURRENT));
                 this.availableColours.add(new AvailableColour(colour));
             }
         }

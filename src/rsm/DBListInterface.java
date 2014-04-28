@@ -24,6 +24,6 @@ package rsm;
  */
 public interface DBListInterface {
     
-    public void readList(boolean headerRequired);
+    public void readList(HeaderRequired hr);
     public void writeList();    
 }

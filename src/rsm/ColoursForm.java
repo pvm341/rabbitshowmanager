@@ -25,7 +25,7 @@ import javax.swing.DefaultListModel;
  *
  * @author paul
  */
-public class ColoursForm extends javax.swing.JFrame implements FormInterface {
+public final class ColoursForm extends javax.swing.JFrame implements FormInterface {
     private ColourList colourList;
     private Colour curRecord;
     private boolean newItem;
@@ -47,7 +47,7 @@ public class ColoursForm extends javax.swing.JFrame implements FormInterface {
         //cmxSection.setModel(modelSections);
         theListModelData = new DefaultListModel();
         lstColourDisplay.setModel(theListModelData);       
-        colourList.readList(true);
+        colourList.readList(HeaderRequired.HEADERS);
         createTheList();
         edtColourHeaders.setText(colourList.getHeader());
         setButtons();
@@ -294,7 +294,8 @@ public class ColoursForm extends javax.swing.JFrame implements FormInterface {
     /**
      * Creates the ListModelData 
      */
-    private void createTheList() {
+    @Override
+    public void createTheList() {
         theListModelData.clear();
         for (int idx = 0; colourList.get(idx) != null; idx++){
             theListModelData.addElement(colourList.get(idx).toListString(colourList.getFormatStr()));
@@ -302,7 +303,8 @@ public class ColoursForm extends javax.swing.JFrame implements FormInterface {
         displayTheList();
     }
 
-    private void displayTheList(){
+    @Override
+    public void displayTheList(){
         lstColourDisplay.updateUI();
     }
    // </editor-fold>                        
@@ -346,7 +348,8 @@ public class ColoursForm extends javax.swing.JFrame implements FormInterface {
         return dataRecord;
     }
     
-    private void setButtons(){
+    @Override
+    public void setButtons(){
        btnDelete.setText("Delete");
        btnUpdate.setText("Update");
        btnInsert.setText("New");
@@ -354,7 +357,9 @@ public class ColoursForm extends javax.swing.JFrame implements FormInterface {
        btnDelete.setEnabled(!edtColourID.getText().isEmpty());
        btnInsert.setEnabled(true);        
     }
-    private void setButtons(Colour dataRecord){
+    
+    @Override
+    public void setButtons(BaseDataItem dataRecord) {
         btnDelete.setText(dataRecord.isReadyToDelete()?"Undelete":"Delete");
         btnUpdate.setText(dataRecord.isDirty()?" Undo ":"Update");
         btnInsert.setText(dataRecord.isNewItem()?"Add":"New");

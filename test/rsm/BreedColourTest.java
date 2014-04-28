@@ -1,10 +1,21 @@
-package rsm;
-
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014 paul
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+package rsm;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -43,19 +54,19 @@ public class BreedColourTest {
         BreedColour instance = new BreedColour();
         assertFalse(null ==instance);
         instance.setBreedAndColourIds(1,1);
-        assertEquals(1,instance.getBreedId(true));
-        assertEquals(1,instance.getColourId(true));
-        assertEquals(1,instance.getBreedId(false));
-        assertEquals(1,instance.getColourId(false));
+        assertEquals(1,instance.getBreedId(VersionRequired.CURRENT));
+        assertEquals(1,instance.getColourId(VersionRequired.CURRENT));
+        assertEquals(1,instance.getBreedId(VersionRequired.PREVIOUS));
+        assertEquals(1,instance.getColourId(VersionRequired.PREVIOUS));
         instance.setBreedAndColourIds(2, 2);
-        assertEquals(2,instance.getBreedId(true));
-        assertEquals(2,instance.getColourId(true));
-        assertEquals(1,instance.getBreedId(false));
-        assertEquals(1,instance.getColourId(false));
+        assertEquals(2,instance.getBreedId(VersionRequired.CURRENT));
+        assertEquals(2,instance.getColourId(VersionRequired.CURRENT));
+        assertEquals(1,instance.getBreedId(VersionRequired.PREVIOUS));
+        assertEquals(1,instance.getColourId(VersionRequired.PREVIOUS));
         instance.setBreedAndColourIds(23, 67);
-        assertEquals(23,instance.getBreedId(true));
-        assertEquals(67,instance.getColourId(true));
-        assertEquals(1,instance.getBreedId(false));
-        assertEquals(1,instance.getColourId(false));
+        assertEquals(23,instance.getBreedId(VersionRequired.CURRENT));
+        assertEquals(67,instance.getColourId(VersionRequired.CURRENT));
+        assertEquals(1,instance.getBreedId(VersionRequired.PREVIOUS));
+        assertEquals(1,instance.getColourId(VersionRequired.PREVIOUS));
     }
 }

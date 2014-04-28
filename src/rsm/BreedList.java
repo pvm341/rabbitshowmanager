@@ -46,9 +46,9 @@ public class BreedList extends BaseDataList implements DBListInterface {
 
 
     @Override
-    public void readList(boolean headerRequired) {
+    public void readList(HeaderRequired hr) {
        Breed breed = new Breed();
-       super.readList(headerRequired, breed,"breeds",null,"id");   
+       super.readList(hr, breed,"breeds",null,"id");   
     }
 
 

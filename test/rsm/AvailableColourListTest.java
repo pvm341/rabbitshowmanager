@@ -37,7 +37,7 @@ public class AvailableColourListTest {
     
     @BeforeClass
     public static void setUpClass() {
-        DBAccess.getInstance();
+        DBA.getInstance();
     }
     
     @AfterClass
@@ -47,9 +47,9 @@ public class AvailableColourListTest {
     @Before
     public void setUp() {
         bcl = new BreedColourList();
-        bcl.readList(false);
+        bcl.readList(HeaderRequired.NOHEADERS);
         cl = new ColourList();
-        cl.readList(false);
+        cl.readList(HeaderRequired.NOHEADERS);
     }
     
     @After

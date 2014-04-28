@@ -44,19 +44,19 @@ public class ShowEntries extends BaseDataList implements DBListInterface {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void readListByPen(boolean headerRequired){
+    public void readListByPen(HeaderRequired hr){
         ShowEntry dataItem = new ShowEntry();
-        super.readList(headerRequired, dataItem, "showentries", null, "pen_no");
+        super.readList(hr, dataItem, "showentries", null, "pen_no");
     }
     
-    public void readListByClass(boolean headerRequired){
+    public void readListByClass(HeaderRequired hr){
         ShowEntry dataItem = new ShowEntry();
-        super.readList(headerRequired, dataItem, "showentries", null, "Class_no");
+        super.readList(hr, dataItem, "showentries", null, "Class_no");
     }
     
     @Override
-    public void readList(boolean headerRequired) {
-        this.readListByClass(headerRequired);
+    public void readList(HeaderRequired hr) {
+        this.readListByClass(hr);
     }
     
 }

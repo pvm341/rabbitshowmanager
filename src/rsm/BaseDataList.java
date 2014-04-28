@@ -71,14 +71,14 @@ public abstract class BaseDataList implements DBListInterface {
         return  null;
     }
     
-    public void readList(boolean headerRequired, Object dataItem, 
+    public void readList(HeaderRequired hr, Object dataItem, 
             String table, String with, String orderBy ){
         ResultSet rs = DBA.executeSQL(String.format(
             "SELECT * FROM %s %s %s",table,
                 with != null?String.format("WITH %s",with):" ",
                 orderBy != null?String.format("ORDER BY %s", orderBy):" "));   
         try {
-            if (headerRequired){
+            if (hr == HeaderRequired.HEADERS){
                 header = DBA.getHeader(rs);
                 formatString = DBA.getFormatFromHeader(header);
                 header = header.replace(';', ' ');
@@ -194,6 +194,5 @@ public abstract class BaseDataList implements DBListInterface {
     }
 
     public abstract int findInListById(int reqId);
-
  
 }

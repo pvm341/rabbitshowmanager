@@ -16,6 +16,7 @@
  */
 
 package rsm;
+
 /**
  *
  * @author paul
@@ -23,5 +24,9 @@ package rsm;
 public interface FormInterface {
     
     public BaseDataItem getFormData();
-    public void setFormData(BaseDataItem dataRecord);
+    public void setFormData(BaseDataItem formData);
+    public void setButtons();
+    public void setButtons(BaseDataItem dataRecord);
+    public void createTheList();
+    public void displayTheList();
 }

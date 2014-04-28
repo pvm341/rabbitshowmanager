@@ -30,9 +30,9 @@ public class ExhibitAgeList extends BaseDataList implements DBListInterface {
         list = new Vector<ExhibitAge>();
     }
 
-    public void readList(boolean headerRequired) {
+    public void readList(HeaderRequired hr) {
         ExhibitAge exhibitAge = new ExhibitAge();
-        super.readList(headerRequired,exhibitAge,"exhibit_ages",null,"id");
+        super.readList(hr,exhibitAge,"exhibit_ages",null,"id");
     }
 
     @Override

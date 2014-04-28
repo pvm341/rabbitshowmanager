@@ -50,9 +50,9 @@ public class BreedColoursForm extends javax.swing.JFrame implements FormInterfac
         theListModelData = new DefaultListModel<String>();
         modelBreeds  = new DefaultComboBoxModel(arrayBreeds);
         modelColours = new DefaultComboBoxModel(arrayColours);
-        breedColourList.readList(true);
-        breedList.readList(false);
-        colourList.readList(false);
+        breedColourList.readList(HeaderRequired.HEADERS);
+        breedList.readList(HeaderRequired.NOHEADERS);
+        colourList.readList(HeaderRequired.NOHEADERS);
         createTheList();
         lstBreedColourDisplay.setModel(theListModelData);
         cmxBreedName.setModel(modelBreeds);       
@@ -65,15 +65,15 @@ public class BreedColoursForm extends javax.swing.JFrame implements FormInterfac
     public void setFormData(BaseDataItem dataRecord){
         BreedColour formRec = (BreedColour) dataRecord;
         int found;
-        edtBreedID.setText(Integer.toString(formRec.getBreedId(true)));
-        edtColourID.setText(Integer.toString(formRec.getColourId(true)));
-        found = breedList.findInListById(formRec.getBreedId(true));
+        edtBreedID.setText(Integer.toString(formRec.getBreedId(VersionRequired.CURRENT)));
+        edtColourID.setText(Integer.toString(formRec.getColourId(VersionRequired.CURRENT)));
+        found = breedList.findInListById(formRec.getBreedId(VersionRequired.CURRENT));
         if (found > -1){
             Breed breed = (Breed) breedList.get(found);
             cmxBreedName.setSelectedIndex(found);
             edtBreedID.setText(Integer.toString(breed.getId()));
         }
-        found = colourList.findInListById(formRec.getColourId(true));
+        found = colourList.findInListById(formRec.getColourId(VersionRequired.CURRENT));
         if (found > -1 ){
             Colour colour = (Colour) colourList.get(found);
             cmxColourName.setSelectedIndex(found);
@@ -96,7 +96,8 @@ public class BreedColoursForm extends javax.swing.JFrame implements FormInterfac
         return dataRecord;
     }
     
-    private void setButtons(){
+    @Override
+    public void setButtons(){
        btnDelete.setText("Delete");
        btnUpdate.setText("Update");
        btnInsert.setText("New");
@@ -104,14 +105,17 @@ public class BreedColoursForm extends javax.swing.JFrame implements FormInterfac
        btnDelete.setEnabled(!edtBreedID.getText().isEmpty());
        btnInsert.setEnabled(true);        
     }
-    private void setButtons(BreedColour dataRecord){
+    
+    @Override
+    public void setButtons(BaseDataItem dataRecord){
         btnDelete.setText(dataRecord.isReadyToDelete()?"Undelete":"Delete");
         btnUpdate.setText(dataRecord.isDirty()?" Undo ":"Update");
         btnInsert.setText(dataRecord.isNewItem()?"Add":"New");
         btnUpdate.setEnabled(!dataRecord.isReadyToDelete());
         //btnDelete.setEnabled(!dataRecord.isNewItem());
    }
-    private void createTheList() {
+    @Override
+    public void createTheList() {
         theListModelData.clear();
         int idx;
         BreedColour breedColour;      
@@ -122,7 +126,8 @@ public class BreedColoursForm extends javax.swing.JFrame implements FormInterfac
         //displayTheList();
     }
 
-    private void displayTheList(){
+    @Override
+    public void displayTheList(){
         lstBreedColourDisplay.updateUI();
     }
     /**
@@ -330,7 +335,7 @@ public class BreedColoursForm extends javax.swing.JFrame implements FormInterfac
         dataRecord.setReadyToDelete(false);
         if (!dataRecord.equals(curRecord)){
             if (curRecord.isDirty()){
-                dataRecord.readRecord(dataRecord.getId());
+                dataRecord.performRead();
                 curRecord.setDirty(false);
             } else {
                 curRecord.setDirty(true);
@@ -397,5 +402,5 @@ public class BreedColoursForm extends javax.swing.JFrame implements FormInterfac
     private javax.swing.JList lstBreedColourDisplay;
     // End of variables declaration//GEN-END:variables
 
-
+   
 }

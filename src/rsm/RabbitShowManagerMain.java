@@ -390,8 +390,8 @@ public class RabbitShowManagerMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        BreedsForm bf;
-        bf = new BreedsForm();
+        BreedForm bf;
+        bf = new BreedForm();
         bf.setVisible(true); 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 

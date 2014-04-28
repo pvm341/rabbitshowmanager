@@ -35,9 +35,9 @@ public class ExhibitorAgeList extends BaseDataList implements DBListInterface {
     }
 
     @Override
-    public void readList(boolean headerRequired) {
+    public void readList(HeaderRequired hr) {
         ExhibitorAge exhibitorAge = new ExhibitorAge();
-        super.readList(headerRequired,exhibitorAge,"human_genders",null,"id");
+        super.readList(hr,exhibitorAge,"human_genders",null,"id");
     }
 
     @Override

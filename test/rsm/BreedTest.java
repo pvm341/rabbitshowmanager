@@ -36,7 +36,7 @@ public class BreedTest {
     
     @BeforeClass
     public static void setUpClass() {
-        DBAccess.getInstance();
+        DBA.getInstance();
     }
     
     @AfterClass

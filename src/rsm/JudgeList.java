@@ -35,9 +35,9 @@ public class JudgeList extends BaseDataList implements DBListInterface {
     }
 
     @Override
-    public void readList(boolean headerRequired) {
+    public void readList(HeaderRequired hr) {
         Judge judge = new Judge();
-        super.readList(headerRequired, judge,"judges",null,null);
+        super.readList(hr, judge,"judges",null,null);
     }
 
     @Override

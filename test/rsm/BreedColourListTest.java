@@ -1,7 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014 paul
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package rsm;
@@ -24,7 +35,7 @@ public class BreedColourListTest {
     
     @BeforeClass
     public static void setUpClass() {
-        DBAccess.getInstance();
+        DBA.getInstance();
     }
     
     @AfterClass
@@ -42,7 +53,7 @@ public class BreedColourListTest {
     @Test
     public void findInListByIdTest(){
         BreedColourList instance = new BreedColourList(); 
-        instance.readList(false);
+        instance.readList(HeaderRequired.NOHEADERS);
         assertEquals(0,instance.findInListById(1));
         assertEquals(59,instance.findInListById(14));
         
@@ -51,7 +62,7 @@ public class BreedColourListTest {
     @Test 
      public void isAlreadyInTheList(){
         BreedColourList instance = new BreedColourList();
-        instance.readList(false);
+        instance.readList(HeaderRequired.NOHEADERS);
         assertFalse(instance.isAlreadyInList(0,1));
         assertFalse(instance.isAlreadyInList(1, 0));
         assertTrue(instance.isAlreadyInList(1, 1));

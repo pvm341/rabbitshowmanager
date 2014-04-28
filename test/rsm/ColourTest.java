@@ -37,7 +37,7 @@ public class ColourTest {
     
     @BeforeClass
     public static void setUpClass() {
-        DBAccess.getInstance();
+        DBA.getInstance();
     }
     
     @AfterClass

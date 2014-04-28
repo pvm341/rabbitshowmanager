@@ -58,16 +58,16 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
         modelExhibitorGenders = new DefaultComboBoxModel(DBA.getStringArrayFromSQL("human_genders", "gender_class", null));
         modelSections = new DefaultComboBoxModel(DBA.getStringArrayFromSQL("showsections", "section_text", null));
         breedList = new BreedList();
-        breedList.readList(false);
+        breedList.readList(HeaderRequired.NOHEADERS);
         colourList = new ColourList();
-        colourList.readList(false);
+        colourList.readList(HeaderRequired.NOHEADERS);
         breedColourList = new BreedColourList();
-        breedColourList.readList(false);
+        breedColourList.readList(HeaderRequired.NOHEADERS);
         lstShowClassesDataModel = new  DefaultListModel<String>();
         //curRecord = new ShowClass();
         //availableColourList = 
         showClasses = new ShowClasses();
-        showClasses.readList(true);
+        showClasses.readList(HeaderRequired.HEADERS);
         lstColoursForClass.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         lstColoursForClass.setVisible(true);
         lstColoursForClassData = new DefaultListModel<String>();
@@ -82,10 +82,10 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
         cmxExhibitorGender.setModel(modelExhibitorGenders);
         cmxSection.setModel(modelSections);
         edtHeaders.setText(showClasses.header);
-        createList();
+        createTheList();
     }
 
-    private void createList(){
+    public void createTheList(){
         String forDisplay;
         lstShowClassesDataModel.clear();
         for (int idx = 0; showClasses.get(idx) != null; idx++){
@@ -96,7 +96,7 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
  
     }
     
-    private void displayList(){
+    public void displayList(){
         lstClassDisplay.updateUI();
     }
     
@@ -105,7 +105,7 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
         for (int idx : localList ) {
             BreedColour bc = (BreedColour) breedColourList.get(idx);
             if (bc.isAvailable() && !bc.isSelected()){
-                modelColours.addElement(colourList.get(bc.getColourId(true)).getColour());
+                modelColours.addElement(colourList.get(bc.getColourId(VersionRequired.CURRENT)).getColour());
             }
         }
     }
@@ -773,6 +773,23 @@ content of this method is always
     private javax.swing.JRadioButton rbnStandard;
     private javax.swing.JRadioButton rbnUpSideDown;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void setButtons() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setButtons(BaseDataItem dataRecord) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+ 
+
+    @Override
+    public void displayTheList() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 
 }

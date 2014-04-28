@@ -61,7 +61,7 @@ public class BreedColourList extends BaseDataList {
         BreedColour instance = null;
         for (int idx=0; found==-1 && idx<list.size(); idx++){
            instance = (BreedColour) list.get(idx);
-           found = instance.getBreedId(true) == reqId?idx:-1; 
+           found = instance.getBreedId(VersionRequired.CURRENT) == reqId?idx:-1; 
         }
         return found;
     }
@@ -74,8 +74,8 @@ public class BreedColourList extends BaseDataList {
     public boolean isAlreadyInList(BreedColour searchRecord) {
         boolean found = false;
         for (BreedColour bc : (Vector<BreedColour>) list){
-            found = bc.getBreedId(true) == searchRecord.getBreedId(true) &&
-                    bc.getColourId(true) == searchRecord.getColourId(true);
+            found = bc.getBreedId(VersionRequired.CURRENT) == searchRecord.getBreedId(VersionRequired.CURRENT) &&
+                    bc.getColourId(VersionRequired.CURRENT) == searchRecord.getColourId(VersionRequired.CURRENT);
             if (found)
                 break;
         }
@@ -88,9 +88,9 @@ public class BreedColourList extends BaseDataList {
         return isAlreadyInList(bc);
     }
 
-    public void readList(boolean hearderRequired) {
+    public void readList(HeaderRequired hr) {
         BreedColour breedColour = new BreedColour();
-        super.readList(hearderRequired,breedColour, "breedcolours",null,"breed_id"); 
+        super.readList(hr,breedColour, "breedcolours",null,"breed_id"); 
     }
 
     public Vector<Integer> getListOfColoursFormBreed(int breedId) {
@@ -98,11 +98,13 @@ public class BreedColourList extends BaseDataList {
         localList = new Vector<Integer>();
         for (int idx = 0; idx < list.size(); idx++){
             BreedColour bc = (BreedColour) list.get(idx);
-            if (bc.getBreedId(true) == breedId){
+            if (bc.getBreedId(VersionRequired.CURRENT) == breedId){
                 localList.add(idx);
             }
         }
         return localList;
     }
+
+    
 }
 
