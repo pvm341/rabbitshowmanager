@@ -6,7 +6,6 @@
 
 package rsm;
 
-import java.sql.ResultSet;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -19,10 +18,8 @@ import static org.junit.Assert.*;
  * @author paul
  */
 public class BreedColourListTest {
-    private BreedColourList instance;
     
     public BreedColourListTest() {
-        instance = new BreedColourList();
     }
     
     @BeforeClass
@@ -43,18 +40,21 @@ public class BreedColourListTest {
     }
 
     @Test
-    public void testGetBreedColourList() {
-        assertNotNull("Should be a value",instance);
-        assertEquals("Should be none at present",0,instance.size());
-        instance.readBcl();
-        assertTrue("Should be not be 0",0 != instance.size());
+    public void findInListByIdTest(){
+        BreedColourList instance = new BreedColourList(); 
+        instance.readList(false);
+        assertEquals(0,instance.findInListById(1));
+        assertEquals(59,instance.findInListById(14));
+        
     }
     
-    @Test
-    public void testGetAvailableColourListByBreedId(){
-        assertNotNull(instance);
-        instance.readBcl();
-        assertFalse("read the list and is not 0", 0==instance.size());
-        AvailableColourList acl = new AvailableColourList();
+    @Test 
+     public void isAlreadyInTheList(){
+        BreedColourList instance = new BreedColourList();
+        instance.readList(false);
+        assertFalse(instance.isAlreadyInList(0,1));
+        assertFalse(instance.isAlreadyInList(1, 0));
+        assertTrue(instance.isAlreadyInList(1, 1));
+        
     }
 }

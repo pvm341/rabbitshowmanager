@@ -24,6 +24,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+
 /**
  *
  * @author paul
@@ -54,7 +55,7 @@ public class BreedTest {
      * Test of readRecord method, of class Breed.
      */
     @Test
-    public void testGetRecord() {
+    public void getRecordTest() {
         System.out.println("getRecord");
         int recNo = 5;
         Breed instance = new Breed();
@@ -69,8 +70,8 @@ public class BreedTest {
      * Test of writeRecord method, of class Breed.
      */
     @Test
-    public void testSetRecord() {
-        int rc = 0;
+    public void setRecordTest() {
+        int rc;
         System.out.println("setRecord");
         Breed instance = new Breed();
         instance.readRecord(5);
@@ -105,4 +106,39 @@ public class BreedTest {
         assertTrue(rc == instance.getRecordCount());
     }
     
+    //the following test test an inherited methods in an abstract class
+    @Test
+    public void dirtyBitTest(){
+        Breed instance = new Breed();
+        assertFalse("should be false",instance.isDirty());
+        instance.setDirty(true);
+        assertTrue("should be true",instance.isDirty());
+        instance.setDirty(false);
+        assertFalse("Should be false",instance.isDirty());
+    }  
+
+    //the following test tests an inherited method in an abstract class
+    @Test
+    public void deleteOnWriteBitTest(){
+        Breed instance = new Breed();
+        assertFalse("should be false",instance.isReadyToDelete());
+        instance.setReadyToDelete(true);
+        assertTrue("should be true",instance.isReadyToDelete());
+        instance.setReadyToDelete(false);
+        assertFalse("Should be false",instance.isReadyToDelete());
+    }
+    
+    //the following test tests an inherited methods in an abstract class
+    @Test
+    public void readyToDeleteTest(){
+        BaseDataItem instance = new Breed();
+        assertFalse("should be false",instance.isReadyToDelete());
+        instance.setReadyToDelete(true);
+        assertTrue("should be true",instance.isReadyToDelete());
+        instance.setReadyToDelete(false);
+        assertFalse("Should be false",instance.isReadyToDelete());
+    }
+    
+
+
 }

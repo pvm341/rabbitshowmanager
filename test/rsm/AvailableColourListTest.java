@@ -30,9 +30,9 @@ import static org.junit.Assert.*;
  */
 public class AvailableColourListTest {
     private BreedColourList bcl;
+    private ColourList cl;
     
     public AvailableColourListTest() {
-        bcl = new BreedColourList();     
     }
     
     @BeforeClass
@@ -46,6 +46,10 @@ public class AvailableColourListTest {
     
     @Before
     public void setUp() {
+        bcl = new BreedColourList();
+        bcl.readList(false);
+        cl = new ColourList();
+        cl.readList(false);
     }
     
     @After
@@ -53,36 +57,36 @@ public class AvailableColourListTest {
     }
 
     /**
-     * Test of getColours method, of class AvailableColourList.
+     * Test of getColours method, of class AvailableColoursList.
      */
     @Test
     public void testGetColours() {
         System.out.println("getColoursForBreed");
         int breed = 14;
-        AvailableColourList instance = new AvailableColourList();
-        instance.getColoursForBreed(breed);
+        AvailableColoursList instance = new AvailableColoursList();
+        instance.getColoursForBreed(bcl, cl, breed);
         assertEquals("ND colours should be 45",45,instance.getSize());
-        instance.getColoursForBreed(5); //Dutch
+        instance.getColoursForBreed(bcl,cl,5); //Dutch
         assertEquals("Dutch colours should be 11",11,instance.getSize());
-        instance.getColoursForBreed(1); // Any Variety
+        instance.getColoursForBreed(bcl,cl,1); // Any Variety
         assertEquals("Any Variety should have only one (Any Colour)",1,instance.getSize());
     }
     
     @Test
     public void testGetAvailable(){
         System.out.println("getAvailable");
-        AvailableColourList instance = new AvailableColourList(); 
-        instance.getColoursForBreed(14); 
+        AvailableColoursList instance = new AvailableColoursList(); 
+        instance.getColoursForBreed(bcl,cl,14); 
         assertEquals("Possible 45 ND colours",45,instance.getSize());
         instance.setUnavailable(0,2);
-        assertEquals("Two less than full count",43,instance.getAvailable());
+        assertEquals("Two less than full count",43,instance.getAvailableQty());
     }
     
     @Test
     public void testGetAll(){
         System.out.println("getAll");
-        AvailableColourList instance = new AvailableColourList();
-        instance.getColoursForBreed(5);
+        AvailableColoursList instance = new AvailableColoursList();
+        instance.getColoursForBreed(bcl,cl,5);
         assertEquals("size should be 11",11,instance.getSize());
     }
     

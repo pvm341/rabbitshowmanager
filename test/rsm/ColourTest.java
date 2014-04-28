@@ -24,6 +24,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+
 /**
  *
  * @author paul
@@ -51,35 +52,36 @@ public class ColourTest {
     public void tearDown() {
     }
 
-     /**
-     * Test of writeRecord method, of class Colour.
-     * 
-     */
+       
     @Test
-    public void testWriteRecord() {
-        System.out.println("writeRecord");
-        Colour backup = new Colour();
-        Colour instance = new Colour(999,"test colour","TSTC");
-        int rc = DBAccess.getRecordCount("colours",null);
-        instance.writeRecord();
-        assertEquals("New Colour added",rc+1,DBAccess.getRecordCount("colours",null));
-        instance.setColour("updated col");
-        instance.writeRecord();
-        backup.readRecord(53);
-        assertEquals("New Colour altered",rc+1,DBAccess.getRecordCount("colours",null));
-        instance.deleteRecord();
-        assertEquals("New Colour deleted",rc,DBAccess.getRecordCount("colours",null));
-   }
+    public void dirtyBitTest(){
+        Colour instance = new Colour();
+        assertFalse("should be false",instance.isDirty());
+        instance.setDirty(true);
+        assertTrue("should be true",instance.isDirty());
+        instance.setDirty(false);
+        assertFalse("Should be false",instance.isDirty());
+    }
+
+    @Test
+    public void deleteOnWriteBitTest(){
+        Colour instance = new Colour();
+        assertFalse("should be false",instance.isReadyToDelete());
+        instance.setReadyToDelete(true);
+        assertTrue("should be true",instance.isReadyToDelete());
+        instance.setReadyToDelete(false);
+        assertFalse("Should be false",instance.isReadyToDelete());
+    }
     
     @Test
-    public void testReadRecord(){
-        System.out.println("readRecord");
-        Colour instance = new Colour();
-        int recNo = 3;
-        instance.readRecord(recNo);
-        assertEquals("Read Colour 3",recNo,instance.getId());
-        assertEquals("Read Colour Black",true,"Black".equals(instance.getColour()));
-        assertTrue("Read Colour Blk","Blk".equals(instance.getAbbrev()));
+    public void getAColourTest(){
+        Colour col1, col2;
+        col1 = new Colour(1);
+        col2 = new Colour(2);
+        col2 = col2.performRead();
+        col1 = col1.performRead();
+        assertEquals(1,col2.getId());
+        assertEquals("AC",col1.getAbbrev());
     }
 
 }

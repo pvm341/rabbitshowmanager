@@ -1,10 +1,10 @@
+package rsm;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-package rsm;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -24,7 +24,6 @@ public class BreedColourTest {
     
     @BeforeClass
     public static void setUpClass() {
-        DBAccess.getInstance();
     }
     
     @AfterClass
@@ -39,58 +38,24 @@ public class BreedColourTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of getBreedId method, of class BreedColour.
-     */
     @Test
-    public void testGetBreedId() {
-        System.out.println("getBreedId");
+    public void createBreedColour(){
         BreedColour instance = new BreedColour();
-        int expResult = 0;
-        int result = instance.getBreedId();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertFalse(null ==instance);
+        instance.setBreedAndColourIds(1,1);
+        assertEquals(1,instance.getBreedId(true));
+        assertEquals(1,instance.getColourId(true));
+        assertEquals(1,instance.getBreedId(false));
+        assertEquals(1,instance.getColourId(false));
+        instance.setBreedAndColourIds(2, 2);
+        assertEquals(2,instance.getBreedId(true));
+        assertEquals(2,instance.getColourId(true));
+        assertEquals(1,instance.getBreedId(false));
+        assertEquals(1,instance.getColourId(false));
+        instance.setBreedAndColourIds(23, 67);
+        assertEquals(23,instance.getBreedId(true));
+        assertEquals(67,instance.getColourId(true));
+        assertEquals(1,instance.getBreedId(false));
+        assertEquals(1,instance.getColourId(false));
     }
-
-    /**
-     * Test of setBreedId method, of class BreedColour.
-     */
-    @Test
-    public void testSetBreedId() {
-        System.out.println("setBreedId");
-        int breedId = 0;
-        BreedColour instance = new BreedColour();
-        instance.setBreedId(breedId);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getColourId method, of class BreedColour.
-     */
-    @Test
-    public void testGetColourId() {
-        System.out.println("getColourId");
-        BreedColour instance = new BreedColour();
-        int expResult = 0;
-        int result = instance.getColourId();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setColourId method, of class BreedColour.
-     */
-    @Test
-    public void testSetColourId() {
-        System.out.println("setColourId");
-        int colourId = 0;
-        BreedColour instance = new BreedColour();
-        instance.setColourId(colourId);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 }
