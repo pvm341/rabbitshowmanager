@@ -28,28 +28,10 @@ import java.util.logging.Logger;
  */
 public class AvailableColour {
     private int id;
-    private String colour;
-    private String abbrev;
-    private boolean available;
+    private String colour,abbrev;
+    private boolean available, selected;
     
-    public AvailableColour(ResultSet rs){
-        boolean err = false;
-        try {
-            this.id = rs.getInt("id");
-            this.colour = rs.getString("colour");
-            this.abbrev = rs.getString("abbrev");
-            this.available = true;
-        } catch (SQLException ex) {
-            err = true;
-            Logger.getLogger(AvailableColour.class.getName()).log(Level.SEVERE, null, ex);
-        } finally{
-            if (err){
-                this.id =0;
-                this.available=false;
-                this.colour = "error";
-                this.abbrev = "err";
-            }
-        }
+    public AvailableColour(){
     }
 
     AvailableColour(Colour colour) {
@@ -57,6 +39,7 @@ public class AvailableColour {
         this.colour = colour.getColour();
         this.abbrev = colour.getAbbrev();
         this.available = true;
+        this.selected = false;
     }
     
     public int getId() {
@@ -89,5 +72,13 @@ public class AvailableColour {
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

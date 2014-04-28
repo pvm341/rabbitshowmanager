@@ -23,8 +23,6 @@ package rsm;
  */
 public class RabbitShowManagerMain extends javax.swing.JFrame {
     //private DBAccess dbcon = null;
-    private ShowClassEditor showClassEditor = null;
-    private ShowEntriesEditor showEntriesEditor = null;
     /**
      * Creates new form RabbitShowManagerMain
      */
@@ -32,8 +30,6 @@ public class RabbitShowManagerMain extends javax.swing.JFrame {
         DBAccess.getInstance();
         initComponents();
          
-        showClassEditor = new ShowClassEditor();
-        showEntriesEditor = new ShowEntriesEditor();
         edtClassQty.setText(Integer.toString(DBAccess.getRecordCount("showclasses")));
         edtExhibitorQty.setText(Integer.toString(DBAccess.getRecordCount("exhibitors")));
         edtExhibitQty.setText(Integer.toString(DBAccess.getRecordCount("exhibitors")));
@@ -248,9 +244,19 @@ public class RabbitShowManagerMain extends javax.swing.JFrame {
         jMenu3.add(jMenuItem1);
 
         jMenuItem2.setText("Colours...");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem2);
 
         jMenuItem4.setText("BreedColours...");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem4);
 
         jMenuItem11.setText("Exhibit Ages...");
@@ -362,7 +368,7 @@ public class RabbitShowManagerMain extends javax.swing.JFrame {
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
     private void mniEntriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniEntriesActionPerformed
-        showEntriesEditor.setVisible(true);
+        
     }//GEN-LAST:event_mniEntriesActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -374,7 +380,9 @@ public class RabbitShowManagerMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void mniClassEditorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniClassEditorActionPerformed
-        showClassEditor.setVisible(true);
+        ShowClassForm scf;
+        scf = new ShowClassForm();
+        scf.setVisible(true);
     }//GEN-LAST:event_mniClassEditorActionPerformed
 
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
@@ -382,8 +390,22 @@ public class RabbitShowManagerMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
+        BreedsForm bf;
+        bf = new BreedsForm();
+        bf.setVisible(true); 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        ColoursForm cf;
+        cf = new ColoursForm();
+        cf.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        BreedColoursForm bcf;
+        bcf =new BreedColoursForm();
+        bcf.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments

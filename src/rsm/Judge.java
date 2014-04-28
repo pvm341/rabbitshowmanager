@@ -26,17 +26,15 @@ import java.util.logging.Logger;
  *
  * @author paul
  */
-public class ExhibitAge extends BaseDataItem implements DBInterface{
+public class Judge extends BaseDataItem implements DBInterface {
     private int id;
-    private int age;
-    private String ageText;
-    private String abbrev;
-
-    public ExhibitAge(){
-        
+    private String name;
+    private int sections;
+    
+    Judge() {
+        super();
     }
 
-    
     public int getId() {
         return id;
     }
@@ -45,93 +43,72 @@ public class ExhibitAge extends BaseDataItem implements DBInterface{
         this.id = id;
     }
 
-    public int getAge() {
-        return age;
+    public String getName() {
+        return name;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getAgeText() {
-        return ageText;
+    public int getSections() {
+        return sections;
     }
 
-    public void setAgeText(String ageText) {
-        this.ageText = ageText;
+    public void setSections(int sections) {
+        this.sections = sections;
     }
 
-    public String getAbbrev() {
-        return abbrev;
-    }
-
-    public void setAbbrev(String abbrev) {
-        this.abbrev = abbrev;
-    }
 
     @Override
     public String toListString(String formatString) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-     /**
-     * Gets the data for Current Object (ExhibitAge) from the database result set
-     * @param rs The ResultSet
-     * @return pointer to current object
-     * @throws SQLException 
-     */
+
     @Override
-    final public ExhibitAge getData(ResultSet rs) throws SQLException {
+    public Judge getData(ResultSet rs) throws SQLException {
         this.id = rs.getInt("id");
-        this.age = rs.getInt("age");
-        this.ageText = rs.getString("age_text");
-        this.abbrev = rs.getString("abbrev");
+        this.name = rs.getString("name");
+        this.sections = rs.getInt("sections");
         super.getData();
-        return this; 
+        return this;
     }
 
     @Override
     public void performUpdate() {
         DBAccess.updateSQL(String.format(
-                "UPDATE exhibit_ages SET age = %d, age_text = \'%s\', abbrev "
-                        + "= \'%s\' WHERE id = %d",
-                this.age,
-                this.ageText,
-                this.abbrev,
-                this.id));
+            "UPDATE judges set name = \'%s\', sections = %d WHERE id = %d",
+             this.name, this.sections, this.id));
         this.setDirty(false);
     }
 
     @Override
     public void performDelete() {
         DBAccess.updateSQL(String.format(
-                "DELETE FROM exhibit_ages WHERE id = %d ", 
-                this.id));
+            "DELETE FROM judges WHERE id = %d",
+             this.id));
         this.setReadyToDelete(false);
     }
 
     @Override
     public void performInsert() {
-        DBAccess.updateSQL(String.format(
-                "INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES "
-                        + "(%d,%d,\'%s\',\'%s\')",
-                this.id,
-                this.age,
-                this.ageText,
-                this.abbrev));
+        DBAccess.updateSQL(String.format("INSERT INTO judges (id,name, sections) "
+                + "VALUES (%d,\'%s\',%d",this.id,this.name,this.sections));
         this.setNewItem(false);
     }
 
     @Override
-    public ExhibitAge performRead() {
-        ResultSet rs = DBAccess.executeSQL(String.format(
-                "SELECT * FROM exhibit_ages WHERE id = %d",this.id));
+    public Judge performRead() {
+            ResultSet rs = DBAccess.executeSQL(String.format(
+                "SELECT * FROM judges WHERE id = %d",this.id));
         try {
             return this.getData(rs);
         } catch (SQLException ex) {
             Logger.getLogger(Colour.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-    }
-    
+}
+
+   
 }

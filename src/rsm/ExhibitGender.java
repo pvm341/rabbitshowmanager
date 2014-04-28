@@ -26,17 +26,16 @@ import java.util.logging.Logger;
  *
  * @author paul
  */
-public class ExhibitAge extends BaseDataItem implements DBInterface{
+public class ExhibitGender extends BaseDataItem implements DBInterface {
     private int id;
-    private int age;
-    private String ageText;
-    private String abbrev;
+    private int gender;
+    private String genderClass;
+    private String genderText;
 
-    public ExhibitAge(){
-        
+    ExhibitGender() {
+        super();
     }
 
-    
     public int getId() {
         return id;
     }
@@ -45,59 +44,60 @@ public class ExhibitAge extends BaseDataItem implements DBInterface{
         this.id = id;
     }
 
-    public int getAge() {
-        return age;
+    public int getGender() {
+        return gender;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setGender(int gender) {
+        this.gender = gender;
     }
 
-    public String getAgeText() {
-        return ageText;
+    public String getGenderClass() {
+        return genderClass;
     }
 
-    public void setAgeText(String ageText) {
-        this.ageText = ageText;
+    public void setGenderClass(String genderClass) {
+        this.genderClass = genderClass;
     }
 
-    public String getAbbrev() {
-        return abbrev;
+    public String getGenderText() {
+        return genderText;
     }
 
-    public void setAbbrev(String abbrev) {
-        this.abbrev = abbrev;
+    public void setGenderText(String genderText) {
+        this.genderText = genderText;
+    }
+    
+    
+    @Override
+    public ExhibitGender getData(ResultSet rs) throws SQLException {
+        this.id = rs.getInt("id");
+        this.gender = rs.getInt("gender");
+        this.genderClass = rs.getString("gender_class");
+        this.genderText = rs.getString("gender_text");
+        super.getData();
+        return this;
     }
 
     @Override
     public String toListString(String formatString) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-     /**
-     * Gets the data for Current Object (ExhibitAge) from the database result set
-     * @param rs The ResultSet
-     * @return pointer to current object
-     * @throws SQLException 
-     */
-    @Override
-    final public ExhibitAge getData(ResultSet rs) throws SQLException {
-        this.id = rs.getInt("id");
-        this.age = rs.getInt("age");
-        this.ageText = rs.getString("age_text");
-        this.abbrev = rs.getString("abbrev");
-        super.getData();
-        return this; 
+    String tableLine = String.format(formatString, 
+            this.getStatusChar(),
+            this.getId(),
+            Integer.toString(this.getGender()),
+            this.getGenderClass(),
+            this.getGenderText());
+        return tableLine;
     }
 
     @Override
     public void performUpdate() {
         DBAccess.updateSQL(String.format(
-                "UPDATE exhibit_ages SET age = %d, age_text = \'%s\', abbrev "
-                        + "= \'%s\' WHERE id = %d",
-                this.age,
-                this.ageText,
-                this.abbrev,
+                "UPDATE exhibit_genders SET gender = %d, gender_class = \'%s\'"
+                        + "gender_text = \'%s\' WHERE id = %d", 
+                this.gender,
+                this.genderClass,
+                this.genderText,
                 this.id));
         this.setDirty(false);
     }
@@ -105,7 +105,7 @@ public class ExhibitAge extends BaseDataItem implements DBInterface{
     @Override
     public void performDelete() {
         DBAccess.updateSQL(String.format(
-                "DELETE FROM exhibit_ages WHERE id = %d ", 
+                "DELETE FROM exhibit_genders WHERE id = %d",
                 this.id));
         this.setReadyToDelete(false);
     }
@@ -113,17 +113,17 @@ public class ExhibitAge extends BaseDataItem implements DBInterface{
     @Override
     public void performInsert() {
         DBAccess.updateSQL(String.format(
-                "INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES "
-                        + "(%d,%d,\'%s\',\'%s\')",
+                "INSERT INTO exhibit_genders (id, gender, gender_class, "
+                        + "gender_text) VALUES (%d,%d,\'%s\',\'%s\')", 
                 this.id,
-                this.age,
-                this.ageText,
-                this.abbrev));
+                this.gender,
+                this.genderClass,
+                this.genderText));
         this.setNewItem(false);
     }
 
     @Override
-    public ExhibitAge performRead() {
+    public ExhibitGender performRead() {
         ResultSet rs = DBAccess.executeSQL(String.format(
                 "SELECT * FROM exhibit_ages WHERE id = %d",this.id));
         try {
@@ -133,5 +133,5 @@ public class ExhibitAge extends BaseDataItem implements DBInterface{
         }
         return null;
     }
-    
+
 }

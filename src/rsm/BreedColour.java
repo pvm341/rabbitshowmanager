@@ -19,6 +19,7 @@ package rsm;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,100 +27,166 @@ import java.util.logging.Logger;
  *
  * @author paul
  */
-public class BreedColour {
-    private int breedId, colourId;
+public class BreedColour extends BaseDataItem {
+    private int[] breedId  = {0,0};
+    private int[] colourId = {0,0};
+    private boolean available;
+    private boolean selected;
+    private int classNo; 
+    
+    public BreedColour(){
+
+    }
+
+    public BreedColour(int i, int i0) {
+       this.breedId[0] = i;
+       this.breedId[1] = this.breedId[0];
+       this.colourId[0] = i0;
+       this.colourId[1] = this.colourId[0];
+    }
 
     
-    public BreedColour (){
-        
-    }
-
-    public BreedColour (int breed, int colour){
-        this.breedId = breed;
-        this.colourId = colour;
-    }
-
-    public int getBreedId() {
-        return breedId;
-    }
-
-    public void setBreedId(int breedId) {
-        this.breedId = breedId;
-    }
-
-    public int getColourId() {
-        return colourId;
-    }
-
-    public void setColourId(int colourId) {
-        this.colourId = colourId;
-    }
-    
-    public String getBreedStr(){
-        ResultSet rs;
-        String str = null;
-        rs = DBAccess.executeSQL("SELECT breed FROM breeds WHERE id = "+Integer.toString(breedId));
-        try {
-            while(rs.next()){
-                str = rs.getString("breed");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(BreedColour.class.getName()).log(Level.SEVERE, null, ex);
+    public void setBreedAndColourIds(int breedId, int colourId) {
+        if (! this.dirtyBit) {
+            this.breedId[1] = this.breedId[0];
+            this.colourId[1] = this.colourId[0];
         }
-        return str;
-    }
-
-    public String getColourStr(){
-        ResultSet rs;
-        String str = null;
-        rs = DBAccess.executeSQL("SELECT colour FROM colours WHERE id = "+Integer.toString(colourId));
-        try {
-            while(rs.next()){
-                str = rs.getString("colour");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(BreedColour.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return str;
-    }
-    
-    public String getColourAbbrev(){
-        ResultSet rs;
-        String str = null;
-        rs = DBAccess.executeSQL("SELECT colour FROM colours WHERE id = "+Integer.toString(colourId));
-        try {
-            while(rs.next()){
-                str = rs.getString("abbrev");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(BreedColour.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return str;
-    }
-    
-    public void readRecord(int breed, int colour ) {
-        ResultSet rs = DBAccess.executeSQL("SELECT * FROM breedcolours WHERE breed_id = "+breed);
-        try {
-            while (rs.next()){
-                if (rs.getInt("colour_id")==colour){
-                    
-                }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(BreedColour.class.getName()).log(Level.SEVERE, null, ex);
+        this.breedId[0] = breedId;
+        this.colourId[0] = colourId;
+        if (this.breedId[1] == 0 && this.colourId[1] == 0){
+           this.breedId[1]  = this.breedId[0];
+           this.colourId[1] = this.colourId[0];
+           this.dirtyBit = false;
+        } else {
+           this.dirtyBit = true; 
         }
     }
 
-    public void writeRecord() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int getBreedId(boolean current) {
+        return current ? this.breedId[0]:this.breedId[1];
     }
 
+  
+    public int getColourId(boolean current) {
+        return current ? this.colourId[0]:this.colourId[1];
+    }
+    
+    private String getColourIdStr(boolean current){
+        return String.valueOf(this.colourId[current?0:1]);
+    }
 
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public int getClassNo() {
+        return classNo;
+    }
+
+    public void setClassNo(int classNo) {
+        this.classNo = classNo;
+    }
+
+   
+    @Override
+    public String toListString(String formatString) {
+        String tableLine = String.format(formatString, this.getStatusChar(),
+                                                       this.getBreedId(true),
+                                                       Integer.toString(this.getColourId(true)),
+                                                       Boolean.toString(this.available),
+                                                       Boolean.toString(this.selected),
+                                                       Integer.toString(this.classNo));
+        return tableLine; 
+    }
+
+ 
     public void deleteRecord() {
-         String where = String.format("WHERE breed_id = %d AND colour_id = %d ", this.breedId, this.colourId);
-        if (DBAccess.isExistingRec("breedcolours", where)){
-            DBAccess.updateSQL("DELETE FROM breeds WHERE "+where); 
-        }
+
     }
+
+    public void readRecord(int recNo) {
+    }
+
+     public void writeRecord() {
+
+    }
+
+    public int getId() {
+        return -1;
+    }
+
+    @Override
+    public BreedColour getData(ResultSet rs) throws SQLException {
+        this.setBreedAndColourIds(rs.getInt("breed_id"),rs.getInt("colour_id"));
+        this.setAvailable(rs.getBoolean("available"));
+        this.setSelected(rs.getBoolean("selected"));
+        this.setClassNo(rs.getInt("class_no"));
+        super.getData();
+        return this;
+    }
+
+    @Override
+    public void performUpdate() {
+        DBAccess.updateSQL(String.format(
+                "UPDATE breedcolours SET breed_id = %d, colour_id = %d, available = %s, selected = %s, class_no = %d WHERE breed_id = %d AND colour_id = %d",
+                        this.getBreedId(true),
+                        this.getColourId(true),
+                        this.available,
+                        this.selected,
+                        this.classNo,
+                        this.getBreedId(false),
+                        this.getColourId(false)));
+        this.setDirty(false);
+    }
+
+    @Override
+    public void performDelete() {
+        DBAccess.updateSQL(String.format(
+                "DELETE FROM breedcolours WHERE"
+                        + " breed_id = %d AND colour_id = %d",
+                this.getBreedId(true),
+                this.getColourId(true)));
+        this.setReadyToDelete(false);
+    }
+
+    @Override
+    public void performInsert() {
+        DBAccess.updateSQL(String.format(
+                "INSERT INTO breedcolours (breed_id,colour_id, available, selected, class_no) VALUES (%d,%d,%s,%s,%d)",
+                this.getBreedId(true),
+                this.getColourId(true),
+                this.available,
+                this.selected,
+                this.classNo));
+        this.setNewItem(false);
+    }
+
+    @Override
+    public BaseDataItem performRead() {
+            ResultSet rs = DBAccess.executeSQL(String.format(
+                "SELECT * FROM colours WHERE breed_id = %d AND colour_id = %d",
+                    this.breedId,this.colourId));
+        try {
+            return this.getData(rs);
+        } catch (SQLException ex) {
+            Logger.getLogger(Colour.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    
+    }
+
+  
     
 }

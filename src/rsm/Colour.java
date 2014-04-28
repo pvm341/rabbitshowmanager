@@ -26,16 +26,24 @@ import java.util.logging.Logger;
  *
  * @author paul
  */
-public class Colour implements DBInterface{
+public class Colour extends BaseDataItem implements DBInterface{
     private int id;
     private String colour;
     private String abbrev;
     
     public Colour(){
-       System.out.println("Colour no args constructor");
+        super(); 
+    }
+    
+    public Colour (int id){
+        super();
+        this.id = id;
+        this.abbrev="nk";
+        this.colour="nk";
     }
     
     public Colour(int id, String colour, String abbrev){
+        super();
         this.id = id;
         this.colour = colour;
         this.abbrev = abbrev;
@@ -56,7 +64,7 @@ public class Colour implements DBInterface{
     public void setColour(String colour) {
         this.colour = colour;
     }
-
+    
     public String getAbbrev() {
         return abbrev;
     }
@@ -66,43 +74,68 @@ public class Colour implements DBInterface{
     }
     
     @Override
-    public void deleteRecord() {
-        String where = String.format("id = %d", id);
-        if (DBAccess.isExistingRec("colours", where)){
-            DBAccess.updateSQL("DELETE FROM colours WHERE "+where); 
-        }    
+    public String toListString(String formatString) {
+        String tableLine = String.format(formatString,  this.getStatusChar(),
+                                                        this.getId(),
+                                                        this.getAbbrev(),
+                                                        this.getColour());    
+        return tableLine;
     }
 
     @Override
-    public void readRecord(int recNo) {
-        ResultSet rs;
-        String sql = String.format("SELECT * FROM colours WHERE id = %d", recNo);
-        rs = DBAccess.executeSQL(sql);
+    public Colour getData(ResultSet rs) throws SQLException {
+       id = rs.getInt("id");
+       abbrev =rs.getString("abbrev");
+       colour =rs.getString("colour");
+       super.getData();
+       return this;
+    }
+
+    @Override
+    public void performUpdate() {
+        DBAccess.updateSQL(String.format(
+                "UPDATE colours SET colour= \'%s\', abbrev=\'%s\' WHERE id = %d",
+                this.colour,this.abbrev,this.id));
+        this.setDirty(false);
+    }
+
+    @Override
+    public void performDelete() {
+        // delete dependant records in breedcolours
+        DBAccess.updateSQL("DELETE FROM breedcolours WHERE colour_id = "+ Integer.toString(this.id));
+        DBAccess.updateSQL(String.format("DELETE FROM colours WHERE id = %d",this.id));
+        this.setReadyToDelete(false);
+    }
+
+    @Override
+    public void performInsert() {
+        DBAccess.updateSQL(String.format(
+                "INSERT INTO colours (id,abbrev,colour) VALUES (%d,\'%s\',\'%s\')", 
+                this.id, this.abbrev,this.colour));
+        this.setNewItem(false);
+    }
+
+    @Override
+    public Colour performRead() {
+        ResultSet rs = DBAccess.executeSQL(String.format(
+                "SELECT * FROM colours WHERE id = %d",this.id));
         try {
-            rs.next();
-            this.id = rs.getInt("id");
-            this.colour = rs.getString("colour");
-            this.abbrev = rs.getString("abbrev");
+            return this.getData(rs);
         } catch (SQLException ex) {
             Logger.getLogger(Colour.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    /** 
-     * writeRecord will update or insert an existing record as appropriate
-     */
-    @Override
-    public void writeRecord() {
-        String sql;
-        String where = String.format("id = %d", this.id);
-        if (DBAccess.isExistingRec("colours",where)){
-            sql=String.format("UPDATE colours SET colour = \'%s\', abbrev = \'%s\' WHERE %s",this.colour, this.abbrev,where); 
-        } else {
-            this.id = DBAccess.getNewKey("colours", "id");//1 + DBAccess.getRecordCount("colours");
-            sql=String.format("INSERT INTO colours (id,colour,abbrev) VALUES (%d,\'%s\',\'%s\')",this.id,this.colour, this.abbrev);
-        }
-        DBAccess.updateSQL(sql);
+        return null;
     }
     
+    public Colour performRead(int id) {
+        ResultSet rs = DBAccess.executeSQL(String.format(
+                "SELECT * FROM colours WHERE id = %d",id));
+        try {
+            return this.getData(rs);
+        } catch (SQLException ex) {
+            Logger.getLogger(Colour.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     
 }

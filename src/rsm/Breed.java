@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  *
  * @author paul
  */
-public class Breed implements DBInterface{
+public class Breed extends BaseDataItem implements DBInterface{
     private int id;
     private int adultAge;
     private boolean topPenReq;
@@ -34,7 +34,7 @@ public class Breed implements DBInterface{
     private String breed;
         
     public Breed(){
-        
+       super(); 
     }
     public int getId() {
         return id;
@@ -52,10 +52,22 @@ public class Breed implements DBInterface{
         this.adultAge = adultAge;
     }
 
+    public String getAdultAgeText(){
+        return DBAccess.lookup("age_text", "exhibit_ages", "id", Integer.toString(this.adultAge));
+    }
+    
+    public String getAdultAgeAbbrev(){
+        return DBAccess.lookup("abbrev", "exhibit_ages", "id", Integer.toString(this.adultAge));
+    }
+    
     public boolean isTopPenReq() {
         return topPenReq;
     }
 
+    public String isTopPenReqStr(){
+        return this.topPenReq ? "true" : "false";
+    }
+    
     public void setTopPenReq(boolean topPenReq) {
         this.topPenReq = topPenReq;
     }
@@ -68,6 +80,10 @@ public class Breed implements DBInterface{
         this.section = section;
     }
 
+    public String getSectionStr(){
+        return DBAccess.lookup("section_text", "showsections", "section", Integer.toString(section));
+    }
+    
     public String getBreed() {
         return breed;
     }
@@ -76,8 +92,26 @@ public class Breed implements DBInterface{
         this.breed = breed;
     }
     
+  
+    public boolean equals(Breed breed1, Breed breed2){
+        return  (breed1.adultAge     == breed2.adultAge) &&
+                (breed1.section      == breed2.section)  &&
+                (breed1.topPenReq    == breed2.topPenReq)&&
+                (breed1.breed.equals(breed2.breed));
+    }
+    
     @Override
-    public void readRecord(int recNo){
+    public String toListString(String formatStr){
+        String tableLine = String.format(formatStr, getStatusChar(),
+                                                    getId(),
+                                                    getAdultAgeAbbrev(),
+                                                    isTopPenReqStr(),
+                                                    getSectionStr(),
+                                                    getBreed());    
+        return tableLine;
+    }
+    
+        public void readRecord(int recNo){
         ResultSet rs;
         rs = DBAccess.executeSQL("SELECT * FROM breeds WHERE id="+Integer.toString(recNo));
         if (rs != null){
@@ -94,7 +128,6 @@ public class Breed implements DBInterface{
         }
     }
     
-    @Override
     public void writeRecord(){
         String sql;
         String where = String.format("id = %d", this.id);
@@ -105,9 +138,10 @@ public class Breed implements DBInterface{
             sql=String.format("INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (%d,%d,%s,%d,\'%s\')",this.id,this.adultAge, this.topPenReq ? "true":"false",this.section,this.breed);
         }
         DBAccess.updateSQL(sql);
+        setDirty(false);
     }
     
-    @Override
+
     public void deleteRecord(){
         String where = String.format("id = %d", this.id);
         if (DBAccess.isExistingRec("breeds", where)){
@@ -121,6 +155,51 @@ public class Breed implements DBInterface{
     
     public int getRecordCount(String where){
         return DBAccess.getRecordCount("breeds",where);
+    }
+
+    @Override
+    public Breed getData(ResultSet rs) throws SQLException {
+        this.id = rs.getInt("id");
+        this.adultAge = rs.getInt("adult_age");
+        this.topPenReq = rs.getBoolean("top_pen_req");
+        this.section = rs.getInt("section");
+        this.breed = rs.getString("breed");
+        super.getData();
+        return this;
+    }
+
+    @Override
+    public void performUpdate() {
+       
+    }
+
+    @Override
+    public void performDelete() {
+        // Delete contraints with this id
+        DBAccess.updateSQL("DELETE FROM breedcolours WHERE breed_id ="+Integer.toString(this.getId()));
+        // delete main record
+        DBAccess.updateSQL(String.format("DELETE FROM breeds WHERE id = %d",this.getId()));
+    }
+        
+    @Override
+    public void performInsert() {
+        DBAccess.updateSQL(String.format("INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (%d,%d,%s,%d,\'%s\')",this.getId(),this.getAdultAge(),this.isTopPenReqStr(),this.getSection(),this.getBreed()));
+        // New Breed therefore need to create breedcolour new breed anycolour record in breedcolours 
+        // others will have to be entered manually on another form
+        DBAccess.updateSQL("INSERT INTO breedcolours (breed_id,colour_id) VALUES ("+Integer.toString(this.getId())+",1)");
+ }
+
+    @Override
+    public Breed performRead() {
+        ResultSet rs = DBAccess.executeSQL(String.format(
+              "SELECT * FROM breed WHERE id = %d",this.id));
+        try {
+            return this.getData(rs);
+        } catch (SQLException ex) {
+            Logger.getLogger(Colour.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+
     }
 
 }

@@ -17,13 +17,13 @@
 
 package rsm;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 /**
  *
  * @author paul
  */
-public interface DBInterface {
-    public BaseDataItem getData(ResultSet rs)throws SQLException;
+public interface DBListInterface {
+    
+    public void readList(boolean headerRequired);
+    public void writeList();    
 }

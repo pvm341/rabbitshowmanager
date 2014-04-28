@@ -19,11 +19,33 @@ package rsm;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
 /**
  *
  * @author paul
  */
-public interface DBInterface {
-    public BaseDataItem getData(ResultSet rs)throws SQLException;
+public class JudgeList extends BaseDataList implements DBListInterface {
+    
+    public JudgeList (){
+        list = new Vector<Judge>();
+    }
+
+    @Override
+    public int findInListById(int reqId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void readList(boolean headerRequired) {
+        Judge judge = new Judge();
+        super.readList(headerRequired, judge,"judges",null,null);
+    }
+
+    @Override
+    public void writeList() {
+        Judge judge = new Judge();
+        super.writeList(this, judge);
+    }
+
 }

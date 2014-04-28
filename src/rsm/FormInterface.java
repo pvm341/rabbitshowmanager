@@ -16,14 +16,12 @@
  */
 
 package rsm;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 /**
  *
  * @author paul
  */
-public interface DBInterface {
-    public BaseDataItem getData(ResultSet rs)throws SQLException;
+public interface FormInterface {
+    
+    public BaseDataItem getFormData();
+    public void setFormData(BaseDataItem dataRecord);
 }

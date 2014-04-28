@@ -26,17 +26,17 @@ import java.util.logging.Logger;
  *
  * @author paul
  */
-public class ExhibitAge extends BaseDataItem implements DBInterface{
+public class ExhibitorAge extends BaseDataItem implements DBInterface {
     private int id;
     private int age;
     private String ageText;
     private String abbrev;
-
-    public ExhibitAge(){
-        
+    
+    ExhibitorAge() {
+        super();
     }
 
-    
+ 
     public int getId() {
         return id;
     }
@@ -68,52 +68,45 @@ public class ExhibitAge extends BaseDataItem implements DBInterface{
     public void setAbbrev(String abbrev) {
         this.abbrev = abbrev;
     }
-
-    @Override
+    
+   @Override
     public String toListString(String formatString) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-     /**
-     * Gets the data for Current Object (ExhibitAge) from the database result set
-     * @param rs The ResultSet
-     * @return pointer to current object
-     * @throws SQLException 
-     */
     @Override
-    final public ExhibitAge getData(ResultSet rs) throws SQLException {
+    public ExhibitorAge getData(ResultSet rs) throws SQLException {
         this.id = rs.getInt("id");
         this.age = rs.getInt("age");
-        this.ageText = rs.getString("age_text");
         this.abbrev = rs.getString("abbrev");
-        super.getData();
-        return this; 
+        this.ageText = rs.getString("age_text");
+        return this;
     }
 
     @Override
     public void performUpdate() {
         DBAccess.updateSQL(String.format(
-                "UPDATE exhibit_ages SET age = %d, age_text = \'%s\', abbrev "
-                        + "= \'%s\' WHERE id = %d",
-                this.age,
-                this.ageText,
-                this.abbrev,
-                this.id));
+                "UPDATE human_ages SET age = %d, age_text = \'%s\', abbrev " 
+                        +"\'%s\' WHERE id = %d",
+                       this.age,
+                       this.ageText,
+                       this.abbrev,
+                       this.id));
         this.setDirty(false);
     }
 
     @Override
     public void performDelete() {
         DBAccess.updateSQL(String.format(
-                "DELETE FROM exhibit_ages WHERE id = %d ", 
+                "DELETE FROM human_ages WHERE id = %d",
                 this.id));
-        this.setReadyToDelete(false);
+        this.setDirty(false);
     }
 
     @Override
     public void performInsert() {
         DBAccess.updateSQL(String.format(
-                "INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES "
+                "INSERT INTO human_ages (id,age,age_text,abbrev) VALUES "
                         + "(%d,%d,\'%s\',\'%s\')",
                 this.id,
                 this.age,
@@ -123,9 +116,9 @@ public class ExhibitAge extends BaseDataItem implements DBInterface{
     }
 
     @Override
-    public ExhibitAge performRead() {
+    public ExhibitorAge performRead() {
         ResultSet rs = DBAccess.executeSQL(String.format(
-                "SELECT * FROM exhibit_ages WHERE id = %d",this.id));
+                "SELECT * FROM human_ages WHERE id = %d",this.id));
         try {
             return this.getData(rs);
         } catch (SQLException ex) {
@@ -133,5 +126,5 @@ public class ExhibitAge extends BaseDataItem implements DBInterface{
         }
         return null;
     }
-    
+
 }

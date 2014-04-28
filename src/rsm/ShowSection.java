@@ -26,16 +26,14 @@ import java.util.logging.Logger;
  *
  * @author paul
  */
-public class ExhibitAge extends BaseDataItem implements DBInterface{
+public class ShowSection extends BaseDataItem implements DBInterface {
     private int id;
-    private int age;
-    private String ageText;
-    private String abbrev;
-
-    public ExhibitAge(){
-        
+    private int section;
+    private String sectionText;
+    
+    public ShowSection() {
+        super();
     }
-
     
     public int getId() {
         return id;
@@ -45,87 +43,65 @@ public class ExhibitAge extends BaseDataItem implements DBInterface{
         this.id = id;
     }
 
-    public int getAge() {
-        return age;
+    public int getSection() {
+        return section;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setSection(int section) {
+        this.section = section;
     }
 
-    public String getAgeText() {
-        return ageText;
+    public String getSectionText() {
+        return sectionText;
     }
 
-    public void setAgeText(String ageText) {
-        this.ageText = ageText;
+    public void setSectionText(String sectionText) {
+        this.sectionText = sectionText;
     }
-
-    public String getAbbrev() {
-        return abbrev;
-    }
-
-    public void setAbbrev(String abbrev) {
-        this.abbrev = abbrev;
-    }
-
+        
     @Override
     public String toListString(String formatString) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-     /**
-     * Gets the data for Current Object (ExhibitAge) from the database result set
-     * @param rs The ResultSet
-     * @return pointer to current object
-     * @throws SQLException 
-     */
     @Override
-    final public ExhibitAge getData(ResultSet rs) throws SQLException {
+    public ShowSection getData(ResultSet rs) throws SQLException {
         this.id = rs.getInt("id");
-        this.age = rs.getInt("age");
-        this.ageText = rs.getString("age_text");
-        this.abbrev = rs.getString("abbrev");
-        super.getData();
-        return this; 
+        this.section = rs.getInt("section");
+        this.sectionText = rs.getString(sectionText);
+        this.getData();
+        return this;
     }
 
     @Override
     public void performUpdate() {
         DBAccess.updateSQL(String.format(
-                "UPDATE exhibit_ages SET age = %d, age_text = \'%s\', abbrev "
-                        + "= \'%s\' WHERE id = %d",
-                this.age,
-                this.ageText,
-                this.abbrev,
-                this.id));
+                "UPDATE showsections SET section = %d, section_text = \'%s\' "
+                        + "WHERE id = %d",
+                this.section,this.sectionText,this.id));
         this.setDirty(false);
     }
 
     @Override
     public void performDelete() {
         DBAccess.updateSQL(String.format(
-                "DELETE FROM exhibit_ages WHERE id = %d ", 
-                this.id));
+                "DELETE FROM showsections WHERE id= %d", this.id));
         this.setReadyToDelete(false);
     }
 
     @Override
     public void performInsert() {
         DBAccess.updateSQL(String.format(
-                "INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES "
-                        + "(%d,%d,\'%s\',\'%s\')",
-                this.id,
-                this.age,
-                this.ageText,
-                this.abbrev));
+                "INSERT INTO showsections (id,section, section_text) "
+                        + "VALUES (%d,%d,\'%s\')", 
+                 this.id,this.section,this.sectionText));
         this.setNewItem(false);
     }
 
     @Override
-    public ExhibitAge performRead() {
+    public ShowSection performRead() {
         ResultSet rs = DBAccess.executeSQL(String.format(
-                "SELECT * FROM exhibit_ages WHERE id = %d",this.id));
+            "SELECT * FROM showsection WHERE id = %d",this.id));
         try {
             return this.getData(rs);
         } catch (SQLException ex) {
@@ -133,5 +109,6 @@ public class ExhibitAge extends BaseDataItem implements DBInterface{
         }
         return null;
     }
+
     
 }
