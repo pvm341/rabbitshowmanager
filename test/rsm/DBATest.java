@@ -90,7 +90,8 @@ public class DBATest {
         assertEquals("Should be Status; id;abbrev;colour","Status;  id;abbrev;colour",header);
         rs = DBA.executeSQL("SELECT * FROM breedcolours");
         header = DBA.getHeader(rs);
-        assertEquals("Should be Status;breed_id;colour_id","Status;breed_id;colour_id",header);
+        assertEquals("Should be Status;breed_id;colour_id;available;selected;class_no",
+                "Status;breed_id;colour_id;available;selected;class_no",header);
         
     }
 }

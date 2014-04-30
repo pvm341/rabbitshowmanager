@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package rsm;
 
 import org.junit.After;
@@ -24,64 +23,82 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-
 /**
  *
  * @author paul
  */
 public class ColourTest {
-    
+
     public ColourTest() {
-        
+
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
         DBA.getInstance();
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
 
-       
     @Test
-    public void dirtyBitTest(){
+    public void dirtyBitTest() {
         Colour instance = new Colour();
-        assertFalse("should be false",instance.isDirty());
+        assertFalse("should be false", instance.isDirty());
         instance.setDirty(true);
-        assertTrue("should be true",instance.isDirty());
+        assertTrue("should be true", instance.isDirty());
         instance.setDirty(false);
-        assertFalse("Should be false",instance.isDirty());
+        assertFalse("Should be false", instance.isDirty());
     }
 
     @Test
-    public void deleteOnWriteBitTest(){
+    public void deleteOnWriteBitTest() {
         Colour instance = new Colour();
-        assertFalse("should be false",instance.isReadyToDelete());
+        assertFalse("should be false", instance.isReadyToDelete());
         instance.setReadyToDelete(true);
-        assertTrue("should be true",instance.isReadyToDelete());
+        assertTrue("should be true", instance.isReadyToDelete());
         instance.setReadyToDelete(false);
-        assertFalse("Should be false",instance.isReadyToDelete());
+        assertFalse("Should be false", instance.isReadyToDelete());
     }
-    
+
     @Test
-    public void getAColourTest(){
+    public void getAColourTest() {
         Colour col1, col2;
         col1 = new Colour(1);
         col2 = new Colour(2);
         col2 = col2.performRead();
         col1 = col1.performRead();
-        assertEquals(1,col2.getId());
-        assertEquals("AC",col1.getAbbrev());
+        assertEquals(2, col2.getId());
+        assertEquals("AC", col1.getAbbrev());
     }
 
+    @Test
+    public void getInListByIdTest() {
+        ColourList cl = new ColourList();
+        cl.readList(HeaderRequired.NOHEADERS);
+        assertEquals(0, cl.findInListById(1));
+        assertEquals(4, cl.findInListById(5));
+    }
+
+    @Test
+    public void getInListWithIdTest() {
+        ColourList cl = new ColourList();
+        Colour colour = new Colour();
+        cl.readList(HeaderRequired.NOHEADERS);
+        colour = (Colour) cl.findInListWithId(1);
+        assertEquals(1, colour.getId());
+        colour = (Colour) cl.findInListWithId(5);
+        assertEquals(5, colour.getId());
+        colour = (Colour) cl.findInListWithId(0);
+        assertEquals(-1, colour.getId());
+    }
 }
