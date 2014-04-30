@@ -84,7 +84,6 @@ public class Colour extends BaseDataItem implements DBInterface{
 
     @Override
     public Colour getData(ResultSet rs) throws SQLException {
-       rs.next();
        id = rs.getInt("id");
        abbrev =rs.getString("abbrev");
        colour =rs.getString("colour");
@@ -121,6 +120,7 @@ public class Colour extends BaseDataItem implements DBInterface{
         ResultSet rs = DBA.executeSQL(String.format(
                 "SELECT * FROM colours WHERE id = %d",this.id));
         try {
+            rs.next();
             return this.getData(rs);
         } catch (SQLException ex) {
             Logger.getLogger(Colour.class.getName()).log(Level.SEVERE, null, ex);

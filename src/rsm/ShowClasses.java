@@ -17,6 +17,7 @@
 
 package rsm;
 
+import java.util.Iterator;
 import java.util.Vector;
 
 /**
@@ -49,6 +50,28 @@ public class ShowClasses extends BaseDataList implements DBListInterface {
     public void writeList() {
         ShowClass showClass = new ShowClass();
         super.writeList(this, showClass);
+    }
+
+    @Override
+    public BaseDataItem findInListWithId(int reqId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean isAlreadyInTheList(Object requiredItem) {
+        boolean found = false;
+        ShowClass showClass;
+        if (requiredItem instanceof Integer){
+            Integer searchForItem = (Integer) requiredItem;
+            for (Iterator it = this.list.iterator(); !found && it.hasNext();){
+                 showClass = (ShowClass) it.next();
+                 found = showClass.getClassNo() == searchForItem;
+            }
+        } else {
+            throw new UnsupportedOperationException("Not supported yet."); 
+            //To change body of generated methods, choose Tools | Templates.
+        }
+        return found;
     }
 
    

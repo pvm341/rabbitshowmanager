@@ -38,10 +38,10 @@ public class BreedColour extends BaseDataItem {
 
     }
 
-    public BreedColour(int i, int i0) {
-       this.breedId[VersionRequired.CURRENT.ordinal()] = i;
+    public BreedColour(int breedId, int colourId) {
+       this.breedId[VersionRequired.CURRENT.ordinal()] = breedId;
        this.breedId[VersionRequired.PREVIOUS.ordinal()] = this.breedId[VersionRequired.CURRENT.ordinal()];
-       this.colourId[VersionRequired.CURRENT.ordinal()] = i0;
+       this.colourId[VersionRequired.CURRENT.ordinal()] = colourId;
        this.colourId[VersionRequired.PREVIOUS.ordinal()] = this.colourId[VersionRequired.CURRENT.ordinal()];
     }
 
@@ -117,15 +117,11 @@ public class BreedColour extends BaseDataItem {
 
     @Override
     public BreedColour getData(ResultSet rs) throws SQLException {
-        if (rs == null){
-            System.out.printf("rs = null B=%d C=%d\n ",this.breedId[VersionRequired.CURRENT.ordinal()],this.colourId[VersionRequired.CURRENT.ordinal()]);
-        } else {
         this.setBreedAndColourIds(rs.getInt("breed_id"),rs.getInt("colour_id"));
         this.setAvailable(rs.getBoolean("available"));
         this.setSelected(rs.getBoolean("selected"));
         this.setClassNo(rs.getInt("class_no"));
         super.getData();
-        }
         return this;
     }
 

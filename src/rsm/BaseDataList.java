@@ -198,5 +198,7 @@ public abstract class BaseDataList implements DBListInterface {
     }
 
     public abstract int findInListById(int reqId);
+    public abstract BaseDataItem findInListWithId(int reqId);
+    public abstract boolean isAlreadyInTheList(Object requiredItem);
  
 }

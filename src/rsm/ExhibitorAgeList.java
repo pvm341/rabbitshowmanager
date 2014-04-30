@@ -45,5 +45,15 @@ public class ExhibitorAgeList extends BaseDataList implements DBListInterface {
         ExhibitorAge exhibitorAge = new ExhibitorAge();
         super.writeList(this, exhibitorAge);
     }
+
+    @Override
+    public BaseDataItem findInListWithId(int reqId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean isAlreadyInTheList(Object requiredItem) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

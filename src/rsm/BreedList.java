@@ -135,4 +135,14 @@ public class BreedList extends BaseDataList implements DBListInterface {
         requiredBreed = (Breed) list.get(index);
         return requiredBreed.getId();
     }
+
+    @Override
+    public BaseDataItem findInListWithId(int reqId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean isAlreadyInTheList(Object requiredItem) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -31,7 +31,8 @@ import javax.swing.*;
 public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
     private ShowClass curRecord;
     private ShowClasses showClasses;
-    Vector<Integer> colours4Breed;
+    private Vector<Integer> colours4Breed;
+    private boolean newItem;
     private boolean useAbbrevs;
     private BreedColourList availableColourList;
     private int selectedRecord;
@@ -68,10 +69,7 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
         breedColourList.readList(HeaderRequired.NOHEADERS);
         showSectionList = new ShowSectionList();
         showSectionList.readList(HeaderRequired.NOHEADERS);
- 
         lstShowClassesDataModel = new  DefaultListModel<String>();
-        //curRecord = new ShowClass();
-        //availableColourList = 
         showClasses = new ShowClasses();
         showClasses.readList(HeaderRequired.HEADERS);
         lstColoursForClass.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -234,9 +232,9 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
     }
 
     private void setColoursEnabled(){
-        lstColoursForClass.setEnabled(availableColourList.list.size()>1);
-        btnAddColour.setEnabled(availableColourList.list.size()>1);
-        btnDelColour.setEnabled(availableColourList.list.size()>1 && lstColoursForClass.getComponentCount()>0);
+        lstColoursForClass.setEnabled(colours4Breed.size()>1);
+        btnAddColour.setEnabled(colours4Breed.size()>1);
+        btnDelColour.setEnabled(colours4Breed.size()>1 && lstColoursForClass.getComponentCount()>0);
     }
 
     /**
@@ -283,10 +281,13 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
         rbnMembers = new javax.swing.JRadioButton();
         rbnUpSideDown = new javax.swing.JRadioButton();
         lblColoursForClass = new javax.swing.JLabel();
-        btnAddThisClass = new javax.swing.JButton();
         edtHeaders = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstDisplay = new javax.swing.JList();
+        btnInsert = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        lblStatus = new javax.swing.JLabel();
 
         setTitle("Class Editor");
 
@@ -310,6 +311,11 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
         lblBreed.setText("Breed");
 
         cmxBreed.setToolTipText("Check for a breed class");
+        cmxBreed.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmxBreedItemStateChanged(evt);
+            }
+        });
         cmxBreed.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmxBreedActionPerformed(evt);
@@ -427,13 +433,6 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
 
         lblColoursForClass.setText("Colours For this class");
 
-        btnAddThisClass.setText("Add This Class");
-        btnAddThisClass.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddThisClassActionPerformed(evt);
-            }
-        });
-
         edtHeaders.setFont(new java.awt.Font("DejaVu Sans Mono", 0, 10)); // NOI18N
         edtHeaders.setText("Header");
 
@@ -445,81 +444,112 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
         });
         jScrollPane1.setViewportView(lstDisplay);
 
+        btnInsert.setText("Add");
+        btnInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertActionPerformed(evt);
+            }
+        });
+
+        btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnClose)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(rbnStandard)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rbnMembers)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(rbnUpSideDown)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rbnBreeders)
+                        .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnDelColour)
+                            .addComponent(lblColoursForClass)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(24, 24, 24))))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(edtHeaders)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblSection)
+                            .addComponent(lblBreed)
+                            .addComponent(lblColours))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmxSection, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbxBreedClass))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblExhibitorAge)
+                            .addComponent(lblEhibitAge))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cmxExhibitAge, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cmxExhibitorAge, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblSection)
-                                    .addComponent(lblBreed)
-                                    .addComponent(lblColours)
-                                    .addComponent(lblEhibitAge)
-                                    .addComponent(lblExhibitorAge)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(41, 41, 41)
-                                .addComponent(lblClassNo)))
-                        .addGap(3, 3, 3)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cmxBreed, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(cmxColours, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAddColour, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(cmxExhibitorAge, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblExhibitorGender))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(cmxExhibitAge, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lblExhibitGender)))
+                                    .addComponent(lblExhibitorGender, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblExhibitGender))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cmxExhibitorGender, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(cmxExhibitGender, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(edtClassNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblClassName))
-                                    .addComponent(cmxSection, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(4, 4, 4)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(cbxBreedClass)
-                                        .addGap(280, 280, 280)
-                                        .addComponent(lblColoursForClass))
-                                    .addComponent(edtClassName)))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(98, 98, 98)
-                        .addComponent(rbnStandard)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rbnMembers)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rbnUpSideDown)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rbnBreeders)
-                        .addGap(75, 75, 75)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnDelColour))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane1)
-            .addComponent(edtHeaders)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(cmxColours, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(btnAddColour, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cmxBreed, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(btnAddThisClass)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnClose))
+                .addGap(41, 41, 41)
+                .addComponent(lblClassNo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(edtClassNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblClassName)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(edtClassName)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -527,66 +557,72 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
                 .addComponent(edtHeaders, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblClassName)
-                    .addComponent(edtClassName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(edtClassNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblClassNo))
-                .addGap(20, 20, 20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cmxSection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblSection)
-                        .addComponent(cbxBreedClass))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(lblColoursForClass)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnDelete)
+                            .addComponent(btnUpdate)
+                            .addComponent(btnInsert)
+                            .addComponent(btnClose)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblClassName)
+                            .addComponent(edtClassNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblClassNo)
+                            .addComponent(edtClassName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(cmxBreed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblBreed))
-                                .addGap(5, 5, 5)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(cmxColours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblColours)
-                                    .addComponent(btnAddColour))
-                                .addGap(4, 4, 4)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(cmxExhibitAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblEhibitAge)
-                                    .addComponent(lblExhibitGender)
-                                    .addComponent(cmxExhibitorGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(10, 10, 10)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(59, 59, 59)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(btnAddColour)
+                                            .addComponent(cmxColours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(cmxExhibitorAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lblExhibitorGender)
-                                        .addComponent(cmxExhibitGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(lblExhibitorAge)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(4, 4, 4)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(9, 9, 9)
+                                        .addComponent(cmxSection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblSection)
+                                        .addComponent(cbxBreedClass))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(30, 30, 30)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(lblBreed)
+                                            .addComponent(cmxBreed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(10, 10, 10)
+                                        .addComponent(lblColours)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(4, 4, 4)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(lblExhibitGender)
+                                            .addComponent(cmxExhibitorGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(cmxExhibitAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(5, 5, 5))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblEhibitAge)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblExhibitorGender)
+                                    .addComponent(cmxExhibitGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cmxExhibitorAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblExhibitorAge))
+                                .addGap(23, 23, 23)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(rbnStandard)
                                     .addComponent(rbnMembers)
                                     .addComponent(rbnUpSideDown)
                                     .addComponent(rbnBreeders)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btnDelColour)
-                                .addGap(6, 6, 6)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnAddThisClass)
-                        .addContainerGap())
-                    .addComponent(btnClose, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblColoursForClass)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(13, 13, 13)
+                                .addComponent(btnDelColour)))
+                        .addContainerGap(35, Short.MAX_VALUE))))
         );
 
         pack();
@@ -602,10 +638,7 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
     
     private void cmxBreedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmxBreedActionPerformed
         makeListOfColoursForBreed(breedList.findInListByIndex(cmxBreed.getSelectedIndex()));
-        
-        
-        
-    
+        setColoursEnabled();  
     }//GEN-LAST:event_cmxBreedActionPerformed
 
     private void cmxColoursActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmxColoursActionPerformed
@@ -629,9 +662,9 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
     }//GEN-LAST:event_cmxExhibitGenderActionPerformed
 
     private void btnAddColourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddColourActionPerformed
-        // there is no point of adding exhibit colour if there is only one colour for 
-        // that breed
-//        AC ac;
+    // there is no point of adding exhibit colour if there is only one colour for 
+    // that breed
+       
 //        int theColourInt,theColourIdx; 
         // * first get the selected colour
         // from the colour combobox
@@ -720,10 +753,6 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
 //        }
     }//GEN-LAST:event_btnDelColourActionPerformed
 
-    private void btnAddThisClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddThisClassActionPerformed
-        curRecord = getFormData();
-    }//GEN-LAST:event_btnAddThisClassActionPerformed
-
     private void cmxSectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmxSectionActionPerformed
         curRecord = getFormData();
     }//GEN-LAST:event_cmxSectionActionPerformed
@@ -735,12 +764,82 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
         setFormData(curRecord);
     }//GEN-LAST:event_lstDisplayValueChanged
 
+    private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
+        newItem = ! newItem;
+        if (newItem){
+            lblStatus.setText("New Record - Add or Cancel");
+            cmxBreed.setSelectedIndex(0);
+            cmxSection.setSelectedIndex(4);
+            cmxExhibitAge.setSelectedIndex(0);
+            cmxExhibitGender.setSelectedIndex(0);
+            cmxExhibitorAge.setSelectedIndex(0);
+            cmxExhibitorGender.setSelectedIndex(0);
+            cbxBreedClass.setSelected(false);
+            rbnStandard.setSelected(false);
+            rbnMembers.setSelected(false);
+            rbnBreeders.setSelected(false);
+            rbnUpSideDown.setSelected(false);
+            lstColoursForClass.removeAll();
+            btnInsert.setText("Add");
+        } else if (showClasses.isAlreadyInTheList(Integer.valueOf(edtClassNo.getText()))){
+            newItem = true;
+            lblStatus.setText("New Record - Class No is already defined change the Class number");
+        } else {
+            lblStatus.setText("New Record - Added");
+            ShowClass dataRecord = getFormData();
+            dataRecord.setNewItem(true);
+            showClasses.add(dataRecord);
+            lstShowClassesDataModel.addElement(dataRecord.toListString(showClasses.getFormatStr()));
+            setButtons(dataRecord);
+            selectedRecord = breedList.list.size();
+            curRecord = (ShowClass) showClasses.get(selectedRecord);
+            lstDisplay.setSelectedIndex(selectedRecord);
+            displayTheList();
+        }
+    }//GEN-LAST:event_btnInsertActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        ShowClass dataRecord = getFormData();
+        dataRecord.setDirty(false);
+        dataRecord.setNewItem(false);
+        dataRecord.setReadyToDelete(false);
+        if (!dataRecord.equals(curRecord)){
+            if (curRecord.isDirty()){
+                dataRecord.performUpdate();
+                curRecord.setDirty(false);
+            } else {
+                curRecord.setDirty(true);
+                dataRecord.setDirty(true);
+            }
+            breedList.list.set(selectedRecord, dataRecord);
+            lstShowClassesDataModel.set(selectedRecord, dataRecord.toListString(breedList.getFormatStr()));
+        }
+        setButtons(dataRecord);
+        displayTheList();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        //curRecord = getFormData();
+        curRecord.setReadyToDelete(!curRecord.isReadyToDelete());
+        //btnDelete.setText(curRecord.isReadyToDelete()?"Undelete":"Delete");
+        breedList.list.set(selectedRecord, curRecord);
+        lstShowClassesDataModel.set(selectedRecord, curRecord.toListString(breedList.getFormatStr()));
+        setButtons(curRecord);
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void cmxBreedItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmxBreedItemStateChanged
+        makeListOfColoursForBreed(breedList.findInListByIndex(cmxBreed.getSelectedIndex()));
+        setColoursEnabled();  
+    }//GEN-LAST:event_cmxBreedItemStateChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddColour;
-    private javax.swing.JButton btnAddThisClass;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnDelColour;
+    private javax.swing.JButton btnDelete;
     private javax.swing.ButtonGroup btnGrpDuplicates;
+    private javax.swing.JButton btnInsert;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JCheckBox cbxBreedClass;
     private javax.swing.JComboBox cmxBreed;
     private javax.swing.JComboBox cmxColours;
@@ -764,6 +863,7 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
     private javax.swing.JLabel lblExhibitorAge;
     private javax.swing.JLabel lblExhibitorGender;
     private javax.swing.JLabel lblSection;
+    private javax.swing.JLabel lblStatus;
     private javax.swing.JList lstColoursForClass;
     private javax.swing.JList lstDisplay;
     private javax.swing.JRadioButton rbnBreeders;

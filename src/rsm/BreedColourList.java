@@ -88,6 +88,16 @@ public class BreedColourList extends BaseDataList {
         BreedColour breedColour = new BreedColour();
         super.readList(hr,breedColour, "breedcolours",null,"breed_id"); 
     }
+
+    @Override
+    public BaseDataItem findInListWithId(int reqId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean isAlreadyInTheList(Object requiredItem) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
 

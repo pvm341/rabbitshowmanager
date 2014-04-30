@@ -127,6 +127,7 @@ public class ExhibitAge extends BaseDataItem implements DBInterface{
         ResultSet rs = DBA.executeSQL(String.format(
                 "SELECT * FROM exhibit_ages WHERE id = %d",this.id));
         try {
+            rs.next();
             return this.getData(rs);
         } catch (SQLException ex) {
             Logger.getLogger(Colour.class.getName()).log(Level.SEVERE, null, ex);

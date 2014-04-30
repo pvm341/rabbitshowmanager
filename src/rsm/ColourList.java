@@ -22,7 +22,7 @@ public class ColourList extends BaseDataList implements DBListInterface {
     
     public void readList(HeaderRequired hr) {
       Colour colour = new Colour();
-      super.readList(hr, colour,"colours",null,"id");
+      super.readList(hr, colour,"colours",null,null);
     }
 
     @Override
@@ -49,11 +49,25 @@ public class ColourList extends BaseDataList implements DBListInterface {
            colour = (Colour) it.next();
            found = (colour.getId() == reqId); 
         }
+        if (!found){
+            colour.setId(-1);
+        }
         return colour;
     }
 
     @Override
     public int findInListById(int reqId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       int found = -1;
+       Colour colour;
+       for (int idx = 0; idx<this.list.size() && found == -1;idx++ ){
+           colour = (Colour)this.get(idx);
+            found = (colour.getId()==reqId)?idx:-1;
+       }
+       return found;
+    }
+
+    @Override
+    public boolean isAlreadyInTheList(Object requiredItem) {
+        return false;
     }
 }

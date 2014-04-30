@@ -34,4 +34,14 @@ public class ShowSectionList extends BaseDataList implements DBListInterface {
         ShowSection showSection = new ShowSection();
         super.readList(hr, showSection, "showsections", null, null);
     }
+
+    @Override
+    public BaseDataItem findInListWithId(int reqId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean isAlreadyInTheList(Object requiredItem) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

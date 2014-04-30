@@ -46,5 +46,15 @@ public class ExhibitGenderList extends BaseDataList implements DBListInterface {
         ExhibitGender exhibitGender = new ExhibitGender();     
         super.writeList(this, exhibitGender);
     }
+
+    @Override
+    public BaseDataItem findInListWithId(int reqId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean isAlreadyInTheList(Object requiredItem) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

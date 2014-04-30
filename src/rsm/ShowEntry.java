@@ -124,6 +124,7 @@ public class ShowEntry extends BaseDataItem implements DBInterface {
         ResultSet rs = DBA.executeSQL(String.format(
                 "SELECT * FROM entries WHERE id = %d",this.penNo));
         try {
+            rs.next();
             return this.getData(rs);
         } catch (SQLException ex) {
             Logger.getLogger(Colour.class.getName()).log(Level.SEVERE, null, ex);
