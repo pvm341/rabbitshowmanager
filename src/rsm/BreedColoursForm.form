@@ -24,19 +24,9 @@
           <Component id="jScrollPane1" alignment="1" max="32767" attributes="0"/>
           <Component id="lblStatus" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
-              <Component id="btnDelete" min="-2" pref="89" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="btnUpdate" min="-2" pref="78" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="btnInsert" min="-2" pref="88" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="btnClose" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblBreedColourBreedID" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -46,20 +36,21 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="lblBreedID" min="-2" pref="79" max="-2" attributes="0"/>
+                              <Component id="lblBreedColourColourID" min="-2" pref="79" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="lblBreedName" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblColourAbbrev" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblBreedColourClassNo" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="edtColourID" min="-2" pref="45" max="-2" attributes="0"/>
+                              <Component id="edtBreedColourColourID" min="-2" pref="45" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="406" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
@@ -69,17 +60,43 @@
                                       <EmptySpace max="32767" attributes="0"/>
                                       <Component id="btnAbandon" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="cmxColourName" alignment="0" min="-2" pref="211" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="cmxColourName" alignment="0" min="-2" pref="211" max="-2" attributes="0"/>
+                                          <Component id="edtBreedColourClassNo" alignment="0" min="-2" pref="43" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="edtBreedID" min="-2" pref="55" max="-2" attributes="0"/>
+                      <Component id="edtBreedColourBreedID" min="-2" pref="55" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="btnDelete" min="-2" pref="89" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="cbxBreedColourAvailable" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
+                      <Component id="cbxBreedColourSelected" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="btnUpdate" min="-2" pref="78" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnInsert" min="-2" pref="88" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnClose" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -93,10 +110,10 @@
               <Component id="lblStatus" min="-2" pref="17" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="edtColourID" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblBreedID" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="edtBreedID" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="edtBreedColourColourID" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblBreedColourColourID" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblBreedColourBreedID" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="edtBreedColourBreedID" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -111,7 +128,14 @@
                   <Component id="cmxBreedName" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cmxColourName" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="cbxBreedColourSelected" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cbxBreedColourAvailable" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblBreedColourClassNo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="edtBreedColourClassNo" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnDelete" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnUpdate" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -124,13 +148,13 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="lblBreedID">
+    <Component class="javax.swing.JLabel" name="lblBreedColourColourID">
       <Properties>
         <Property name="horizontalAlignment" type="int" value="11"/>
         <Property name="text" type="java.lang.String" value="Colour ID"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="edtColourID">
+    <Component class="javax.swing.JTextField" name="edtBreedColourColourID">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -221,12 +245,12 @@
     </Component>
     <Component class="javax.swing.JTextField" name="edtColourAbbreviation">
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="lblBreedColourBreedID">
       <Properties>
         <Property name="text" type="java.lang.String" value="Breed ID"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="edtBreedID">
+    <Component class="javax.swing.JTextField" name="edtBreedColourBreedID">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
@@ -256,6 +280,25 @@
           </StringArray>
         </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="cbxBreedColourAvailable">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Available"/>
+        <Property name="horizontalTextPosition" type="int" value="10"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="cbxBreedColourSelected">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Selected"/>
+        <Property name="horizontalTextPosition" type="int" value="10"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblBreedColourClassNo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Class No"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="edtBreedColourClassNo">
     </Component>
   </SubComponents>
 </Form>

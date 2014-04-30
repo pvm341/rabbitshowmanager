@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 paul
+ * Copyright (Cl) 2014 paul
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,6 +17,7 @@
 
 package rsm;
 
+import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
@@ -71,9 +72,10 @@ public abstract class BaseDataList implements DBListInterface {
         return  null;
     }
     
+   
     public void readList(HeaderRequired hr, Object dataItem, 
-            String table, String with, String orderBy ){
-        ResultSet rs = DBA.executeSQL(String.format(
+        String table, String with, String orderBy ){
+             ResultSet rs = DBA.executeSQL(String.format(
             "SELECT * FROM %s %s %s",table,
                 with != null?String.format("WITH %s",with):" ",
                 orderBy != null?String.format("ORDER BY %s", orderBy):" "));   
@@ -153,6 +155,7 @@ public abstract class BaseDataList implements DBListInterface {
     public void writeList(BaseDataList theList, BaseDataItem paramDataItem){
         //BaseDataList dataList;
         BaseDataItem localDataItem = null;
+        // locate the currect polymorph 
         for (Iterator it = list.iterator(); it.hasNext();) {
             if (paramDataItem instanceof Breed){
                  localDataItem  = (Breed)it.next();      
@@ -181,6 +184,7 @@ public abstract class BaseDataList implements DBListInterface {
             } else if (paramDataItem instanceof ShowSection){
                  localDataItem = (ShowSection) it.next();
             }  
+            // found the correct polymorph now read process it 
             if (localDataItem.isDirty()){
                 localDataItem.performUpdate();
             } else if (localDataItem.isReadyToDelete()) { 

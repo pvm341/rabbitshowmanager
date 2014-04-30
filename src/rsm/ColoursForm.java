@@ -80,8 +80,6 @@ public final class ColoursForm extends javax.swing.JFrame implements FormInterfa
         lblColourAbbrev = new javax.swing.JLabel();
         edtColourAbbreviation = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         btnAbandon.setText("Abandon and Close");
         btnAbandon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -34,22 +34,22 @@
               <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="lblExhibitorAgeID" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblExhibitAgeText" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblExhibitAgeClass" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblExhibitorAgeValue" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblExhibitorAgeText" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblExhibitorAgeClass" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblExhibitorAgeAbbrev" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="edtExhibitorAgesValue" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="edtExhibitorAgeValue" min="-2" pref="35" max="-2" attributes="0"/>
                           <Component id="edtExhibitorAgeText" min="-2" pref="168" max="-2" attributes="0"/>
                           <Component id="edtExhibitorAgeID" min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="edtExhibitorAgeClass" min="-2" pref="168" max="-2" attributes="0"/>
+                      <Component id="edtExhibitorAgeAbbrev" min="-2" pref="168" max="-2" attributes="0"/>
                       <EmptySpace pref="159" max="32767" attributes="0"/>
                       <Component id="btnAbandon" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -75,20 +75,20 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblExhibitorAgeValue" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="edtExhibitorAgesValue" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblExhibitorAgeAbbrev" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="edtExhibitorAgeValue" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="lblExhibitAgeText" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblExhibitorAgeText" min="-2" max="-2" attributes="0"/>
                   <Component id="edtExhibitorAgeText" min="-2" max="-2" attributes="0"/>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblExhibitAgeClass" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="edtExhibitorAgeClass" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblExhibitorAgeClass" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="edtExhibitorAgeAbbrev" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -136,7 +136,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblExhibitorAgeValue">
+    <Component class="javax.swing.JLabel" name="lblExhibitorAgeAbbrev">
       <Properties>
         <Property name="text" type="java.lang.String" value="Exhibit Age Value"/>
       </Properties>
@@ -145,7 +145,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblStatus">
     </Component>
-    <Component class="javax.swing.JLabel" name="lblExhibitAgeClass">
+    <Component class="javax.swing.JLabel" name="lblExhibitorAgeClass">
       <Properties>
         <Property name="text" type="java.lang.String" value="Exhibit Age Text for Classes"/>
       </Properties>
@@ -158,7 +158,7 @@
         <Property name="text" type="java.lang.String" value="Header"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="edtExhibitorAgesValue">
+    <Component class="javax.swing.JTextField" name="edtExhibitorAgeValue">
       <Properties>
         <Property name="text" type="java.lang.String" value="0"/>
       </Properties>
@@ -182,7 +182,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="lblExhibitAgeText">
+    <Component class="javax.swing.JLabel" name="lblExhibitorAgeText">
       <Properties>
         <Property name="text" type="java.lang.String" value="Exhibit Age Text for Exhibit "/>
       </Properties>
@@ -195,7 +195,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="edtExhibitorAgeClass">
+    <Component class="javax.swing.JTextField" name="edtExhibitorAgeAbbrev">
     </Component>
     <Component class="javax.swing.JButton" name="btnClose">
       <Properties>

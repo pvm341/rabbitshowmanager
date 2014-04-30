@@ -68,7 +68,7 @@ public class ShowSection extends BaseDataItem implements DBInterface {
     public ShowSection getData(ResultSet rs) throws SQLException {
         this.id = rs.getInt("id");
         this.section = rs.getInt("section");
-        this.sectionText = rs.getString(sectionText);
+        this.sectionText = rs.getString("section_text");
         this.getData();
         return this;
     }

@@ -27,6 +27,7 @@ public class RabbitShowManagerMain extends javax.swing.JFrame {
      * Creates new form RabbitShowManagerMain
      */
     public RabbitShowManagerMain() {
+
         DBA.getInstance();
         initComponents();
          

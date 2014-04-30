@@ -126,5 +126,13 @@ public class BreedList extends BaseDataList implements DBListInterface {
         }
         return found;
     }
-  
+   
+    public int findInListByIndex(int index) {
+        Breed requiredBreed;
+        if (list.isEmpty()) {
+            readList(HeaderRequired.NOHEADERS);
+        }
+        requiredBreed = (Breed) list.get(index);
+        return requiredBreed.getId();
+    }
 }

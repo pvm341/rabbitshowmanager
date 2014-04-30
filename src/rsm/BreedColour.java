@@ -48,11 +48,11 @@ public class BreedColour extends BaseDataItem {
     
     public void setBreedAndColourIds(int breedId, int colourId) {
         if (! this.dirtyBit) {
-            this.breedId[VersionRequired.PREVIOUS.ordinal()] = this.breedId[0];
-            this.colourId[VersionRequired.PREVIOUS.ordinal()] = this.colourId[0];
+            this.breedId[VersionRequired.PREVIOUS.ordinal()] = this.breedId[VersionRequired.CURRENT.ordinal()];
+            this.colourId[VersionRequired.PREVIOUS.ordinal()] = this.colourId[VersionRequired.CURRENT.ordinal()];
         }
-        this.breedId[0] = breedId;
-        this.colourId[0] = colourId;
+        this.breedId[VersionRequired.CURRENT.ordinal()] = breedId;
+        this.colourId[VersionRequired.CURRENT.ordinal()] = colourId;
         if (this.breedId[VersionRequired.PREVIOUS.ordinal()] == 0 && this.colourId[1] == 0){
            this.breedId[VersionRequired.PREVIOUS.ordinal()]  = this.breedId[0];
            this.colourId[VersionRequired.PREVIOUS.ordinal()] = this.colourId[0];
@@ -117,11 +117,15 @@ public class BreedColour extends BaseDataItem {
 
     @Override
     public BreedColour getData(ResultSet rs) throws SQLException {
+        if (rs == null){
+            System.out.printf("rs = null B=%d C=%d\n ",this.breedId[VersionRequired.CURRENT.ordinal()],this.colourId[VersionRequired.CURRENT.ordinal()]);
+        } else {
         this.setBreedAndColourIds(rs.getInt("breed_id"),rs.getInt("colour_id"));
         this.setAvailable(rs.getBoolean("available"));
         this.setSelected(rs.getBoolean("selected"));
         this.setClassNo(rs.getInt("class_no"));
         super.getData();
+        }
         return this;
     }
 
@@ -162,13 +166,14 @@ public class BreedColour extends BaseDataItem {
     }
 
     @Override
-    public BaseDataItem performRead() {
-            ResultSet rs;
+    public BreedColour performRead() {
+        ResultSet rs;
         rs = DBA.executeSQL(String.format(
                 "SELECT * FROM breedcolours WHERE breed_id = %d AND colour_id = %d",
                 this.breedId[VersionRequired.CURRENT.ordinal()],
                 this.colourId[VersionRequired.CURRENT.ordinal()]));
-                           try {
+        try {
+            rs.next();
             return this.getData(rs);
         } catch (SQLException ex) {
             Logger.getLogger(Colour.class.getName()).log(Level.SEVERE, null, ex);

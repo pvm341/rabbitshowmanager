@@ -25,7 +25,7 @@ import javax.swing.DefaultListModel;
  * @author paul
  */
 public final class BreedForm extends javax.swing.JFrame implements FormInterface {
-    private BreedList breedList;
+    private BreedList breedList = new BreedList();
     private Breed curRecord;
     private int selectedRecord;
     private boolean newItem;

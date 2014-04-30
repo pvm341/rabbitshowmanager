@@ -23,6 +23,7 @@ public class ExhibitorAgesForm extends javax.swing.JFrame implements FormInterfa
     public ExhibitorAgesForm() {
         initComponents();
     }
+    
     @Override
     public void createTheList() {
         theListModelData.clear();
@@ -41,13 +42,23 @@ public class ExhibitorAgesForm extends javax.swing.JFrame implements FormInterfa
     }    
 
     @Override
-    public BaseDataItem getFormData() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ExhibitorAge getFormData() {
+        ExhibitorAge formData = new ExhibitorAge();
+        formData.setId(Integer.valueOf(edtExhibitorAgeID.getText()));
+        formData.setAge(Integer.valueOf(edtExhibitorAgeValue.getText()));
+        formData.setAgeText(edtExhibitorAgeText.getText());
+        formData.setAbbrev(edtExhibitorAgeAbbrev.getText());
+        formData.newItem = false;
+        return  formData;
     }
 
     @Override
-    public void setFormData(BaseDataItem formData) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setFormData(BaseDataItem dataItem) {
+        ExhibitorAge formData = (ExhibitorAge) dataItem;
+        edtExhibitorAgeID.setText(Integer.toString(formData.getId()));
+        edtExhibitorAgeValue.setText(Integer.toString(formData.getAge()));
+        edtExhibitorAgeText.setText(formData.getAgeText());
+        edtExhibitorAgeAbbrev.setText(formData.getAbbrev());
     }
 
     @Override
@@ -81,17 +92,17 @@ public class ExhibitorAgesForm extends javax.swing.JFrame implements FormInterfa
         btnInsert = new javax.swing.JButton();
         edtExhibitorAgeID = new javax.swing.JTextField();
         btnUpdate = new javax.swing.JButton();
-        lblExhibitorAgeValue = new javax.swing.JLabel();
+        lblExhibitorAgeAbbrev = new javax.swing.JLabel();
         edtExhibitorAgeText = new javax.swing.JTextField();
         lblStatus = new javax.swing.JLabel();
-        lblExhibitAgeClass = new javax.swing.JLabel();
+        lblExhibitorAgeClass = new javax.swing.JLabel();
         edtHeaders = new javax.swing.JTextField();
-        edtExhibitorAgesValue = new javax.swing.JTextField();
+        edtExhibitorAgeValue = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstDisplay = new javax.swing.JList();
-        lblExhibitAgeText = new javax.swing.JLabel();
+        lblExhibitorAgeText = new javax.swing.JLabel();
         btnDelete = new javax.swing.JButton();
-        edtExhibitorAgeClass = new javax.swing.JTextField();
+        edtExhibitorAgeAbbrev = new javax.swing.JTextField();
         btnClose = new javax.swing.JButton();
         btnAbandon = new javax.swing.JButton();
 
@@ -113,14 +124,14 @@ public class ExhibitorAgesForm extends javax.swing.JFrame implements FormInterfa
             }
         });
 
-        lblExhibitorAgeValue.setText("Exhibit Age Value");
+        lblExhibitorAgeAbbrev.setText("Exhibit Age Value");
 
-        lblExhibitAgeClass.setText("Exhibit Age Text for Classes");
+        lblExhibitorAgeClass.setText("Exhibit Age Text for Classes");
 
         edtHeaders.setFont(new java.awt.Font("DejaVu Sans Mono", 0, 12)); // NOI18N
         edtHeaders.setText("Header");
 
-        edtExhibitorAgesValue.setText("0");
+        edtExhibitorAgeValue.setText("0");
 
         lstDisplay.setFont(new java.awt.Font("DejaVu Sans Mono", 0, 12)); // NOI18N
         lstDisplay.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -130,7 +141,7 @@ public class ExhibitorAgesForm extends javax.swing.JFrame implements FormInterfa
         });
         jScrollPane1.setViewportView(lstDisplay);
 
-        lblExhibitAgeText.setText("Exhibit Age Text for Exhibit ");
+        lblExhibitorAgeText.setText("Exhibit Age Text for Exhibit ");
 
         btnDelete.setText("Delete");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -170,19 +181,19 @@ public class ExhibitorAgesForm extends javax.swing.JFrame implements FormInterfa
                 .add(42, 42, 42)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(lblExhibitorAgeID)
-                    .add(lblExhibitAgeText)
-                    .add(lblExhibitAgeClass)
-                    .add(lblExhibitorAgeValue))
+                    .add(lblExhibitorAgeText)
+                    .add(lblExhibitorAgeClass)
+                    .add(lblExhibitorAgeAbbrev))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(edtExhibitorAgesValue, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 35, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(edtExhibitorAgeValue, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 35, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(edtExhibitorAgeText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 168, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(edtExhibitorAgeID, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 35, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .add(0, 0, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
-                        .add(edtExhibitorAgeClass, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 168, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(edtExhibitorAgeAbbrev, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 168, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 159, Short.MAX_VALUE)
                         .add(btnAbandon))))
             .add(org.jdesktop.layout.GroupLayout.TRAILING, lblStatus, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -203,18 +214,18 @@ public class ExhibitorAgesForm extends javax.swing.JFrame implements FormInterfa
                     .add(edtExhibitorAgeID, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(lblExhibitorAgeValue)
-                    .add(edtExhibitorAgesValue, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(lblExhibitorAgeAbbrev)
+                    .add(edtExhibitorAgeValue, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(lblExhibitAgeText)
+                    .add(lblExhibitorAgeText)
                     .add(edtExhibitorAgeText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(lblExhibitAgeClass)
-                            .add(edtExhibitorAgeClass, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(lblExhibitorAgeClass)
+                            .add(edtExhibitorAgeAbbrev, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 14, Short.MAX_VALUE)
@@ -236,12 +247,13 @@ public class ExhibitorAgesForm extends javax.swing.JFrame implements FormInterfa
         if (newItem){
             lblStatus.setText("New Record - Add or Cancel");
             edtExhibitorAgeID.setText(Integer.toString(DBA.getNewKey("human_ages", "id")));
-            edtExhibitorAgeClass.setText("");
+            edtExhibitorAgeAbbrev.setText("");
             edtExhibitorAgeText.setText("");
-            edtExhibitorAgesValue.setText("");
+            edtExhibitorAgeValue.setText("");
             btnInsert.setText("Add");
-        } else if (this.edtExhibitorAgeText.getText().isEmpty() ||
-                   this.edtExhibitorAgeClass.getText().isEmpty()){
+        } else if (this.edtExhibitorAgeText.getText().isEmpty()  ||
+                   this.edtExhibitorAgeAbbrev.getText().isEmpty() ||
+                   this.edtExhibitorAgeValue.getText().isEmpty()){
             newItem = true;
             lblStatus.setText("New Record - Not added some data not specified");
         } else {
@@ -308,16 +320,16 @@ public class ExhibitorAgesForm extends javax.swing.JFrame implements FormInterfa
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnInsert;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JTextField edtExhibitorAgeClass;
+    private javax.swing.JTextField edtExhibitorAgeAbbrev;
     private javax.swing.JTextField edtExhibitorAgeID;
     private javax.swing.JTextField edtExhibitorAgeText;
-    private javax.swing.JTextField edtExhibitorAgesValue;
+    private javax.swing.JTextField edtExhibitorAgeValue;
     private javax.swing.JTextField edtHeaders;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblExhibitAgeClass;
-    private javax.swing.JLabel lblExhibitAgeText;
+    private javax.swing.JLabel lblExhibitorAgeAbbrev;
+    private javax.swing.JLabel lblExhibitorAgeClass;
     private javax.swing.JLabel lblExhibitorAgeID;
-    private javax.swing.JLabel lblExhibitorAgeValue;
+    private javax.swing.JLabel lblExhibitorAgeText;
     private javax.swing.JLabel lblStatus;
     private javax.swing.JList lstDisplay;
     // End of variables declaration//GEN-END:variables

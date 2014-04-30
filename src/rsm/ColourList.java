@@ -6,6 +6,7 @@
 
 package rsm;
 
+import java.util.Iterator;
 import java.util.Vector;
 
 /**
@@ -41,14 +42,18 @@ public class ColourList extends BaseDataList implements DBListInterface {
        return this.list.size();
     }
     
+   public Colour findInListWithId(int reqId) {
+        boolean found = false;
+        Colour colour = null;
+        for (Iterator it = this.list.iterator(); !found && it.hasNext();){
+           colour = (Colour) it.next();
+           found = (colour.getId() == reqId); 
+        }
+        return colour;
+    }
+
     @Override
     public int findInListById(int reqId) {
-        int found = -1;
-        Colour colour = null;
-        for (int idx=0; found == -1 && idx<list.size(); idx++){
-           colour = (Colour) list.get(idx);
-           found = colour.getId() == reqId?idx:-1; 
-        }
-        return found;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

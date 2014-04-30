@@ -25,11 +25,7 @@ import java.util.Vector;
  * @author paul
  */
 public class BreedColourList extends BaseDataList {
-//    private final String deleteSQLFmt = ;
-//    private final String updateSQLFmt = "UPDATE breedcolours SET breed_id = %d, colour_id = %d WHERE breed_id = %d AND colour_id = %d";
-//    private final String insertSQLFmt = "INSERT INTO breedcolours (breed_id,colour_id) VALUES (%d,%d)";
-//    private final String selectSQL    = "SELECT * FROM breedcolours ORDER BY breed_id";
-    
+
     public BreedColourList () {
         list = new Vector<BreedColour>();
     }
@@ -92,19 +88,6 @@ public class BreedColourList extends BaseDataList {
         BreedColour breedColour = new BreedColour();
         super.readList(hr,breedColour, "breedcolours",null,"breed_id"); 
     }
-
-    public Vector<Integer> getListOfColoursFormBreed(int breedId) {
-        Vector<Integer> localList; 
-        localList = new Vector<Integer>();
-        for (int idx = 0; idx < list.size(); idx++){
-            BreedColour bc = (BreedColour) list.get(idx);
-            if (bc.getBreedId(VersionRequired.CURRENT) == breedId){
-                localList.add(idx);
-            }
-        }
-        return localList;
-    }
-
     
 }
 

@@ -51,7 +51,7 @@ public class ShowEntries extends BaseDataList implements DBListInterface {
     
     public void readListByClass(HeaderRequired hr){
         ShowEntry dataItem = new ShowEntry();
-        super.readList(hr, dataItem, "showentries", null, "Class_no");
+        super.readList(hr, dataItem, "showentries", null, "class_no");
     }
     
     @Override

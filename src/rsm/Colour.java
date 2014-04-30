@@ -84,6 +84,7 @@ public class Colour extends BaseDataItem implements DBInterface{
 
     @Override
     public Colour getData(ResultSet rs) throws SQLException {
+       rs.next();
        id = rs.getInt("id");
        abbrev =rs.getString("abbrev");
        colour =rs.getString("colour");
