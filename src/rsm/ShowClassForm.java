@@ -77,7 +77,7 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
         lstColoursForClassData = new DefaultListModel<String>();
         lstColoursForClass.setModel(lstColoursForClassData);
         lstDisplay.setModel(lstShowClassesDataModel);
-        lstColoursForClass.setVisibleRowCount(8);
+        lstColoursForClass.setVisibleRowCount(7);
         cmxBreed.setModel(modelBreeds);
         cmxColours.setModel(modelColours);
         cmxExhibitAge.setModel(modelExhibitAges);
@@ -222,15 +222,31 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
         for (int idx = 0; idx < this.breedColourList.list.size(); idx++) {
             bc = (BreedColour) this.breedColourList.get(idx);
             if (bc.getBreedId(VersionRequired.CURRENT) == breedId && bc.isAvailable() && !bc.isSelected()) {
-                System.out.printf("BreedId %d ColourId %d \n", bc.getBreedId(VersionRequired.CURRENT),bc.getColourId(VersionRequired.CURRENT));
                 colour = (Colour) colourList.findInListWithId(bc.getColourId(VersionRequired.CURRENT));
-                this.colours4Breed.add(colour.getId());
-                System.out.println("Breed = "+breedId+" Colour = "+colour.getColour()+ " "+colour.getAbbrev());
+                this.colours4Breed.add(idx);
                 this.modelColours.addElement(colour.getColour());
             }
         }
     }
 
+    private void adjustListOfColoursForBreed(){
+        BreedColour bc;
+        Colour colour;
+        this.lstColoursForClassData.removeAllElements();
+        this.modelColours.removeAllElements();
+        for (int idx = 0; idx < colours4Breed.size(); idx++) {
+            bc = (BreedColour) this.breedColourList.get(colours4Breed.get(idx));
+            if (bc.isAvailable() && !bc.isSelected()) {
+                colour = (Colour) colourList.findInListWithId(bc.getColourId(VersionRequired.CURRENT));
+                this.modelColours.addElement(colour.getColour());
+            }
+            if (bc.isAvailable() && bc.isSelected()) {
+                colour = (Colour) colourList.findInListWithId(bc.getColourId(VersionRequired.CURRENT));
+                this.lstColoursForClassData.addElement(colour.getColour());
+            }
+        }
+    }
+    
     private void setColoursEnabled(){
         lstColoursForClass.setEnabled(colours4Breed.size()>1);
         btnAddColour.setEnabled(colours4Breed.size()>1);
@@ -662,53 +678,22 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
     }//GEN-LAST:event_cmxExhibitGenderActionPerformed
 
     private void btnAddColourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddColourActionPerformed
-    // there is no point of adding exhibit colour if there is only one colour for 
-    // that breed
-       
-//        int theColourInt,theColourIdx; 
-        // * first get the selected colour
-        // from the colour combobox
-//        theColourIdx = cmxColours.getSelectedIndex();
-//        availableColourList.adjustComboBox(cmxColours);
- //       theColourInt = theColourIdx;
-        // first selection index to both the combobox and availableColourList 
-        // match
-//        if (lstColoursForClass.isEnabled() &&  lstColoursForClassData.size()>0) {
-//            for (int idx=0; idx<availableColourList.getSize() && idx <= theColourIdx; idx++){
-//                ac = availableColourList.getTheColourFromIdx(idx);
-//                if (!ac.isAvailable()){
-//                   theColourIdx++; 
-//                }
-//            }
-//        }
-//        ac = availableColourList.getTheColourFromIdx(theColourIdx);
-//        if (ac.isAvailable()) {
-//            System.out.printf("Add Colour -%s %s\n",ac.getColour(),cmxColours.getSelectedItem());
-//            lstColoursForClassData.addElement(ac.getColour());
-//            curRecord.addAColour(ac.getId());
-//            ac.setAvailable(false);
-//        }
-//        // Deal with the Any colour of the class
-//        // When there is only one colour for the breed 
-//        // or there are more than one colour but none have been chosen
-//        // then Any Colour is appropriate otherwise remove it from the list.
-//        if (lstColoursForClassData.getSize()>0 && availableColourList.getSize()>0){
-//            ac = availableColourList.getTheColourFromIdx(0);
-//            ac.setAvailable(false);
-//        }
-//        // remove all and add the the available colours
-//        cmxColours.removeAllItems();
-//        for (AC availableColour : availableColourList.getAll()){
-//            if (availableColour.isAvailable()){
-//                System.out.println("cmxColours - add "+availableColour.getColour());
-//                cmxColours.addItem(availableColour.getColour());
-//            } else {
-//                System.out.println("Colour list "+availableColour.getColour());
-//           }
-//        }
-//        if (lstColoursForClass.isEnabled()){
-//            lstColoursForClass.updateUI();
-//        }  
+        int colourIdxValue = cmxColours.getSelectedIndex();
+        // get initial value of index to colours4Breed
+        BreedColour bc;
+        int breedColourIdxValue = colours4Breed.get(colourIdxValue);
+        // now adjust the index because some may have been removed
+        for (int idx = 0; idx < colours4Breed.size() && idx <= breedColourIdxValue; idx++){
+            bc = (BreedColour) breedColourList.get(colours4Breed.get(idx));
+            if (bc.isAvailable() && bc.isSelected()){
+                if (colours4Breed.get(idx) <= breedColourIdxValue)
+                    breedColourIdxValue++;
+            }
+        }
+        bc = (BreedColour) breedColourList.get(breedColourIdxValue);
+        bc.setSelected(true);
+        this.adjustListOfColoursForBreed();
+        this.lstColoursForClass.updateUI();
     }//GEN-LAST:event_btnAddColourActionPerformed
 
     private void rbnMembersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbnMembersActionPerformed
@@ -728,29 +713,19 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
     }//GEN-LAST:event_rbnBreedersActionPerformed
 
     private void btnDelColourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelColourActionPerformed
-//        String currentItem = (String)lstColoursForClass.getSelectedValue();
-//        for (Iterator it = availableColourList.list.iterator(); it.hasNext();) {
-//            BreedColour ac = (BreedColour) it.next();
-//            if (colourList.get(ac.getColourId(true)).getColour().equals(currentItem)){
-//                ac.setAvailable(true);
-//                curRecord.delAColour(ac.getId());
-//            }
-//        }
-//        lstColoursForClassData.remove(lstColoursForClass.getSelectedIndex());
-//        if (lstColoursForClassData.isEmpty()){
-//            AC ac;
-//            ac = availableColourList(0);
-//            ac.setAvailable(true);
-//        }
-//        cmxColours.removeAllItems();
-//        for (AC availableColour : availableColourList.getAll()){
-//            if (availableColour.isAvailable()){
-//                System.out.println("cmxColours - add "+availableColour.getColour());
-//                cmxColours.addItem(availableColour.getColour());
-//            } else {
-//                System.out.println("Colour list "+availableColour.getColour());
-//           }
-//        }
+        String colourName = (String) lstColoursForClass.getSelectedValue();
+        BreedColour bc;
+        Colour colour;
+        boolean done = false;
+        
+        for (int idx = 0; !done && idx < colours4Breed.size(); idx++){
+            bc = (BreedColour) breedColourList.get(colours4Breed.get(idx));
+            colour = (Colour) colourList.findInListWithId(bc.getColourId(VersionRequired.CURRENT));
+            if (colourName.equals(colour.getColour())){
+                bc.setSelected(false);
+            }
+        }
+        this.adjustListOfColoursForBreed();
     }//GEN-LAST:event_btnDelColourActionPerformed
 
     private void cmxSectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmxSectionActionPerformed
@@ -760,7 +735,6 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
     private void lstDisplayValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstDisplayValueChanged
         selectedRecord =lstDisplay.getSelectedIndex();
         curRecord = (ShowClass) showClasses.get(selectedRecord);
- //       colour4Breed= MakeListOfColoursForBreed(curRecord.getBreedId());
         setFormData(curRecord);
     }//GEN-LAST:event_lstDisplayValueChanged
 
@@ -882,8 +856,12 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
- 
-
+    
+    
+  
+//
+// 
+//
 
 }
 
