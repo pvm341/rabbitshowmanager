@@ -211,6 +211,7 @@ public class DBA {
         return getRecordCount(table,null);
     }
   
+    
     public static int getRecordCount(String table, String where){
         int count=0;
         int rec; 
@@ -263,7 +264,8 @@ public class DBA {
             }
         return StringArray;
     }
-    
+
+       
     public static int[] getIntArrayFromSQL(String table, String field, String where){
         int idx=0,qty = DBA.getRecordCount(table,where);
         int[] intArray = new int[qty];

@@ -37,8 +37,8 @@ public final class BreedForm extends javax.swing.JFrame implements FormInterface
     public BreedForm() {
         breedList = new BreedList();
         String[] arrayAges = DBA.getStringArrayFromSQL("exhibit_ages", "age_text", "age = 3");
-        String[] arraySections = DBA.getStringArrayFromSQL("showsections", "section_text", null);
-        intSections = DBA.getIntArrayFromSQL("showsections", "section", null);
+        String[] arraySections = DBA.getStringArrayFromSQL("showsections", "section_text", "section > 0 AND section <=8");
+        intSections = DBA.getIntArrayFromSQL("showsections", "section", "section > 0 AND section <=8");
         modelAges = new DefaultComboBoxModel(arrayAges);
         modelSections = new DefaultComboBoxModel(arraySections);
         initComponents();
@@ -51,6 +51,7 @@ public final class BreedForm extends javax.swing.JFrame implements FormInterface
         edtBreedHeaders.setText(breedList.getHeader());
         setButtons();
         displayTheList();
+        btnCancelTheAdd.setVisible(false);
         newItem = false;
     }
     
@@ -101,6 +102,7 @@ public final class BreedForm extends javax.swing.JFrame implements FormInterface
         btnAbandon = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
         lblStatus = new javax.swing.JLabel();
+        btnCancelTheAdd = new javax.swing.JButton();
 
         setTitle("Breed Editor");
         setMaximumSize(null);
@@ -184,6 +186,13 @@ public final class BreedForm extends javax.swing.JFrame implements FormInterface
             }
         });
 
+        btnCancelTheAdd.setText("Cancel");
+        btnCancelTheAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelTheAddActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -226,7 +235,9 @@ public final class BreedForm extends javax.swing.JFrame implements FormInterface
                                 .add(18, 18, 18)
                                 .add(btnUpdate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 78, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(btnInsert, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 88, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                .add(btnInsert, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 88, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(btnCancelTheAdd, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 88, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                             .add(layout.createSequentialGroup()
                                 .add(15, 15, 15)
                                 .add(lblStatus, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 506, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
@@ -269,7 +280,8 @@ public final class BreedForm extends javax.swing.JFrame implements FormInterface
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnDelete)
                     .add(btnUpdate)
-                    .add(btnInsert)))
+                    .add(btnInsert)
+                    .add(btnCancelTheAdd)))
         );
 
         pack();
@@ -290,7 +302,7 @@ public final class BreedForm extends javax.swing.JFrame implements FormInterface
     public void setFormData(BaseDataItem dataRecord){
         Breed formRec = (Breed) dataRecord;
         edtBreedID.setText(Integer.toString(formRec.getId()));
-        cmxYoungster.setSelectedIndex(formRec.getAdultAge()==3?0:1);
+        cmxYoungster.setSelectedIndex(formRec.getYoungsters()==3?0:1);
         cmxSection.setSelectedIndex(sectionToIndex(formRec.getSection()));
         edtBreedName.setText(formRec.getBreed());
         cbxTopPenReq.setSelected(formRec.isTopPenReq());
@@ -310,7 +322,7 @@ public final class BreedForm extends javax.swing.JFrame implements FormInterface
             dataRecord.setNewItem(false);
             dataRecord.setId(Integer.parseInt(edtBreedID.getText()));        
         }
-        dataRecord.setAdultAge(3+cmxYoungster.getSelectedIndex());
+        dataRecord.setYoungsters(3+cmxYoungster.getSelectedIndex());
         dataRecord.setTopPenReq(cbxTopPenReq.isSelected());
         dataRecord.setSection(indexToSection(cmxSection.getSelectedIndex()));
         dataRecord.setBreed(edtBreedName.getText());
@@ -318,7 +330,7 @@ public final class BreedForm extends javax.swing.JFrame implements FormInterface
         return dataRecord;
     }
     
-    @Override
+   
     public void setButtons(){
        btnDelete.setText("Delete");
        btnUpdate.setText("Update");
@@ -387,18 +399,21 @@ public final class BreedForm extends javax.swing.JFrame implements FormInterface
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         newItem = ! newItem;
+        btnCancelTheAdd.setVisible(newItem);
+        btnInsert.setText("Add");
         if (newItem){
             lblStatus.setText("New Record - Add or Cancel");
             edtBreedName.setText("");
             cmxYoungster.setSelectedIndex(1);
-            cmxSection.setSelectedIndex(4);   
-            edtBreedID.setText(Integer.toString(DBA.getNewKey("breeds", "id")));
-            btnInsert.setText("Add");
+            cmxSection.setSelectedIndex(0);   
+            edtBreedID.setText(Integer.toString(breedList.list.size()+1));
         } else if (edtBreedName.getText().isEmpty()){
             newItem = true;
             lblStatus.setText("New Record - Not added as Breed Name not specified");
+            btnCancelTheAdd.setVisible(newItem);
         } else {
             lblStatus.setText("New Record - Added");
+            btnInsert.setText("New");
             Breed dataRecord = getFormData();
             dataRecord.setNewItem(true);
             breedList.add(dataRecord);
@@ -411,9 +426,17 @@ public final class BreedForm extends javax.swing.JFrame implements FormInterface
         }
     }//GEN-LAST:event_btnInsertActionPerformed
 
+    private void btnCancelTheAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelTheAddActionPerformed
+        // should only get if the cancel button clicked on 
+        lblStatus.setText("New Record - Addition canelled");
+        btnInsert.setText("New");
+        btnCancelTheAdd.setVisible(false);
+    }//GEN-LAST:event_btnCancelTheAddActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAbandon;
+    private javax.swing.JButton btnCancelTheAdd;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnInsert;

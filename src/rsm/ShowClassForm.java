@@ -29,6 +29,15 @@ import javax.swing.*;
  * @author paul
  */
 public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
+    private final String exhibitAgesSQLFmt = "SELECT DISTINCT exhibit_ages.id, "
+            + "exhibit_ages.age_text "
+            + "FROM breeds, exhibit_ages "
+            + "WHERE exhibit_ages.age != 3 "
+            + "OR exhibit_ages.id = breeds.youngsters "
+            + "AND breeds.youngsters = exhibit_ages.id "
+            + "AND exhibit_ages.age = 3 "
+            + "AND breeds.id = %d "
+            + "ORDER BY exhibit_ages.id";
     private ShowClass curRecord;
     private ShowClasses showClasses;
     private Vector<Integer> colours4Breed;
@@ -39,7 +48,7 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
     private final DefaultListModel<String> lstColoursForClassData;
     private final DefaultListModel<String> lstShowClassesDataModel;
     private final DefaultComboBoxModel modelBreeds;
-    final DefaultComboBoxModel modelColours;
+    private final DefaultComboBoxModel modelColours;
     private final DefaultComboBoxModel modelExhibitAges;
     private final DefaultComboBoxModel modelExhibitorAges;
     private final DefaultComboBoxModel modelExhibitGenders;
@@ -49,7 +58,7 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
     final ColourList colourList;
     final BreedColourList breedColourList;
     private final ShowSectionList showSectionList;
-    
+    private ExhibitAgeList exhibitAgeList; 
             
     public ShowClassForm() {
         DBA.getInstance();
@@ -57,8 +66,10 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
         modelBreeds = new DefaultComboBoxModel(DBA.getStringArrayFromSQL("breeds", "breed", null));
         breedList = new BreedList();
         breedList.readList(HeaderRequired.NOHEADERS);
+        exhibitAgeList = new ExhibitAgeList();
+        exhibitAgeList.readList(HeaderRequired.NOHEADERS);
         modelColours = new DefaultComboBoxModel(DBA.getStringArrayFromSQL("colours", "colour", null));
-        modelExhibitAges = new DefaultComboBoxModel(DBA.getStringArrayFromSQL("exhibit_ages", "age_text", null));
+        modelExhibitAges = new DefaultComboBoxModel();
         modelExhibitorAges = new DefaultComboBoxModel(DBA.getStringArrayFromSQL("human_ages", "age_text", null));
         modelExhibitGenders = new DefaultComboBoxModel(DBA.getStringArrayFromSQL("exhibit_genders", "gender_class", null));
         modelExhibitorGenders = new DefaultComboBoxModel(DBA.getStringArrayFromSQL("human_genders", "gender_class", null));
@@ -107,17 +118,7 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
         lstDisplay.updateUI();
     }
     
-    private void setModelColours(Vector<Integer> localList){
-        modelColours.removeAllElements();
-        for (int idx : localList ) {
-            BreedColour bc = (BreedColour) breedColourList.get(idx);
-            if (bc.isAvailable() && !bc.isSelected()){
-                modelColours.addElement(colourList.get(bc.getColourId(VersionRequired.CURRENT)).getColour());
-            }
-        }
-    }
-    
-    
+      
     @Override
     public void setFormData(BaseDataItem dataRecord) {
         ShowClass formRec = (ShowClass) dataRecord;
@@ -163,18 +164,16 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
     private String makeName(){
         String name;
         boolean useAbbrev = false;
-        
-        // This colRec is used for DB lookup
         Colour colRec = new Colour();
         BreedColour breedColour;
         
-        name = String.format("%c%s %s ",cbxBreedClass.isSelected()?'*':' ',edtClassNo.getText(),(String)cmxBreed.getSelectedItem());
+        name = String.format("%c%s %s ",cbxBreedClass.isSelected()?'*':' ',
+                edtClassNo.getText(),(String)cmxBreed.getSelectedItem());
         if (cmxColours.isEnabled()){
             for (int idx = 0; idx < lstColoursForClassData.size(); idx++){
                 useAbbrevs = useAbbrevs | name.length()>45;
                 System.out.printf("AIU %c len %d\n",useAbbrevs?'Y':'N',name.length());
                // colRec.performRead(availableColourList.getTheColourFromIdx(idx).getId());
-                
                 if (useAbbrevs){
                     name += " " + colRec.getAbbrev();
                 } else {
@@ -211,7 +210,7 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
         }
         
         
-        return null;   
+        return name;   
     }
     
     private void  makeListOfColoursForBreed(int breedId) {
@@ -232,6 +231,7 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
     private void adjustListOfColoursForBreed(){
         BreedColour bc;
         Colour colour;
+
         this.lstColoursForClassData.removeAllElements();
         this.modelColours.removeAllElements();
         for (int idx = 0; idx < colours4Breed.size(); idx++) {
@@ -247,12 +247,29 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
         }
     }
     
-    private void setColoursEnabled(){
-        lstColoursForClass.setEnabled(colours4Breed.size()>1);
-        btnAddColour.setEnabled(colours4Breed.size()>1);
-        btnDelColour.setEnabled(colours4Breed.size()>1 && lstColoursForClass.getComponentCount()>0);
+    //SELECT DISTINCT exhibit_ages.id, exhibit_ages.age_text FROM breeds, exhibit_ages WHERE
+    //exhibit_ages.age != 3 OR
+    //exhibit_ages.id = breeds.youngsters
+    //AND breeds.youngsters = exhibit_ages.id AND exhibit_ages.age = 3 AND breeds.id = 6 order by exhibit_ages.id;
+    public void adjustExhibitAges( Breed breed) {
+        ExhibitAge exhibitAge;
+        int count = 0;
+        modelExhibitAges.removeAllElements();
+        for (int idx = 0; idx < exhibitAgeList.list.size(); idx++) {
+            exhibitAge = (ExhibitAge) exhibitAgeList.list.get(idx);
+            if (exhibitAge.getAge() != 3 || (exhibitAge.getId() == breed.getYoungsters() && exhibitAge.getAge() == 3)) {
+                modelExhibitAges.addElement(exhibitAge.getAgeText());
+            }
+        }
     }
 
+    private void setColoursEnabled(){
+        lstColoursForClass.setEnabled(cmxColours.getItemCount()>1);
+        btnAddColour.setEnabled(cmxColours.getItemCount()>1);
+        btnDelColour.setEnabled(cmxColours.getItemCount()>1);
+    }
+
+  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The               Vector columnNames = new Vector();
@@ -262,6 +279,24 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
      * regenerated by the Form Editor.
      */
     
+     public void setButtons(){
+       btnDelete.setText("Delete");
+       btnUpdate.setText("Update");
+       btnInsert.setText("New");
+       btnUpdate.setEnabled(!this.edtClassName.getText().isEmpty());
+       btnDelete.setEnabled(!this.edtClassName.getText().isEmpty());
+       btnInsert.setEnabled(true);        
+    }
+    
+    @Override
+    public void setButtons(BaseDataItem dataRecord){
+        btnDelete.setText(dataRecord.isReadyToDelete()?"Undelete":"Delete");
+        btnUpdate.setText(dataRecord.isDirty()?" Undo ":"Update");
+        btnInsert.setText(dataRecord.isNewItem()?"Add":"New");
+        btnUpdate.setEnabled(!dataRecord.isReadyToDelete());
+        //btnDelete.setEnabled(!dataRecord.isNewItem());
+   }
+
    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -649,12 +684,14 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
     }//GEN-LAST:event_btnCloseMouseClicked
 
     private void cbxBreedClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxBreedClassActionPerformed
-       
+       this.edtClassName.setText(makeName());
     }//GEN-LAST:event_cbxBreedClassActionPerformed
     
     private void cmxBreedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmxBreedActionPerformed
         makeListOfColoursForBreed(breedList.findInListByIndex(cmxBreed.getSelectedIndex()));
-        setColoursEnabled();  
+        setColoursEnabled();
+        modelExhibitAges.removeAllElements();
+        this.adjustExhibitAges((Breed)breedList.get(cmxBreed.getSelectedIndex()));
     }//GEN-LAST:event_cmxBreedActionPerformed
 
     private void cmxColoursActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmxColoursActionPerformed
@@ -662,25 +699,26 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
     }//GEN-LAST:event_cmxColoursActionPerformed
 
     private void cmxExhibitAgeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmxExhibitAgeActionPerformed
-        curRecord = getFormData();
+        this.edtClassName.setText(makeName());
     }//GEN-LAST:event_cmxExhibitAgeActionPerformed
 
     private void cmxExhibitorAgeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmxExhibitorAgeActionPerformed
-        curRecord = getFormData();
+        this.edtClassName.setText(makeName());
     }//GEN-LAST:event_cmxExhibitorAgeActionPerformed
 
     private void cmxExhibitorGenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmxExhibitorGenderActionPerformed
-        curRecord = getFormData();
+        this.edtClassName.setText(makeName());
     }//GEN-LAST:event_cmxExhibitorGenderActionPerformed
 
     private void cmxExhibitGenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmxExhibitGenderActionPerformed
-        curRecord = getFormData();
+        this.edtClassName.setText(makeName());
     }//GEN-LAST:event_cmxExhibitGenderActionPerformed
 
     private void btnAddColourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddColourActionPerformed
         int colourIdxValue = cmxColours.getSelectedIndex();
         // get initial value of index to colours4Breed
         BreedColour bc;
+        boolean othersAvailable = true;
         int breedColourIdxValue = colours4Breed.get(colourIdxValue);
         // now adjust the index because some may have been removed
         for (int idx = 0; idx < colours4Breed.size() && idx <= breedColourIdxValue; idx++){
@@ -691,45 +729,67 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
             }
         }
         bc = (BreedColour) breedColourList.get(breedColourIdxValue);
+        othersAvailable = (bc.getColourId(VersionRequired.CURRENT)>2);
         bc.setSelected(true);
+        bc.setClassNo(Integer.valueOf(this.edtClassNo.getText()));
+        // as there is a list of colours and at least one is selected
+        // remove any colour option for the list
+        bc = (BreedColour) breedColourList.get(colours4Breed.get(0));
+        bc.setAvailable(false);
+        // Now set all the rest available as appropriate
+        for (int idx = 0; idx < colours4Breed.size(); idx++){
+            bc = (BreedColour) breedColourList.get(colours4Breed.get(idx));
+            bc.setAvailable(othersAvailable);
+        }         
         this.adjustListOfColoursForBreed();
         this.lstColoursForClass.updateUI();
+        setColoursEnabled();
     }//GEN-LAST:event_btnAddColourActionPerformed
 
     private void rbnMembersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbnMembersActionPerformed
-        curRecord = getFormData();
+        this.edtClassName.setText(makeName());
     }//GEN-LAST:event_rbnMembersActionPerformed
 
     private void rbnStandardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbnStandardActionPerformed
-        curRecord = getFormData();
+        this.edtClassName.setText(makeName());
     }//GEN-LAST:event_rbnStandardActionPerformed
 
     private void rbnUpSideDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbnUpSideDownActionPerformed
-        curRecord = getFormData();
+        this.edtClassName.setText(makeName());
     }//GEN-LAST:event_rbnUpSideDownActionPerformed
 
     private void rbnBreedersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbnBreedersActionPerformed
-        curRecord = getFormData();
+        this.edtClassName.setText(makeName());
     }//GEN-LAST:event_rbnBreedersActionPerformed
 
     private void btnDelColourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelColourActionPerformed
         String colourName = (String) lstColoursForClass.getSelectedValue();
         BreedColour bc;
         Colour colour;
-        boolean done = false;
+        int count =0;
+       
         
-        for (int idx = 0; !done && idx < colours4Breed.size(); idx++){
+        for (int idx = 0; idx < colours4Breed.size(); idx++){
             bc = (BreedColour) breedColourList.get(colours4Breed.get(idx));
             colour = (Colour) colourList.findInListWithId(bc.getColourId(VersionRequired.CURRENT));
             if (colourName.equals(colour.getColour())){
                 bc.setSelected(false);
+                bc.setClassNo(0);
             }
+            count += bc.isSelected()&&bc.getClassNo()>0?1:0;
+        }
+        if (count == 0){
+            bc = (BreedColour) breedColourList.get(colours4Breed.get(0));
+            bc.setAvailable(true);
         }
         this.adjustListOfColoursForBreed();
+        if (this.lstColoursForClassData.isEmpty()){
+        }
+        setColoursEnabled();
     }//GEN-LAST:event_btnDelColourActionPerformed
 
     private void cmxSectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmxSectionActionPerformed
-        curRecord = getFormData();
+        this.edtClassName.setText(makeName());
     }//GEN-LAST:event_cmxSectionActionPerformed
 
     private void lstDisplayValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstDisplayValueChanged
@@ -846,22 +906,6 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
     private javax.swing.JRadioButton rbnUpSideDown;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void setButtons() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setButtons(BaseDataItem dataRecord) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-    
-  
-//
-// 
-//
 
 }
 
@@ -981,8 +1025,8 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
 //            populate(cmxExhibitAge,
 //                    "SELECT DISTINCT exhibit_ages.age_text, exhibit_ages.age "
 //                    + "FROM breeds, exhibit_ages "
-//                    + "WHERE exhibit_ages.id = breeds.adult_age "
-//                    + "AND breeds.adult_age = exhibit_ages.id " 
+//                    + "WHERE exhibit_ages.id = breeds.youngsters "
+//                    + "AND breeds.youngsters = exhibit_ages.id " 
 //                    + "AND breeds.id = ? " 
 //                    + "AND exhibit_ages.age = 3 "
 //                    + "OR exhibit_ages.age != 3 ",

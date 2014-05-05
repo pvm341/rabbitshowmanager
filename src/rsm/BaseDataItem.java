@@ -28,11 +28,13 @@ public abstract class BaseDataItem implements DBInterface {
     protected boolean dirtyBit;
     protected boolean readyToDelete;
     protected boolean newItem;
+    protected boolean cancelNewitem;
     
     public BaseDataItem() {
         this.readyToDelete = false;
         this.dirtyBit = false;
         this.newItem = true;
+        this.cancelNewitem = false;
     }
 
     public boolean isDirty() {
@@ -44,7 +46,7 @@ public abstract class BaseDataItem implements DBInterface {
     }
 
     public char getStatusChar(){
-        return this.dirtyBit?'U':this.readyToDelete?'D':this.newItem?'N':'*';
+        return this.dirtyBit?'U':this.readyToDelete?'D':this.cancelNewitem?'C':this.newItem?'N':'*';
     }
     
     public boolean isReadyToDelete() {
@@ -63,10 +65,19 @@ public abstract class BaseDataItem implements DBInterface {
         this.newItem = newItem;
     }
     
+    public boolean isCancelledNewItem(){
+        return this.newItem;
+    }
+    
+    public void setCancelNewItem(boolean newItem){
+        this.newItem = newItem;
+    }
+    
     public void getData() {
         this.readyToDelete = false;
         this.dirtyBit = false;
         this.newItem = false; 
+        this.cancelNewitem = false;
     }
     
     

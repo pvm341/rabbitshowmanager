@@ -286,8 +286,6 @@ public final class ColoursForm extends javax.swing.JFrame implements FormInterfa
         curRecord = colourList.get(selectedRecord);
     }//GEN-LAST:event_lstColourDisplayValueChanged
 
-
-
       
     /**
      * Creates the ListModelData 
@@ -305,18 +303,6 @@ public final class ColoursForm extends javax.swing.JFrame implements FormInterfa
     public void displayTheList(){
         lstColourDisplay.updateUI();
     }
-   // </editor-fold>                        
-
-//    private int sectionToIndex(int key){
-//        int idx;
-//        
-//        for (idx =0; intSections[idx]!=key; idx++) /*void */;
-//        return idx;
-//    }
-    
-//    private int indexToSection(int key){
-//        return intSections[key];
-//    }
     
     @Override
     public void setFormData(BaseDataItem dataRecord) {
@@ -346,7 +332,7 @@ public final class ColoursForm extends javax.swing.JFrame implements FormInterfa
         return dataRecord;
     }
     
-    @Override
+   
     public void setButtons(){
        btnDelete.setText("Delete");
        btnUpdate.setText("Update");

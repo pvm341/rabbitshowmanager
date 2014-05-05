@@ -85,6 +85,8 @@
                               <Component id="btnUpdate" min="-2" pref="78" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="btnInsert" min="-2" pref="88" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btnCancelTheAdd" min="-2" pref="88" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <EmptySpace min="15" pref="15" max="-2" attributes="0"/>
@@ -142,6 +144,7 @@
                   <Component id="btnDelete" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnUpdate" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnInsert" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnCancelTheAdd" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -283,6 +286,14 @@
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblStatus">
+    </Component>
+    <Component class="javax.swing.JButton" name="btnCancelTheAdd">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Cancel"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelTheAddActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

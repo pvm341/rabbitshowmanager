@@ -21,12 +21,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
  * @author paul
  */
 public class Exhibit extends BaseDataItem implements DBInterface{
+    private final static String ringNumberRexp = 
+              "[0-9]{2}"                    // two year digits
+            + "[A-LX]{1}"                   // ring size
+            + "("                           // 5 digits with at least 
+                                            // one digit that is not zero
+            + "[0-9]{4}[1-9]{1}|"           // 00001 
+            + "[0-9]{3}[1-9]{1}[0-9]{1}|"   // 00010
+            + "[0-9]{2}[1-9]{1}[0-9]{2}|"   // 00100
+            + "[0-9]{1}[1-9]{1}[0-9]{3}|"   // 01000
+            + "[1-9]{1}[0-9]{4}"            // 10000
+            + ")";
     private int penNo;
     private String ringNumber;  
     private int breedClass;
@@ -36,7 +49,7 @@ public class Exhibit extends BaseDataItem implements DBInterface{
     private int exhibitorId;
     
     Exhibit() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     public int getPenNo() {
@@ -52,7 +65,11 @@ public class Exhibit extends BaseDataItem implements DBInterface{
     }
 
     public void setRingNumber(String ringNumber) {
-        this.ringNumber = ringNumber;
+        if (checkRingNumber(ringNumber)) {
+            this.ringNumber = ringNumber;
+        } else {
+           this.ringNumber = "Invalid"; 
+        }
     }
 
     public int getBreedClass() {
@@ -132,5 +149,14 @@ public class Exhibit extends BaseDataItem implements DBInterface{
         }
         return null;
 }
+    /** 
+     * takes a user entered ring number and compares it against the format
+     * hard code as a string constant at the top of the file.
+     * @param ringNumber
+     * @return 
+     */
+    public static boolean checkRingNumber(String ringNumber) {
+        return ringNumber.matches(ringNumberRexp);
+    }
     
 }

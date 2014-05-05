@@ -38,8 +38,8 @@ public class BreedList extends BaseDataList implements DBListInterface {
     
     public BreedList(){
         deleteSQLFmt = "DELETE FROM breeds WHERE id = %d";
-        updateSQLFmt = "UPDATE breeds SET adult_age = %d, top_pen_req = %s, section = %d, breed = \'%s\' WHERE id = %d";
-        insertSQLFmt = "INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (%d,%d,%s,%d,\'%s\')";
+        updateSQLFmt = "UPDATE breeds SET youngsters = %d, top_pen_req = %s, section = %d, breed = \'%s\' WHERE id = %d";
+        insertSQLFmt = "INSERT INTO breeds (id,youngsters,top_pen_req,section,breed) VALUES (%d,%d,%s,%d,\'%s\')";
         selectSQL    = "SELECT * FROM breeds ORDER BY id";
         list = new Vector<Breed>();
     }
@@ -63,11 +63,11 @@ public class BreedList extends BaseDataList implements DBListInterface {
                 if (DBA.getRecordCount("breedcolours", "breed_id ="+Integer.toString(breed.getId()))>0){
                     DBA.updateSQL("DELETE FROM breedcolours WHERE breed_id ="+Integer.toString(breed.getId()));
                 }
-                DBA.updateSQL(String.format(deleteSQLFmt,breed.getAdultAge(),breed.isTopPenReqStr(),breed.getSection(),breed.getBreed(),breed.getId()));
+                DBA.updateSQL(String.format(deleteSQLFmt,breed.getId()));
                 // update done set to clean in the list
                 breed.setDirty(false);
             } else if (breed.isNewItem()){ 
-                DBA.updateSQL(String.format(insertSQLFmt,breed.getId(),breed.getAdultAge(),breed.isTopPenReqStr(),breed.getSection(),breed.getBreed()));
+                DBA.updateSQL(String.format(insertSQLFmt,breed.getId(),breed.getYoungsters(),breed.isTopPenReqStr(),breed.getSection(),breed.getBreed()));
                 // insert complete now clear new item status
                 breed.setNewItem(false);
                 // New Breed therefore need to create breedcolour new breed anycolour record in breedcolours 

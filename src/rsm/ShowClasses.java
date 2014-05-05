@@ -73,6 +73,5 @@ public class ShowClasses extends BaseDataList implements DBListInterface {
         }
         return found;
     }
-
    
 }

@@ -184,13 +184,13 @@ public abstract class BaseDataList implements DBListInterface {
             } else if (paramDataItem instanceof ShowSection){
                  localDataItem = (ShowSection) it.next();
             }  
-            // found the correct polymorph now read process it 
+            // found the correct polymorph now perform the process it 
             if (localDataItem.isDirty()){
                 localDataItem.performUpdate();
             } else if (localDataItem.isReadyToDelete()) { 
-                // check for constraints and delete them
+                // delete will also delete any constrained records.
                 localDataItem.performDelete();
-            } else if (localDataItem.isNewItem()){
+            } else if (localDataItem.isNewItem() && localDataItem.isCancelledNewItem()){
                 localDataItem.performInsert();
                 localDataItem.setNewItem(false);
             }            

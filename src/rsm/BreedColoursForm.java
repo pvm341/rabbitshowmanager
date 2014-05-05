@@ -102,7 +102,7 @@ public class BreedColoursForm extends javax.swing.JFrame implements FormInterfac
         return dataRecord;
     }
     
-    @Override
+   
     public void setButtons(){
        btnDelete.setText("Delete");
        btnUpdate.setText("Update");

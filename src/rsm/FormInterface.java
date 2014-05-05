@@ -25,7 +25,6 @@ public interface FormInterface {
     
     public BaseDataItem getFormData();
     public void setFormData(BaseDataItem formData);
-    public void setButtons();
     public void setButtons(BaseDataItem dataRecord);
     public void createTheList();
     public void displayTheList();

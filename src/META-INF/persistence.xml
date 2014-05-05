@@ -23,4 +23,15 @@
       <property name="javax.persistence.jdbc.user" value="paul"/>
     </properties>
   </persistence-unit>
+  <persistence-unit name="rsmPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>rsm.Breeds</class>
+    <class>rsm.Showclasses</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://10.80.12.92:5432/rsm"/>
+      <property name="javax.persistence.jdbc.password" value="m1c8431"/>
+      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+      <property name="javax.persistence.jdbc.user" value="paul"/>
+    </properties>
+  </persistence-unit>
 </persistence>

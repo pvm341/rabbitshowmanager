@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  */
 public class Breed extends BaseDataItem implements DBInterface{
     private int id;
-    private int adultAge;
+    private int youngsters;
     private boolean topPenReq;
     private int section;
     private String breed;
@@ -44,20 +44,20 @@ public class Breed extends BaseDataItem implements DBInterface{
         this.id = id;
     }
 
-    public int getAdultAge() {
-        return adultAge;
+    public int getYoungsters() {
+        return youngsters;
     }
 
-    public void setAdultAge(int adultAge) {
-        this.adultAge = adultAge;
+    public void setYoungsters(int youngsters) {
+        this.youngsters = youngsters;
     }
 
-    public String getAdultAgeText(){
-        return DBA.lookup("age_text", "exhibit_ages", "id", Integer.toString(this.adultAge));
+    public String getYoungstersText(){
+        return DBA.lookup("age_text", "exhibit_ages", "id", Integer.toString(this.youngsters));
     }
     
-    public String getAdultAgeAbbrev(){
-        return DBA.lookup("abbrev", "exhibit_ages", "id", Integer.toString(this.adultAge));
+    public String getYounstersAbbrev(){
+        return DBA.lookup("abbrev", "exhibit_ages", "id", Integer.toString(this.youngsters));
     }
     
     public boolean isTopPenReq() {
@@ -94,7 +94,7 @@ public class Breed extends BaseDataItem implements DBInterface{
     
   
     public boolean equals(Breed breed1, Breed breed2){
-        return  (breed1.adultAge     == breed2.adultAge) &&
+        return  (breed1.youngsters   == breed2.youngsters) &&
                 (breed1.section      == breed2.section)  &&
                 (breed1.topPenReq    == breed2.topPenReq)&&
                 (breed1.breed.equals(breed2.breed));
@@ -104,7 +104,7 @@ public class Breed extends BaseDataItem implements DBInterface{
     public String toListString(String formatStr){
         String tableLine = String.format(formatStr, getStatusChar(),
                                                     getId(),
-                                                    getAdultAgeAbbrev(),
+                                                    getYounstersAbbrev(),
                                                     isTopPenReqStr(),
                                                     getSectionStr(),
                                                     getBreed());    
@@ -118,7 +118,7 @@ public class Breed extends BaseDataItem implements DBInterface{
             try {
                 rs.next();
                 this.id=rs.getInt("id");
-                this.adultAge = rs.getInt("adult_age");
+                this.youngsters = rs.getInt("youngsters");
                 this.topPenReq = rs.getBoolean("top_pen_req");
                 this.section = rs.getInt("section");
                 this.breed = rs.getString("breed");
@@ -132,10 +132,10 @@ public class Breed extends BaseDataItem implements DBInterface{
         String sql;
         String where = String.format("id = %d", this.id);
         if (DBA.isExistingRec("breeds",where)){
-            sql=String.format("UPDATE breeds SET adult_age = %d, top_pen_req = %s, section = %d, breed = \'%s\' WHERE %s",this.adultAge, this.topPenReq ? "true":"false",this.section,this.breed,where); 
+            sql=String.format("UPDATE breeds SET youngsters = %d, top_pen_req = %s, section = %d, breed = \'%s\' WHERE %s",this.youngsters, this.topPenReq ? "true":"false",this.section,this.breed,where); 
         } else {
             this.id = 1 + DBA.getRecordCount("breeds");
-            sql=String.format("INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (%d,%d,%s,%d,\'%s\')",this.id,this.adultAge, this.topPenReq ? "true":"false",this.section,this.breed);
+            sql=String.format("INSERT INTO breeds (id,youngsters,top_pen_req,section,breed) VALUES (%d,%d,%s,%d,\'%s\')",this.id,this.youngsters, this.topPenReq ? "true":"false",this.section,this.breed);
         }
         DBA.updateSQL(sql);
         setDirty(false);
@@ -160,7 +160,7 @@ public class Breed extends BaseDataItem implements DBInterface{
     @Override
     public Breed getData(ResultSet rs) throws SQLException {
         this.id = rs.getInt("id");
-        this.adultAge = rs.getInt("adult_age");
+        this.youngsters = rs.getInt("youngsters");
         this.topPenReq = rs.getBoolean("top_pen_req");
         this.section = rs.getInt("section");
         this.breed = rs.getString("breed");
@@ -183,10 +183,11 @@ public class Breed extends BaseDataItem implements DBInterface{
         
     @Override
     public void performInsert() {
-        DBA.updateSQL(String.format("INSERT INTO breeds (id,adult_age,top_pen_req,section,breed) VALUES (%d,%d,%s,%d,\'%s\')",this.getId(),this.getAdultAge(),this.isTopPenReqStr(),this.getSection(),this.getBreed()));
+        DBA.updateSQL(String.format("INSERT INTO breeds (id,youngsters,top_pen_req,section,breed) VALUES (%d,%d,%s,%d,\'%s\')",this.getId(),this.getYoungsters(),this.isTopPenReqStr(),this.getSection(),this.getBreed()));
         // New Breed therefore need to create breedcolour new breed anycolour record in breedcolours 
         // others will have to be entered manually on another form
-        DBA.updateSQL("INSERT INTO breedcolours (breed_id,colour_id) VALUES ("+Integer.toString(this.getId())+",1)");
+        DBA.updateSQL("INSERT INTO breedcolours (breed_id,colour_id,available, "
+                + "selected, class_no) VALUES ("+Integer.toString(this.getId())+",1,true,false,0)");
  }
 
     @Override

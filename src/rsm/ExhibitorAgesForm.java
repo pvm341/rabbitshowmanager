@@ -61,7 +61,7 @@ public class ExhibitorAgesForm extends javax.swing.JFrame implements FormInterfa
         edtExhibitorAgeAbbrev.setText(formData.getAbbrev());
     }
 
-    @Override
+
     public void setButtons(){
        btnDelete.setText("Delete");
        btnUpdate.setText("Update");
@@ -79,6 +79,7 @@ public class ExhibitorAgesForm extends javax.swing.JFrame implements FormInterfa
         btnUpdate.setEnabled(!dataRecord.isReadyToDelete());
         //btnDelete.setEnabled(!dataRecord.isNewItem());
    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

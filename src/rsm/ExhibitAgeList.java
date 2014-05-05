@@ -18,6 +18,7 @@
 package rsm;
 
 import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -30,6 +31,12 @@ public class ExhibitAgeList extends BaseDataList implements DBListInterface {
         list = new Vector<ExhibitAge>();
     }
 
+    //SELECT DISTINCT exhibit_ages.id, exhibit_ages.age_text FROM breeds, exhibit_ages WHERE 
+    //exhibit_ages.age != 3 OR 
+    //exhibit_ages.id = breeds.youngsters  
+    //AND breeds.youngsters = exhibit_ages.id AND exhibit_ages.age = 3 AND breeds.id = 6 order by exhibit_ages.id;
+
+    
     public void readList(HeaderRequired hr) {
         ExhibitAge exhibitAge = new ExhibitAge();
         super.readList(hr,exhibitAge,"exhibit_ages",null,"id");
