@@ -61,7 +61,7 @@ public class DBATest {
         assertEquals("JUV",DBA.lookup("abbrev", "human_ages", "age", "1"));
         assertEquals("ADT",DBA.lookup("abbrev", "human_ages", "age", "2"));
         assertEquals("OPN",DBA.lookup("abbrev", "human_ages", "age", "3"));
-        assertEquals("Group/Stud",DBA.lookup("gender_text", "human_genders", "id", "1"));
+        assertEquals("Open",DBA.lookup("gender_text", "human_genders", "id", "1"));
         assertEquals("Gentleman",DBA.lookup("gender_text", "human_genders", "id", "2"));
         assertEquals("Lady",DBA.lookup("gender_text", "human_genders", "id", "3"));
         assertEquals("Dutch",DBA.lookup("breed", "breeds", "id", "5"));
@@ -71,9 +71,9 @@ public class DBATest {
     
     @Test 
     public void getFormatStringFromHeaderTest(){
-        String header = "Status;id;adult_age;top_pen_req;section;breed";
-        assertEquals("The result should be [   %c   %4d %-9s %-11s %-7s %s]", 
-                "   %c  %4d %-9s %-11s %-7s %s",DBA.getFormatFromHeader(header));
+        String header = "Status;id;youngsters;top_pen_req;section;breed";
+        assertEquals("The result should be [   %c   %4d %-10s %-11s %-7s %s]", 
+                "   %c  %4d %-10s %-11s %-7s %s",DBA.getFormatFromHeader(header));
         header = "Status;  id;colour;abbrev";
         assertEquals("The Result should be [   %c    %5d %-9s %s]",
                 "   %c  %5d %-6s %s",DBA.getFormatFromHeader(header));
@@ -83,8 +83,8 @@ public class DBATest {
     public void getHeaderTest(){
         ResultSet rs = DBA.executeSQL("SELECT * FROM breeds");
         String header = DBA.getHeader(rs);
-        assertEquals("Should be Status;  id;adult_age;top_pen_req;section;breed",
-                "Status;  id;adult_age;top_pen_req;section;breed",header);
+        assertEquals("Should be Status;  id;youngsters;top_pen_req;section;breed",
+                "Status;  id;youngsters;top_pen_req;section;breed",header);
         rs = DBA.executeSQL("SELECT * FROM colours");
         header = DBA.getHeader(rs);
         assertEquals("Should be Status; id;abbrev;colour","Status;  id;abbrev;colour",header);

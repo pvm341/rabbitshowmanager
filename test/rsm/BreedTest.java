@@ -99,7 +99,7 @@ public class BreedTest {
         int rc = instance.getRecordCount();
         instance.setId(100);
         instance.setBreed("test for delete");
-        instance.setAdultAge(4);
+        instance.setYoungsters(4);
         instance.writeRecord();
         assertEquals(rc+1, instance.getRecordCount());
         instance.deleteRecord();
