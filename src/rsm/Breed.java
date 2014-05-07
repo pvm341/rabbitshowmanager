@@ -111,52 +111,6 @@ public class Breed extends BaseDataItem implements DBInterface{
         return tableLine;
     }
     
-        public void readRecord(int recNo){
-        ResultSet rs;
-        rs = DBA.executeSQL("SELECT * FROM breeds WHERE id="+Integer.toString(recNo));
-        if (rs != null){
-            try {
-                rs.next();
-                this.id=rs.getInt("id");
-                this.youngsters = rs.getInt("youngsters");
-                this.topPenReq = rs.getBoolean("top_pen_req");
-                this.section = rs.getInt("section");
-                this.breed = rs.getString("breed");
-            } catch (SQLException ex) {
-                Logger.getLogger(Breed.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-    
-    public void writeRecord(){
-        String sql;
-        String where = String.format("id = %d", this.id);
-        if (DBA.isExistingRec("breeds",where)){
-            sql=String.format("UPDATE breeds SET youngsters = %d, top_pen_req = %s, section = %d, breed = \'%s\' WHERE %s",this.youngsters, this.topPenReq ? "true":"false",this.section,this.breed,where); 
-        } else {
-            this.id = 1 + DBA.getRecordCount("breeds");
-            sql=String.format("INSERT INTO breeds (id,youngsters,top_pen_req,section,breed) VALUES (%d,%d,%s,%d,\'%s\')",this.id,this.youngsters, this.topPenReq ? "true":"false",this.section,this.breed);
-        }
-        DBA.updateSQL(sql);
-        setDirty(false);
-    }
-    
-
-    public void deleteRecord(){
-        String where = String.format("id = %d", this.id);
-        if (DBA.isExistingRec("breeds", where)){
-            DBA.updateSQL("DELETE FROM breeds WHERE "+where); 
-        }    
-    }
-
-    public int getRecordCount() {
-        return DBA.getRecordCount("breeds",null);
-    }
-    
-    public int getRecordCount(String where){
-        return DBA.getRecordCount("breeds",where);
-    }
-
     @Override
     public Breed getData(ResultSet rs) throws SQLException {
         this.id = rs.getInt("id");
@@ -170,7 +124,13 @@ public class Breed extends BaseDataItem implements DBInterface{
 
     @Override
     public void performUpdate() {
-       
+        DBA.updateSQL(String.format("UPDATE breeds SET youngsters = %d, "
+                + "top_pen_req = %s, section = %d breed = \'%s\' where id = %d",
+                this.youngsters,
+                Boolean.toString(this.topPenReq),
+                this.section,
+                this.breed,
+                this.id));
     }
 
     @Override

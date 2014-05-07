@@ -243,7 +243,7 @@ class ShowClass extends BaseDataItem implements DBInterface{
                     + "exhibitor_gender = %d,"
                     + "exhibitor_age = %d,"
                     + "results1 = %d,"
-                    + "results2 =%d,"
+                    + "results2 = %d,"
                     + "results3 = %d,"
                     + "results4 = %d,"
                     + "results5 = %d,"
@@ -273,7 +273,14 @@ class ShowClass extends BaseDataItem implements DBInterface{
 
     @Override
     public void performDelete() {
-        DBA.updateSQL(String.format("DELETE FROM showclasses WHERE class_no = %d",this.classNo));
+        // deleting a class so reset breedcolour records that are set 
+        // to be used in this class back to their default settings.
+        DBA.updateSQL(String.format("UPDATE breedclass set class_no = 0, "
+                + "available = true, selected = false "
+                + "WHERE class_no = %d", 
+                this.classNo));
+        DBA.updateSQL(String.format("DELETE FROM showclasses "
+                + "WHERE class_no = %d",this.classNo));
         this.setReadyToDelete(false);
     }
 

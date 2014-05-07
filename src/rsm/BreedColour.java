@@ -127,7 +127,11 @@ public class BreedColour extends BaseDataItem {
 
     @Override
     public void performUpdate() {
-        DBA.updateSQL(String.format(
+        if (!DBA.isExistingRec("breedcolours", String.format(
+                "breed_id = %d AND colour_id = %d",
+                    this.getBreedId(VersionRequired.PREVIOUS),
+                    this.getColourId(VersionRequired.PREVIOUS)))){
+            DBA.updateSQL(String.format(
                 "UPDATE breedcolours SET breed_id = %d, colour_id = %d, available = %s, selected = %s, class_no = %d WHERE breed_id = %d AND colour_id = %d",
                         this.getBreedId(VersionRequired.CURRENT),
                         this.getColourId(VersionRequired.CURRENT),
@@ -136,7 +140,8 @@ public class BreedColour extends BaseDataItem {
                         this.classNo,
                         this.getBreedId(VersionRequired.PREVIOUS),
                         this.getColourId(VersionRequired.PREVIOUS)));
-        this.setDirty(false);
+            this.setDirty(false);
+        }
     }
 
     @Override

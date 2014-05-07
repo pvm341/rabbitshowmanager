@@ -24,7 +24,8 @@ import javax.swing.DefaultListModel;
  *
  * @author paul
  */
-public final class BreedForm extends javax.swing.JFrame implements FormInterface {
+public final class BreedForm extends javax.swing.JFrame 
+            implements FormInterface {
     private BreedList breedList = new BreedList();
     private Breed curRecord;
     private int selectedRecord;
@@ -36,9 +37,12 @@ public final class BreedForm extends javax.swing.JFrame implements FormInterface
 
     public BreedForm() {
         breedList = new BreedList();
-        String[] arrayAges = DBA.getStringArrayFromSQL("exhibit_ages", "age_text", "age = 3");
-        String[] arraySections = DBA.getStringArrayFromSQL("showsections", "section_text", "section > 0 AND section <=8");
-        intSections = DBA.getIntArrayFromSQL("showsections", "section", "section > 0 AND section <=8");
+        String[] arrayAges = DBA.getStringArrayFromSQL(
+                "exhibit_ages", "age_text", "age = 3");
+        String[] arraySections = DBA.getStringArrayFromSQL(
+                "showsections", "section_text", "section > 0 AND section <=8");
+        intSections = DBA.getIntArrayFromSQL(
+                "showsections", "section", "section > 0 AND section <=8");
         modelAges = new DefaultComboBoxModel(arrayAges);
         modelSections = new DefaultComboBoxModel(arraySections);
         initComponents();
@@ -66,7 +70,8 @@ public final class BreedForm extends javax.swing.JFrame implements FormInterface
         Breed breed;      
         for (idx=0;idx<breedList.list.size();idx++){
             breed = (Breed) breedList.get(idx);
-            theListModelData.addElement(breed.toListString(breedList.getFormatStr()));
+            theListModelData.addElement(breed.toListString(
+                    breedList.getFormatStr()));
         }
         displayTheList();
     }
@@ -298,6 +303,10 @@ public final class BreedForm extends javax.swing.JFrame implements FormInterface
         return intSections[key];
     }
     
+    /** 
+     * Inherited from BaseDatItem as an abstract method 
+     * @param dataRecord 
+     */
     @Override
     public void setFormData(BaseDataItem dataRecord){
         Breed formRec = (Breed) dataRecord;
@@ -362,14 +371,15 @@ public final class BreedForm extends javax.swing.JFrame implements FormInterface
         dataRecord.setReadyToDelete(false);
         if (!dataRecord.equals(curRecord)){
             if (curRecord.isDirty()){
-                dataRecord.readRecord(dataRecord.getId());
+                dataRecord.performRead();
                 curRecord.setDirty(false);
             } else {
                 curRecord.setDirty(true);
                 dataRecord.setDirty(true);
             }
             breedList.list.set(selectedRecord, dataRecord);
-            theListModelData.set(selectedRecord, dataRecord.toListString(breedList.getFormatStr()));        
+            theListModelData.set(selectedRecord, 
+                    dataRecord.toListString(breedList.getFormatStr()));        
         }    
         setButtons(dataRecord);
         displayTheList();
@@ -380,7 +390,8 @@ public final class BreedForm extends javax.swing.JFrame implements FormInterface
         curRecord.setReadyToDelete(!curRecord.isReadyToDelete());
         //btnDelete.setText(curRecord.isReadyToDelete()?"Undelete":"Delete");
         breedList.list.set(selectedRecord, curRecord);
-        theListModelData.set(selectedRecord, curRecord.toListString(breedList.getFormatStr()));
+        theListModelData.set(selectedRecord, 
+                curRecord.toListString(breedList.getFormatStr()));
         setButtons(curRecord);
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -409,7 +420,8 @@ public final class BreedForm extends javax.swing.JFrame implements FormInterface
             edtBreedID.setText(Integer.toString(breedList.list.size()+1));
         } else if (edtBreedName.getText().isEmpty()){
             newItem = true;
-            lblStatus.setText("New Record - Not added as Breed Name not specified");
+            lblStatus.setText("New Record - Not added as "
+                    + "Breed Name not specified");
             btnCancelTheAdd.setVisible(newItem);
         } else {
             lblStatus.setText("New Record - Added");
@@ -417,7 +429,8 @@ public final class BreedForm extends javax.swing.JFrame implements FormInterface
             Breed dataRecord = getFormData();
             dataRecord.setNewItem(true);
             breedList.add(dataRecord);
-            theListModelData.addElement(dataRecord.toListString(breedList.getFormatStr()));
+            theListModelData.addElement(dataRecord.toListString(
+                    breedList.getFormatStr()));
             setButtons(dataRecord);
             selectedRecord = breedList.list.size();
             curRecord = (Breed) breedList.get(selectedRecord);

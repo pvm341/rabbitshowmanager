@@ -114,7 +114,17 @@ public class Exhibit extends BaseDataItem implements DBInterface{
 
     @Override
     public String toListString(String formatString) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String tableString = String.format(formatString,
+                this.getStatusChar(),
+                this.penNo,
+                this.ringNumber,
+                String.valueOf(this.breedClass),
+                String.valueOf(this.gender),
+                String.valueOf(this.ageGroup),
+                Boolean.toString(this.isBreedByExhibitor()),
+                String.valueOf(penNo)
+                );
+        return tableString;
     }
 
     @Override
@@ -125,17 +135,41 @@ public class Exhibit extends BaseDataItem implements DBInterface{
 
     @Override
     public void performUpdate() {
-        
+        DBA.updateSQL(String.format("UPDATE exhibits SET breed_class = %d, "
+                + "ring_number = \'%s\' exhibitor_id = %d, "
+                + "breed_by_exhibitor = %s, gender = %d, age_group = %d "
+                + "WHERE pen_no = %d",
+                this.breedClass,
+                this.ringNumber,
+                this.exhibitorId,
+                Boolean.toString(this.breedByExhibitor),
+                this.gender,
+                this.ageGroup,
+                this.penNo));
     }
 
     @Override
     public void performDelete() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // First need to delete the entries for this exhibit
+        DBA.updateSQL(String.format("DELETE FROM entries WHERE pen_no = %d",
+                this.penNo));
+        // now the the dependancies are deleted delete the main exhibit record
+        DBA.updateSQL(String.format("DELETE FROM exhibits WHERE pen_no = %d"));
     }
 
     @Override
     public void performInsert() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DBA.updateSQL(String.format("INSERT INTO exhibits (pen_no,breed_class, "
+                + "ring_number, exhibitor_id, breed_by_exhibitor, "
+                + "gender,age_group) VALUES (%d,%d,\'%s\',%d,%s,%d,%d)",
+                this.penNo,
+                this.breedClass,
+                this.ringNumber,
+                this.exhibitorId,
+                Boolean.toString(this.breedByExhibitor),
+                this.gender,
+                this.ageGroup
+                ));
     }
 
     @Override

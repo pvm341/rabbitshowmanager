@@ -54,57 +54,57 @@ public class BreedTest {
     /**
      * Test of readRecord method, of class Breed.
      */
-    @Test
-    public void getRecordTest() {
-        System.out.println("getRecord");
-        int recNo = 5;
-        Breed instance = new Breed();
-        instance.readRecord(recNo);
-        // TODO review the generated test code and remove the default call to fail.
-        assertEquals("Record No is 5",recNo,instance.getId());
-        instance.readRecord(3);
-        assertEquals("Record No is 5",3,instance.getId());
-    }
-
-    /**
-     * Test of writeRecord method, of class Breed.
-     */
-    @Test
-    public void setRecordTest() {
-        int rc;
-        System.out.println("setRecord");
-        Breed instance = new Breed();
-        instance.readRecord(5);
-        instance.setId(0);//altered to a new record which doesn't exist
-        instance.setBreed("Test Breed"); //altered the breed text in case of potential unique constraint
-        instance.getRecordCount();
-        rc = instance.getRecordCount();
-        instance.writeRecord();
-        assertEquals(rc+1,instance.getRecordCount());
-        instance.setBreed("updated name");
-        instance.writeRecord();
-        assertEquals(rc+1,instance.getRecordCount());
-        instance.deleteRecord();
-        assertEquals(rc,instance.getRecordCount());
-    }
-
-    /**
-     * Test of deleteRecord method, of class Breed.
-     * 
-     */
-    @Test
-    public void testDelRecord() {
-        System.out.println("delRecord");
-        Breed instance = new Breed();
-        int rc = instance.getRecordCount();
-        instance.setId(100);
-        instance.setBreed("test for delete");
-        instance.setYoungsters(4);
-        instance.writeRecord();
-        assertEquals(rc+1, instance.getRecordCount());
-        instance.deleteRecord();
-        assertTrue(rc == instance.getRecordCount());
-    }
+//    @Test
+//    public void getRecordTest() {
+//        System.out.println("getRecord");
+//        int recNo = 5;
+//        Breed instance = new Breed();
+//        instance.readRecord(recNo);
+//        // TODO review the generated test code and remove the default call to fail.
+//        assertEquals("Record No is 5",recNo,instance.getId());
+//        instance.readRecord(3);
+//        assertEquals("Record No is 5",3,instance.getId());
+//    }
+//
+//    /**
+//     * Test of writeRecord method, of class Breed.
+//     */
+//    @Test
+//    public void setRecordTest() {
+//        int rc;
+//        System.out.println("setRecord");
+//        Breed instance = new Breed();
+//        instance.readRecord(5);
+//        instance.setId(0);//altered to a new record which doesn't exist
+//        instance.setBreed("Test Breed"); //altered the breed text in case of potential unique constraint
+//        instance.getRecordCount();
+//        rc = instance.getRecordCount();
+//        instance.writeRecord();
+//        assertEquals(rc+1,instance.getRecordCount());
+//        instance.setBreed("updated name");
+//        instance.writeRecord();
+//        assertEquals(rc+1,instance.getRecordCount());
+//        instance.deleteRecord();
+//        assertEquals(rc,instance.getRecordCount());
+//    }
+//
+//    /**
+//     * Test of deleteRecord method, of class Breed.
+//     * 
+//     */
+//    @Test
+//    public void testDelRecord() {
+//        System.out.println("delRecord");
+//        Breed instance = new Breed();
+//        int rc = instance.getRecordCount();
+//        instance.setId(100);
+//        instance.setBreed("test for delete");
+//        instance.setYoungsters(4);
+//        instance.writeRecord();
+//        assertEquals(rc+1, instance.getRecordCount());
+//        instance.deleteRecord();
+//        assertTrue(rc == instance.getRecordCount());
+//    }
     
     //the following test test an inherited methods in an abstract class
     @Test
