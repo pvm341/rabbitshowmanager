@@ -172,7 +172,7 @@ public class ShowClassForm extends javax.swing.JFrame implements FormInterface{
         if (cmxColours.isEnabled()){
             for (int idx = 0; idx < lstColoursForClassData.size(); idx++){
                 useAbbrevs = useAbbrevs | name.length()>45;
-                System.out.printf("AIU %c len %d\n",useAbbrevs?'Y':'N',name.length());
+                //System.out.printf("AIU %c len %d\n",useAbbrevs?'Y':'N',name.length());
                // colRec.performRead(availableColourList.getTheColourFromIdx(idx).getId());
                 if (useAbbrevs){
                     name += " " + colRec.getAbbrev();

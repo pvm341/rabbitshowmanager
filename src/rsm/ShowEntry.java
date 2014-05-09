@@ -32,50 +32,50 @@ public class ShowEntry extends BaseDataItem implements DBInterface {
     
    
     public ShowEntry() {
-        this.classNo[0]=0;
-        this.classNo[1]=0;
-        this.penNo[0] = 0;
-        this.penNo[1] = 0;
+        this.classNo[VersionRequired.CURRENT.ordinal()]=0;
+        this.classNo[VersionRequired.PREVIOUS.ordinal()]=0;
+        this.penNo[VersionRequired.CURRENT.ordinal()] = 0;
+        this.penNo[VersionRequired.PREVIOUS.ordinal()] = 0;
     }
 
     public ShowEntry(int i, int i0) {
-       this.classNo[0] = i;
-       this.classNo[1] = this.classNo[0];
-       this.penNo[0] = i0;
-       this.penNo[1] = this.penNo[0];
+       this.classNo[VersionRequired.CURRENT.ordinal()] = i;
+       this.classNo[VersionRequired.PREVIOUS.ordinal()] = this.classNo[VersionRequired.CURRENT.ordinal()];
+       this.penNo[VersionRequired.CURRENT.ordinal()] = i0;
+       this.penNo[VersionRequired.PREVIOUS.ordinal()] = this.penNo[VersionRequired.CURRENT.ordinal()];
     }
 
     
     public void setPenAndClassNo(int penNo, int classNo) {
         if (! this.dirtyBit) {
-            this.classNo[1] = this.classNo[0];
-            this.penNo[1] = this.penNo[0];
+            this.classNo[VersionRequired.PREVIOUS.ordinal()] = this.classNo[VersionRequired.CURRENT.ordinal()];
+            this.penNo[VersionRequired.PREVIOUS.ordinal()] = this.penNo[VersionRequired.CURRENT.ordinal()];
         }
-        this.classNo[0] = classNo;
-        this.penNo[0] = penNo;
-        if (this.classNo[1] == 0 && this.penNo[1] == 0){
-           this.classNo[1]  = this.classNo[0];
-           this.penNo[1] = this.penNo[0];
+        this.classNo[VersionRequired.CURRENT.ordinal()] = classNo;
+        this.penNo[VersionRequired.CURRENT.ordinal()] = penNo;
+        if (this.classNo[VersionRequired.PREVIOUS.ordinal()] == 0 && this.penNo[VersionRequired.PREVIOUS.ordinal()] == 0){
+           this.classNo[VersionRequired.PREVIOUS.ordinal()]  = this.classNo[VersionRequired.CURRENT.ordinal()];
+           this.penNo[VersionRequired.PREVIOUS.ordinal()] = this.penNo[VersionRequired.CURRENT.ordinal()];
            this.dirtyBit = false;
         } else {
            this.dirtyBit = true; 
         }
     }
 
-    public int getPenNo(boolean current) {
-        return current ? this.penNo[0]:this.penNo[1];
+    public int getPenNo(VersionRequired vr) {
+        return this.penNo[vr.ordinal()];
     }
   
-    public int getClassNo(boolean current) {
-        return current ? this.classNo[0]:this.classNo[1];
+    public int getClassNo(VersionRequired vr) {
+        return this.classNo[vr.ordinal()];
     }
     
-    private String getClassNoStr(boolean current){
-        return String.valueOf(this.classNo[current?0:1]);
+    private String getClassNoStr(VersionRequired vr){
+        return String.valueOf(this.classNo[vr.ordinal()]);
     }
     
-    private String getPenNoStr(boolean current){
-        return String.valueOf(this.penNo[current?0:1]);
+    private String getPenNoStr(VersionRequired vr){
+        return String.valueOf(this.penNo[vr.ordinal()]);
     }
 
     @Override
@@ -91,32 +91,37 @@ public class ShowEntry extends BaseDataItem implements DBInterface {
     }
 
     @Override
-    public void performUpdate() {
-        DBA.updateSQL(String.format(
+    public int performUpdate() {
+        int results = DBA.updateSQL(String.format(
                 "UPDATE entries SET pen_no = %d, class_no = %d "
                         + "WHERE pen_no = %d, class_no = %d", 
-                this.getPenNo(true),this.getClassNo(true),
-                this.getPenNo(false),this.getClassNo(false)));
+                this.getPenNo(VersionRequired.CURRENT),
+                this.getClassNo(VersionRequired.CURRENT),
+                this.getPenNo(VersionRequired.PREVIOUS),this.getClassNo(VersionRequired.PREVIOUS)));
         this.setDirty(false);
+        return results;
     }
 
     @Override
-    public void performDelete() {
-       DBA.updateSQL(String.format(
+    public int performDelete() {
+        int results =
+            DBA.updateSQL(String.format(
                "DELETE FROM entries WHERE pen_no = %d AND class_no %d",
-               this.getPenNo(false),
-               this.getClassNo(false)
+               this.getPenNo(VersionRequired.PREVIOUS),
+               this.getClassNo(VersionRequired.PREVIOUS)
                ));
        this.setReadyToDelete(false);
+       return results;
    }
 
     @Override
-    public void performInsert() {
-        DBA.updateSQL(String.format(
+    public int performInsert() {
+        int results = DBA.updateSQL(String.format(
                "INSERT INTO entries (pen_no, class_no) VALUES (%d,%d)", 
-                this.getPenNo(true),
-                this.getClassNo(true)));
+                this.getPenNo(VersionRequired.CURRENT),
+                this.getClassNo(VersionRequired.CURRENT)));
         this.setNewItem(false);
+        return results;
     }
 
     @Override

@@ -91,7 +91,8 @@ public class ExhibitGender extends BaseDataItem implements DBInterface {
     }
 
     @Override
-    public void performUpdate() {
+    public int performUpdate() {
+        int results = 
         DBA.updateSQL(String.format(
                 "UPDATE exhibit_genders SET gender = %d, gender_class = \'%s\'"
                         + "gender_text = \'%s\' WHERE id = %d", 
@@ -100,18 +101,22 @@ public class ExhibitGender extends BaseDataItem implements DBInterface {
                 this.genderText,
                 this.id));
         this.setDirty(false);
+        return results;
     }
 
     @Override
-    public void performDelete() {
+    public int performDelete() {
+        int results = 
         DBA.updateSQL(String.format(
                 "DELETE FROM exhibit_genders WHERE id = %d",
                 this.id));
         this.setReadyToDelete(false);
+        return results;
     }
 
     @Override
-    public void performInsert() {
+    public int performInsert() {
+        int results =
         DBA.updateSQL(String.format(
                 "INSERT INTO exhibit_genders (id, gender, gender_class, "
                         + "gender_text) VALUES (%d,%d,\'%s\',\'%s\')", 
@@ -120,6 +125,7 @@ public class ExhibitGender extends BaseDataItem implements DBInterface {
                 this.genderClass,
                 this.genderText));
         this.setNewItem(false);
+        return results;
     }
 
     @Override

@@ -123,8 +123,8 @@ public class Breed extends BaseDataItem implements DBInterface{
     }
 
     @Override
-    public void performUpdate() {
-        DBA.updateSQL(String.format("UPDATE breeds SET youngsters = %d, "
+    public int performUpdate() {
+        return DBA.updateSQL(String.format("UPDATE breeds SET youngsters = %d, "
                 + "top_pen_req = %s, section = %d breed = \'%s\' where id = %d",
                 this.youngsters,
                 Boolean.toString(this.topPenReq),
@@ -134,26 +134,26 @@ public class Breed extends BaseDataItem implements DBInterface{
     }
 
     @Override
-    public void performDelete() {
+    public int performDelete() {
         // Delete contraints with this id
         DBA.updateSQL("DELETE FROM breedcolours WHERE breed_id ="+Integer.toString(this.getId()));
         // delete main record
-        DBA.updateSQL(String.format("DELETE FROM breeds WHERE id = %d",this.getId()));
+        return DBA.updateSQL(String.format("DELETE FROM breeds WHERE id = %d",this.getId()));
     }
         
     @Override
-    public void performInsert() {
+    public int  performInsert() {
         DBA.updateSQL(String.format("INSERT INTO breeds (id,youngsters,top_pen_req,section,breed) VALUES (%d,%d,%s,%d,\'%s\')",this.getId(),this.getYoungsters(),this.isTopPenReqStr(),this.getSection(),this.getBreed()));
         // New Breed therefore need to create breedcolour new breed anycolour record in breedcolours 
         // others will have to be entered manually on another form
-        DBA.updateSQL("INSERT INTO breedcolours (breed_id,colour_id,available, "
+        return DBA.updateSQL("INSERT INTO breedcolours (breed_id,colour_id,available, "
                 + "selected, class_no) VALUES ("+Integer.toString(this.getId())+",1,true,false,0)");
  }
 
     @Override
     public Breed performRead() {
         ResultSet rs = DBA.executeSQL(String.format(
-              "SELECT * FROM breed WHERE id = %d",this.id));
+              "SELECT * FROM breeds WHERE id = %d",this.id));
         try {
             rs.next();
             return this.getData(rs);

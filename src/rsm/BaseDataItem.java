@@ -83,11 +83,11 @@ public abstract class BaseDataItem implements DBInterface {
     
     public abstract String toListString(String formatString);
 
-    public abstract void performUpdate();
+    public abstract int performUpdate();
 
-    public abstract void performDelete(); 
+    public abstract int performDelete(); 
 
-    public abstract void performInsert(); 
+    public abstract int performInsert(); 
     
     public abstract BaseDataItem performRead();
 

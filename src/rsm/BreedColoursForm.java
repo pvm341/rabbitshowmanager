@@ -229,11 +229,23 @@ public class BreedColoursForm extends javax.swing.JFrame implements FormInterfac
 
         lblBreedColourBreedID.setText("Breed ID");
 
+        edtBreedColourBreedID.setBackground(new java.awt.Color(149, 204, 204));
+
         jLabel5.setText("Breed Name");
 
         cmxBreedName.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmxBreedName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmxBreedNameActionPerformed(evt);
+            }
+        });
 
         cmxColourName.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmxColourName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmxColourNameActionPerformed(evt);
+            }
+        });
 
         cbxBreedColourAvailable.setText("Available");
         cbxBreedColourAvailable.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
@@ -388,6 +400,7 @@ public class BreedColoursForm extends javax.swing.JFrame implements FormInterfac
         newItem = ! newItem;
         if (newItem){
             lblStatus.setText("New Record - Add or Cancel");
+            edtBreedColourClassNo.setText("0");
             curRecord = getFormData();
             btnInsert.setText("Add");
         } else if (breedColourList.isAlreadyInList(curRecord)){
@@ -397,7 +410,7 @@ public class BreedColoursForm extends javax.swing.JFrame implements FormInterfac
             lblStatus.setText("New Record - Added");
             curRecord.setNewItem(true);
             breedColourList.add(curRecord);
-            theListModelData.addElement(curRecord.toListString(colourList.getFormatStr()));
+            theListModelData.addElement(curRecord.toListString(breedColourList.getFormatStr()));
             setButtons(curRecord);
             selectedRecord = breedColourList.list.size();
             curRecord = (BreedColour) breedColourList.get(selectedRecord);
@@ -411,9 +424,25 @@ public class BreedColoursForm extends javax.swing.JFrame implements FormInterfac
         curRecord.setReadyToDelete(!curRecord.isReadyToDelete());
         //btnDelete.setText(curRecord.isReadyToDelete()?"Undelete":"Delete");
         breedColourList.list.set(selectedRecord, curRecord);
-        theListModelData.set(selectedRecord, curRecord.toListString(colourList.getFormatStr()));
+        theListModelData.set(selectedRecord, curRecord.toListString(breedColourList.getFormatStr()));
         setButtons(curRecord);
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void cmxBreedNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmxBreedNameActionPerformed
+       int idx=cmxBreedName.getSelectedIndex();
+       Breed breed = (Breed) breedList.get(idx);
+       int id = breed.getId();
+       this.edtBreedColourBreedID.setText(Integer.toString(id));
+       //breedColour
+       
+    }//GEN-LAST:event_cmxBreedNameActionPerformed
+
+    private void cmxColourNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmxColourNameActionPerformed
+    int idx = cmxColourName.getSelectedIndex();
+    Colour colour = (Colour) colourList.get(idx);
+    this.edtColourAbbreviation.setText(colour.getAbbrev());
+    this.edtBreedColourColourID.setText(Integer.toString(colour.getId()));
+    }//GEN-LAST:event_cmxColourNameActionPerformed
 
   
     // Variables declaration - do not modify//GEN-BEGIN:variables

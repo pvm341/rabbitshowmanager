@@ -53,13 +53,14 @@ public class BreedColour extends BaseDataItem {
         }
         this.breedId[VersionRequired.CURRENT.ordinal()] = breedId;
         this.colourId[VersionRequired.CURRENT.ordinal()] = colourId;
-        if (this.breedId[VersionRequired.PREVIOUS.ordinal()] == 0 && this.colourId[1] == 0){
-           this.breedId[VersionRequired.PREVIOUS.ordinal()]  = this.breedId[0];
-           this.colourId[VersionRequired.PREVIOUS.ordinal()] = this.colourId[0];
+        if (this.breedId[VersionRequired.PREVIOUS.ordinal()] == 0 && this.colourId[VersionRequired.PREVIOUS.ordinal()] == 0){
+           this.breedId[VersionRequired.PREVIOUS.ordinal()]  = this.breedId[VersionRequired.CURRENT.ordinal()];
+           this.colourId[VersionRequired.PREVIOUS.ordinal()] = this.colourId[VersionRequired.CURRENT.ordinal()];
            this.dirtyBit = false;
         } else {
            this.dirtyBit = true; 
         }
+       
     }
 
     public int getBreedId(VersionRequired vr) {
@@ -117,6 +118,7 @@ public class BreedColour extends BaseDataItem {
 
     @Override
     public BreedColour getData(ResultSet rs) throws SQLException {
+        rs.next();
         this.setBreedAndColourIds(rs.getInt("breed_id"),rs.getInt("colour_id"));
         this.setAvailable(rs.getBoolean("available"));
         this.setSelected(rs.getBoolean("selected"));
@@ -126,13 +128,26 @@ public class BreedColour extends BaseDataItem {
     }
 
     @Override
-    public void performUpdate() {
-        if (!DBA.isExistingRec("breedcolours", String.format(
+    public int performUpdate() {
+        int results = 0;
+        if (DBA.isExistingRec("breedcolours", String.format(
                 "breed_id = %d AND colour_id = %d",
                     this.getBreedId(VersionRequired.PREVIOUS),
-                    this.getColourId(VersionRequired.PREVIOUS)))){
-            DBA.updateSQL(String.format(
-                "UPDATE breedcolours SET breed_id = %d, colour_id = %d, available = %s, selected = %s, class_no = %d WHERE breed_id = %d AND colour_id = %d",
+                    this.getColourId(VersionRequired.PREVIOUS))) &&
+            !DBA.isExistingRec("breedcolours", String.format(
+                "breed_id = %d AND colour_id = %d",
+                    this.getBreedId(VersionRequired.CURRENT),
+                    this.getColourId(VersionRequired.CURRENT)))    ){
+//                   System.out.printf("BC bid[0] = %2d, bid[1] = %2d, cid[0] =%3d, cid[1] =%3d\n",
+//                    this.getBreedId(VersionRequired.PREVIOUS),
+//                    this.getBreedId(VersionRequired.CURRENT),
+//                    this.getColourId(VersionRequired.PREVIOUS),
+//                    this.getColourId(VersionRequired.CURRENT));
+//                    
+            results = DBA.updateSQL(String.format(
+                "UPDATE breedcolours SET breed_id = %d, colour_id = %d, "
+                        + "available = %s, selected = %s, class_no = %d "
+                        + "WHERE breed_id = %d AND colour_id = %d",
                         this.getBreedId(VersionRequired.CURRENT),
                         this.getColourId(VersionRequired.CURRENT),
                         this.available,
@@ -142,39 +157,47 @@ public class BreedColour extends BaseDataItem {
                         this.getColourId(VersionRequired.PREVIOUS)));
             this.setDirty(false);
         }
+        return results;
     }
 
     @Override
-    public void performDelete() {
-        DBA.updateSQL(String.format(
-                "DELETE FROM breedcolours WHERE"
+    public int performDelete() {
+        int results = DBA.updateSQL(String.format(
+                        "DELETE FROM breedcolours WHERE"
                         + " breed_id = %d AND colour_id = %d",
                 this.getBreedId(VersionRequired.PREVIOUS),
                 this.getColourId(VersionRequired.PREVIOUS)));
         this.setReadyToDelete(false);
+        return results;
     }
 
     @Override
-    public void performInsert() {
-        DBA.updateSQL(String.format(
-                "INSERT INTO breedcolours (breed_id,colour_id, available, selected, class_no) VALUES (%d,%d,%s,%s,%d)",
+    public int performInsert() {
+        int results = 0;
+        if (!DBA.isExistingRec("breedcolours", String.format("breed_id = %d AND colour_id = %d",
+                this.getBreedId(VersionRequired.CURRENT),this.getColourId(VersionRequired.CURRENT)))){
+            results = DBA.updateSQL(String.format(
+                "INSERT INTO breedcolours (breed_id,colour_id, available, "
+                        + "selected, class_no) VALUES (%d,%d,%s,%s,%d)",
                 this.getBreedId(VersionRequired.CURRENT),
                 this.getColourId(VersionRequired.CURRENT),
                 this.available,
                 this.selected,
                 this.classNo));
-        this.setNewItem(false);
+            this.setNewItem(false);
+        }
+        return results;
     }
 
     @Override
     public BreedColour performRead() {
         ResultSet rs;
         rs = DBA.executeSQL(String.format(
-                "SELECT * FROM breedcolours WHERE breed_id = %d AND colour_id = %d",
+                "SELECT * FROM breedcolours "
+                        + "WHERE breed_id = %d AND colour_id = %d",
                 this.breedId[VersionRequired.CURRENT.ordinal()],
                 this.colourId[VersionRequired.CURRENT.ordinal()]));
         try {
-            rs.next();
             return this.getData(rs);
         } catch (SQLException ex) {
             Logger.getLogger(Colour.class.getName()).log(Level.SEVERE, null, ex);

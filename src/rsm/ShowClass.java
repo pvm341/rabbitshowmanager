@@ -229,8 +229,9 @@ class ShowClass extends BaseDataItem implements DBInterface{
     }
 
     @Override
-    public void performUpdate() {
-        DBA.updateSQL(String.format(
+    public int performUpdate() {
+        int results = 
+            DBA.updateSQL(String.format(
                 "UPDATE showclasses SET "
                     + "name = \'%s\',"
                     + "breed_class = %s,"
@@ -269,24 +270,28 @@ class ShowClass extends BaseDataItem implements DBInterface{
                     this.results[6],
                     this.classNo));
         this.setDirty(false);
+        return results;
     }
 
     @Override
-    public void performDelete() {
+    public int performDelete() {
+        int results = 0;
         // deleting a class so reset breedcolour records that are set 
         // to be used in this class back to their default settings.
         DBA.updateSQL(String.format("UPDATE breedclass set class_no = 0, "
                 + "available = true, selected = false "
                 + "WHERE class_no = %d", 
                 this.classNo));
-        DBA.updateSQL(String.format("DELETE FROM showclasses "
+        results = DBA.updateSQL(String.format("DELETE FROM showclasses "
                 + "WHERE class_no = %d",this.classNo));
         this.setReadyToDelete(false);
+        return results;
     }
 
     @Override
-    public void performInsert() {
-        DBA.updateSQL(String.format(
+    public int performInsert() {
+        int results = 
+            DBA.updateSQL(String.format(
                 "INSERT INTO showclasses ("
                     + "class_no,"
                     + "breed"
@@ -341,6 +346,7 @@ class ShowClass extends BaseDataItem implements DBInterface{
                     this.results[5],
                     this.results[6]));
        this.setNewItem(false);
+       return results;
     }
 
     @Override

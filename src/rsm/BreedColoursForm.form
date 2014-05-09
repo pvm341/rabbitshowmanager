@@ -251,6 +251,11 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="edtBreedColourBreedID">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="cc" green="cc" red="95" type="rgb"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
@@ -268,6 +273,9 @@
           </StringArray>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmxBreedNameActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="cmxColourName">
       <Properties>
@@ -280,6 +288,9 @@
           </StringArray>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmxColourNameActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JCheckBox" name="cbxBreedColourAvailable">
       <Properties>

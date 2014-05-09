@@ -86,64 +86,61 @@ public abstract class BaseDataList implements DBListInterface {
                 header = header.replace(';', ' ');
             }
             while (rs.next()){
-                BaseDataItem x;// = new Object();
+                BaseDataItem currentItem;
                 if (dataItem instanceof Breed){
-                    //x =  Breed();
-                   // Breed omx = (Breed) dataItem
-                    x = new Breed();
-                    x.getData(rs);
-                    dataItem = x;
+                    currentItem = new Breed();
+                    currentItem.getData(rs);
+                    dataItem = currentItem;
                     //list.add(dataItem);
                 } else if (dataItem instanceof Colour){
-                    x = new Colour();
-                    x.getData(rs);  
-                    dataItem = x;
+                    currentItem = new Colour();
+                    currentItem.getData(rs);  
+                    dataItem = currentItem;
                 } else if (dataItem instanceof BreedColour){
-                    x = new BreedColour();
-                    x.getData(rs);
-                    dataItem = x;
+                    currentItem = new BreedColour();
+                    currentItem.getData(rs);
+                    dataItem = currentItem;
                 } else if (dataItem instanceof ExhibitAge){
-                    x = new ExhibitAge();
-                    x.getData(rs);
-                    dataItem = x;
+                    currentItem = new ExhibitAge();
+                    currentItem.getData(rs);
+                    dataItem = currentItem;
                 } else if (dataItem instanceof ExhibitGender){
-                    x = new ExhibitGender();
-                    x.getData(rs);
-                    dataItem = x;
+                    currentItem = new ExhibitGender();
+                    currentItem.getData(rs);
+                    dataItem = currentItem;
                 } else if (dataItem instanceof ExhibitorAge){
-                    x = new ExhibitorAge();
-                    x.getData(rs);
-                    dataItem = x;                    
+                    currentItem = new ExhibitorAge();
+                    currentItem.getData(rs);
+                    dataItem = currentItem;                    
                 } else if (dataItem instanceof ExhibitorGender){
-                    x = new ExhibitorGender();
-                    x.getData(rs);
-                    dataItem = x;
+                    currentItem = new ExhibitorGender();
+                    currentItem.getData(rs);
+                    dataItem = currentItem;
                 } else if (dataItem instanceof ShowClass){
-                    x = new ShowClass();
-                    x.getData(rs);
-                    dataItem = x; 
+                    currentItem = new ShowClass();
+                    currentItem.getData(rs);
+                    dataItem = currentItem; 
                 } else if (dataItem instanceof Exhibit){
-                    x = new Exhibit();
-                    x.getData(rs);
-                    dataItem = x;
+                    currentItem = new Exhibit();
+                    currentItem.getData(rs);
+                    dataItem = currentItem;
                 } else if (dataItem instanceof Exhibitor){
-                    x = new Exhibitor();
-                    x.getData(rs);
-                    dataItem = x;
+                    currentItem = new Exhibitor();
+                    currentItem.getData(rs);
+                    dataItem = currentItem;
                 } else if (dataItem instanceof Judge){
-                    x = new Judge();
-                    x.getData(rs);
-                    dataItem = x;
+                    currentItem = new Judge();
+                    currentItem.getData(rs);
+                    dataItem = currentItem;
                 } else if (dataItem instanceof ShowEntry){
-                    x = new ShowEntry();
-                    x.getData(rs);
-                    dataItem = x;
+                    currentItem = new ShowEntry();
+                    currentItem.getData(rs);
+                    dataItem = currentItem;
                 } else if (dataItem instanceof ShowSection){
-                    x = new ShowSection();
-                    x.getData(rs);
-                    dataItem = x;
-                }  
-               
+                    currentItem = new ShowSection();
+                    currentItem.getData(rs);
+                    dataItem = currentItem;
+                }                 
                 list.add(dataItem);
             }
         } catch (SQLException ex) {

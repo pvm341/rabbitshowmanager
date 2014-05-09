@@ -74,28 +74,31 @@ public class ShowSection extends BaseDataItem implements DBInterface {
     }
 
     @Override
-    public void performUpdate() {
-        DBA.updateSQL(String.format(
+    public int performUpdate() {
+        int results = DBA.updateSQL(String.format(
                 "UPDATE showsections SET section = %d, section_text = \'%s\' "
                         + "WHERE id = %d",
                 this.section,this.sectionText,this.id));
         this.setDirty(false);
+        return results;
     }
 
     @Override
-    public void performDelete() {
-        DBA.updateSQL(String.format(
+    public int performDelete() {
+        int results = DBA.updateSQL(String.format(
                 "DELETE FROM showsections WHERE id= %d", this.id));
         this.setReadyToDelete(false);
+        return results;
     }
 
     @Override
-    public void performInsert() {
-        DBA.updateSQL(String.format(
+    public int performInsert() {
+        int results = DBA.updateSQL(String.format(
                 "INSERT INTO showsections (id,section, section_text) "
                         + "VALUES (%d,%d,\'%s\')", 
                  this.id,this.section,this.sectionText));
         this.setNewItem(false);
+        return results;
     }
 
     @Override

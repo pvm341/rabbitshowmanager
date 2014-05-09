@@ -91,7 +91,8 @@ public class ExhibitAge extends BaseDataItem implements DBInterface{
     }
 
     @Override
-    public void performUpdate() {
+    public int performUpdate() {
+        int results =
         DBA.updateSQL(String.format(
                 "UPDATE exhibit_ages SET age = %d, age_text = \'%s\', abbrev "
                         + "= \'%s\' WHERE id = %d",
@@ -100,19 +101,21 @@ public class ExhibitAge extends BaseDataItem implements DBInterface{
                 this.abbrev,
                 this.id));
         this.setDirty(false);
+        return results;
     }
 
     @Override
-    public void performDelete() {
-        DBA.updateSQL(String.format(
+    public int performDelete() {
+        int results = DBA.updateSQL(String.format(
                 "DELETE FROM exhibit_ages WHERE id = %d ", 
                 this.id));
         this.setReadyToDelete(false);
+        return results;
     }
 
     @Override
-    public void performInsert() {
-        DBA.updateSQL(String.format(
+    public int performInsert() {
+        int results = DBA.updateSQL(String.format(
                 "INSERT INTO exhibit_ages (id,age,age_text,abbrev) VALUES "
                         + "(%d,%d,\'%s\',\'%s\')",
                 this.id,
@@ -120,6 +123,7 @@ public class ExhibitAge extends BaseDataItem implements DBInterface{
                 this.ageText,
                 this.abbrev));
         this.setNewItem(false);
+        return results;
     }
 
     @Override

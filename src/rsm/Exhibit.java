@@ -134,9 +134,10 @@ public class Exhibit extends BaseDataItem implements DBInterface{
     }
 
     @Override
-    public void performUpdate() {
-        DBA.updateSQL(String.format("UPDATE exhibits SET breed_class = %d, "
-                + "ring_number = \'%s\' exhibitor_id = %d, "
+    public int performUpdate() {
+        int results = 0;
+        results = DBA.updateSQL(String.format("UPDATE exhibits SET "
+                + "breed_class = %d, ring_number = \'%s\' exhibitor_id = %d, "
                 + "breed_by_exhibitor = %s, gender = %d, age_group = %d "
                 + "WHERE pen_no = %d",
                 this.breedClass,
@@ -146,19 +147,24 @@ public class Exhibit extends BaseDataItem implements DBInterface{
                 this.gender,
                 this.ageGroup,
                 this.penNo));
+        return results;
     }
 
     @Override
-    public void performDelete() {
+    public int performDelete() {
+        int results = 0;
         // First need to delete the entries for this exhibit
         DBA.updateSQL(String.format("DELETE FROM entries WHERE pen_no = %d",
                 this.penNo));
         // now the the dependancies are deleted delete the main exhibit record
-        DBA.updateSQL(String.format("DELETE FROM exhibits WHERE pen_no = %d"));
+        results = DBA.updateSQL(String.format("DELETE FROM exhibits "
+                + "WHERE pen_no = %d"));
+        return results;
     }
 
     @Override
-    public void performInsert() {
+    public int performInsert() {
+        int results =
         DBA.updateSQL(String.format("INSERT INTO exhibits (pen_no,breed_class, "
                 + "ring_number, exhibitor_id, breed_by_exhibitor, "
                 + "gender,age_group) VALUES (%d,%d,\'%s\',%d,%s,%d,%d)",
@@ -170,6 +176,7 @@ public class Exhibit extends BaseDataItem implements DBInterface{
                 this.gender,
                 this.ageGroup
                 ));
+        return results;
     }
 
     @Override

@@ -19,41 +19,41 @@ package rsm;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
 /**
  *
  * @author paul
  */
-public class ExhibitorGenderList extends BaseDataItem implements DBInterface {
+public class ExhibitorGenderList extends BaseDataList implements DBListInterface {
+
+    public ExhibitorGenderList() {
+        list = new Vector<ExhibitorGender>();
+    }
 
     @Override
-    public String toListString(String formatString) {
+    public void readList(HeaderRequired hr) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void performUpdate() {
+    public void writeList() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void performDelete() {
+    public int findInListById(int reqId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void performInsert() {
+    public BaseDataItem findInListWithId(int reqId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public BaseDataItem performRead() {
+    public boolean isAlreadyInTheList(Object requiredItem) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public BaseDataItem getData(ResultSet rs) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+ 
 }

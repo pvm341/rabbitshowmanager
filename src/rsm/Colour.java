@@ -92,27 +92,34 @@ public class Colour extends BaseDataItem implements DBInterface{
     }
 
     @Override
-    public void performUpdate() {
-        DBA.updateSQL(String.format(
+    public int performUpdate() {
+        int results = 0;
+        results = DBA.updateSQL(String.format(
                 "UPDATE colours SET colour= \'%s\', abbrev=\'%s\' WHERE id = %d",
                 this.colour,this.abbrev,this.id));
         this.setDirty(false);
+        return results;
     }
 
     @Override
-    public void performDelete() {
+    public int performDelete() {
+        int results = 0;
+            
         // delete dependant records in breedcolours
         DBA.updateSQL("DELETE FROM breedcolours WHERE colour_id = "+ Integer.toString(this.id));
-        DBA.updateSQL(String.format("DELETE FROM colours WHERE id = %d",this.id));
+        results = DBA.updateSQL(String.format("DELETE FROM colours WHERE id = %d",this.id));
         this.setReadyToDelete(false);
+        return results;
     }
 
     @Override
-    public void performInsert() {
-        DBA.updateSQL(String.format(
-                "INSERT INTO colours (id,abbrev,colour) VALUES (%d,\'%s\',\'%s\')", 
+    public int performInsert() {
+        int results =0;
+        results = DBA.updateSQL(String.format(
+            "INSERT INTO colours (id,abbrev,colour) VALUES (%d,\'%s\',\'%s\')", 
                 this.id, this.abbrev,this.colour));
         this.setNewItem(false);
+        return results;
     }
 
     @Override

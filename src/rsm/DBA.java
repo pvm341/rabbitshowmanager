@@ -38,12 +38,6 @@ public class DBA {
     private static ResultSet rs;
     private static ResultSetMetaData rsMetaData;
     
-    private static String[] tableNames= {
-        "breeds", "colours", "breedclasses", "classcolours", "entries",
-        "exhibit_ages", "exhibit_genders", "human_ages", "human_genders",
-        "exhibits", "exhibitors", "showsections","showclasses", "judges",
-        "availablecolours"
-    };
     String statusString = "Classes %d Exhibitors %d Exhibits %d Entries %d";
     
     private DBA() {
@@ -192,8 +186,7 @@ public class DBA {
             // Clear the receiving table
             stmt = conn.createStatement();
             results = stmt.executeUpdate("DELETE FROM "+toTable);
-            // 
-            sql = String.format("INSERT INTO %s (%s) SELECT %s FROM %s WHERE %s", toTable,toFields,fromFields,fromTables,where);
+              sql = String.format("INSERT INTO %s (%s) SELECT %s FROM %s WHERE %s", toTable,toFields,fromFields,fromTables,where);
                  
             if (sql.contains("?")){
                 ps = conn.prepareStatement(sql);
@@ -281,7 +274,7 @@ public class DBA {
         return intArray;
     }
 
-    public static void updateSQL(String sql) {
+    public static int updateSQL(String sql) {
         int alteredRecords = 0;
         try {
             stmt = conn.createStatement();
@@ -289,21 +282,14 @@ public class DBA {
         } catch (SQLException ex) {
             Logger.getLogger(DBA.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.printf("%3d Records affected by %s \n", alteredRecords, sql);
+//        System.out.printf("%3d Records affected by %s \n", alteredRecords, sql);
+        return alteredRecords;
     }
     
     /**
      * @param tableNumber the table number to get 
      * @return null if out of range else tableName  if in range
      */
-    
-    public static String getTableName(int tableNumber){
-        String tableName = null;
-        if (tableNumber>=0 && tableNumber<15){
-            tableName = tableNames[tableNumber];
-        }
-        return tableName;
-    }
     
     public static int getNewKey(String table, String keyName){
         int key =0, foundKey =0;

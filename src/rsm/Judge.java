@@ -76,26 +76,30 @@ public class Judge extends BaseDataItem implements DBInterface {
     }
 
     @Override
-    public void performUpdate() {
-        DBA.updateSQL(String.format(
+    public int performUpdate() {
+       int results = DBA.updateSQL(String.format(
             "UPDATE judges set name = \'%s\', sections = %d WHERE id = %d",
              this.name, this.sections, this.id));
         this.setDirty(false);
+        return results;
     }
 
     @Override
-    public void performDelete() {
-        DBA.updateSQL(String.format(
+    public int performDelete() {
+        int results = DBA.updateSQL(String.format(
             "DELETE FROM judges WHERE id = %d",
              this.id));
         this.setReadyToDelete(false);
+        return results;
     }
 
     @Override
-    public void performInsert() {
-        DBA.updateSQL(String.format("INSERT INTO judges (id,name, sections) "
+    public int performInsert() {
+        int results = 
+            DBA.updateSQL(String.format("INSERT INTO judges (id,name, sections) "
                 + "VALUES (%d,\'%s\',%d",this.id,this.name,this.sections));
         this.setNewItem(false);
+        return results;
     }
 
     @Override
