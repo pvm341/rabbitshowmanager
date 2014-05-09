@@ -35,6 +35,7 @@ public class BreedColourTest {
     
     @BeforeClass
     public static void setUpClass() {
+        DBA.getInstance();
     }
     
     @AfterClass
@@ -68,5 +69,49 @@ public class BreedColourTest {
         assertEquals(67,instance.getColourId(VersionRequired.CURRENT));
         assertEquals(1,instance.getBreedId(VersionRequired.PREVIOUS));
         assertEquals(1,instance.getColourId(VersionRequired.PREVIOUS));
+    }
+    
+    @Test
+    public void performReadTest(){
+        BreedColour instance = new BreedColour(5,5);
+        instance.performRead();
+        instance.setBreedAndColourIds(5, 11);
+        assertEquals(5,instance.getBreedId(VersionRequired.CURRENT));
+        assertEquals(11,instance.getColourId(VersionRequired.CURRENT));
+        assertEquals(5,instance.getBreedId(VersionRequired.PREVIOUS));
+        assertEquals(5,instance.getColourId(VersionRequired.PREVIOUS));
+    }
+    
+    @Test
+    public void performUpdateTest(){
+        BreedColour instance = new BreedColour(5,5);
+        DBA.updateSQL("INSERT INTO breedcolours (breed_id, colour_id, available, "
+                + "selected, class_no) VALUES (5,5,false,false,0)");
+        instance.performRead();
+        instance.setBreedAndColourIds(5,11);
+        assertEquals(5,instance.getBreedId(VersionRequired.CURRENT));
+        assertEquals(11,instance.getColourId(VersionRequired.CURRENT));
+        assertEquals(5,instance.getBreedId(VersionRequired.PREVIOUS));
+        assertEquals(5,instance.getColourId(VersionRequired.PREVIOUS));
+        instance.performUpdate();
+        instance.setBreedAndColourIds(5, 5);
+        assertEquals(5,instance.getBreedId(VersionRequired.CURRENT));
+        assertEquals(5,instance.getColourId(VersionRequired.CURRENT));
+        assertEquals(5,instance.getBreedId(VersionRequired.PREVIOUS));
+        assertEquals(11,instance.getColourId(VersionRequired.PREVIOUS));
+        instance.performUpdate();
+        DBA.updateSQL("DELETE FROM breedcolours WHERE breed_id =5 AND colour_id =5");
+    }
+    
+    @Test
+    public void performInsertTest(){
+        DBA.updateSQL("DELETE FROM breedcolours WHERE colour_id = 5 AND breed_id =5");
+        BreedColour instance = new BreedColour(5,5);
+        instance.setAvailable(false);
+        instance.setSelected(false);
+        instance.setClassNo(0);
+        instance.performInsert();
+        assertEquals(1,DBA.getRecordCount("breedcolours", "colour_id = 5 AND breed_id =5"));        
+        DBA.updateSQL("DELETE FROM breedcolours WHERE colour_id = 5 AND breed_id =5");
     }
 }
